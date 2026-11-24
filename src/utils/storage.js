@@ -61,7 +61,17 @@ export const loadInitialData = (key, fallback) => {
   try {
     const raw = localStorage.getItem(`${STORAGE_PREFIX}${key}`);
     if (raw) {
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      // Sinkronisasi tanggal surat penawaran contoh agar sesuai tanggal pembuatan saat ini
+      if (key === 'quotations' && Array.isArray(parsed)) {
+        return parsed.map(q => {
+          if (q.date === '2026-11-10' || q.date === '2026-11-20') {
+            return { ...q, date: new Date().toISOString().split('T')[0] };
+          }
+          return q;
+        });
+      }
+      return parsed;
     }
   } catch (err) {
     console.error(`Failed to load ${key} from localStorage:`, err);

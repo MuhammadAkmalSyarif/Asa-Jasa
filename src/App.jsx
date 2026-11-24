@@ -952,6 +952,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
   const defaultClosing = `Demikian surat penawaran ini kami sampaikan. Besar harapan kami dapat bekerja sama dengan perusahaan Bapak/Ibu. Atas perhatian dan kerja samanya kami ucapkan terima kasih.`;
 
   const [clientId, setClientId] = useState(initialData?.clientId || '');
+  const [date, setDate] = useState(initialData?.date || new Date().toISOString().split('T')[0]);
   const [subject, setSubject] = useState(initialData?.subject || 'Penawaran Jasa Konsultasi Legalitas & Sertifikasi Usaha');
   const [openingText, setOpeningText] = useState(initialData?.openingText ?? defaultOpening);
   const [closingText, setClosingText] = useState(initialData?.closingText ?? defaultClosing);
@@ -1000,7 +1001,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
     
     onSave({
       number: initialData?.number || generateNumber('QTN'),
-      date: initialData?.date || new Date().toISOString().split('T')[0],
+      date: date || new Date().toISOString().split('T')[0],
       clientId,
       subject,
       openingText,
@@ -1034,7 +1035,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
       )}
       
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-1">Pilih Klien / Perusahaan *</label>
             <select 
@@ -1048,6 +1049,16 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
                 <option key={c.id} value={c.id} className="text-slate-900">{c.companyName} ({c.picName})</option>
               ))}
             </select>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-1">Tanggal Surat Penawaran *</label>
+            <input 
+              type="date" 
+              value={date} 
+              onChange={e => setDate(e.target.value)} 
+              className="w-full p-2.5 border border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none text-sm shadow-xs" 
+              required 
+            />
           </div>
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-1">Perihal / Judul Penawaran *</label>
@@ -1399,6 +1410,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1">Metode Pembayaran</label>
               <select name="method" className="w-full p-2.5 border border-slate-300 bg-white text-slate-900 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 text-sm" required>
+                <option value="Transfer Bank BSI" className="text-slate-900">Transfer Bank Syariah Indonesia (BSI)</option>
                 <option value="Transfer Bank BCA" className="text-slate-900">Transfer Bank (BCA)</option>
                 <option value="Transfer Bank Mandiri" className="text-slate-900">Transfer Bank (Mandiri)</option>
                 <option value="Cash / Tunai" className="text-slate-900">Cash / Tunai</option>
@@ -1729,7 +1741,10 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
               <div>
                 <h1 className="text-2xl font-black text-slate-900 tracking-tighter">ASA JASA</h1>
                 <p className="text-slate-700 font-bold text-xs uppercase tracking-wider">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
-                <p className="text-xs text-slate-500 mt-1">Jl. Raya Cibinong No 123, Bogor, Jawa Barat | WA: 0812-3456-7890 | Email: halo@asajasa.co.id</p>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Perum Hidayatullah Jaya No. 35A, Jl. Kelurahan Pondok Rajeg Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor, Jawa Barat 16914<br />
+                  Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 | Email: halo@asajasa.id | Telpon: 0851-9611-5669
+                </p>
               </div>
             </div>
             <div className="text-right">
@@ -1824,12 +1839,13 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
                 <h1 className="text-3xl font-black text-slate-900 tracking-tighter">ASA JASA</h1>
                 <p className="text-blue-700 font-black uppercase text-xs tracking-wider">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
                 <div className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                  Jl. Raya Cibinong No 123, Bogor, Jawa Barat<br/>
-                  Email: halo@asajasa.co.id | WA: 0812-3456-7890
+                  Perum Hidayatullah Jaya No. 35A, Jl. Kelurahan Pondok Rajeg Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor, Jawa Barat 16914<br/>
+                  Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023<br/>
+                  Email: halo@asajasa.id | Telpon: 0851-9611-5669
                 </div>
               </div>
             </div>
-            <div className="text-right">
+            <div className="text-right shrink-0 ml-4">
               <h2 className="text-2xl font-black text-slate-900 uppercase tracking-widest">
                 {isInvoice ? 'INVOICE' : 'SURAT PENAWARAN'}
               </h2>
@@ -1941,8 +1957,8 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
         <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 mb-10">
           <p className="font-bold mb-1 text-slate-900">Keterangan & Rekening Pembayaran:</p>
           <ul className="list-disc pl-4 space-y-1 text-[11px]">
-            <li>Pembayaran ditransfer ke Rekening <strong>Bank BCA 123-456-7890 a.n. ASA JASA</strong>.</li>
-            <li>{isInvoice ? 'Invoice ini sah dan berlaku sebagai bukti penagihan resmi.' : 'Harga dan penawaran berlaku 14 hari kerja sejak tanggal surat ini diterbitkan.'}</li>
+            <li>Pembayaran ditransfer ke Rekening <strong>Bank Syariah Indonesia (BSI) No.: 7357140123 a.n. PT Berkah Mandiri Pangan</strong>.</li>
+            <li>{isInvoice ? 'Invoice ini sah dan berlaku sebagai bukti penagihan resmi.' : 'Harga dan penawaran berlaku 3 hari kerja sejak tanggal surat ini diterbitkan.'}</li>
           </ul>
         </div>
 

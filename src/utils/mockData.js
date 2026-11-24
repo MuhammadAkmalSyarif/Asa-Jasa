@@ -90,7 +90,7 @@ export const initialQuotations = [
   {
     id: "qtn-1",
     number: "QTN-202611-0012",
-    date: "2026-11-10",
+    date: new Date().toISOString().split('T')[0],
     clientId: "cl-1",
     subject: "Penawaran Pendampingan Sertifikasi Halal BPJPH & Izin BPOM MD",
     openingText: "Dengan hormat,\n\nBersama surat ini kami dari ASA JASA bermaksud mengajukan penawaran harga jasa konsultasi dan pendampingan perizinan/sertifikasi usaha sesuai dengan kebutuhan perusahaan Bapak/Ibu, dengan rincian sebagai berikut:",
@@ -124,7 +124,7 @@ export const initialQuotations = [
   {
     id: "qtn-2",
     number: "QTN-202611-0025",
-    date: "2026-11-20",
+    date: new Date().toISOString().split('T')[0],
     clientId: "cl-2",
     subject: "Penawaran Sertifikasi Halal & Fasilitasi NIB OSS RBA",
     openingText: "Dengan hormat,\n\nBersama surat ini kami dari ASA JASA bermaksud mengajukan penawaran harga jasa pendampingan legalitas dan perizinan usaha dengan rincian rincian pekerjaan sebagai berikut:",
