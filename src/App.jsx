@@ -100,39 +100,46 @@ export default function AsaJasaApp() {
   // --- MAIN LAYOUT ---
   return (
     <div className="flex h-screen bg-slate-50 font-sans text-slate-800 overflow-hidden">
-      {/* TOAST NOTIFICATION */}
+      {/* TOAST NOTIFICATION DENGAN TEMA NAVY & GOLD */}
       {toast && (
-        <div className={`fixed bottom-5 right-5 z-50 px-5 py-3 rounded-xl shadow-xl text-white font-medium flex items-center gap-2 animate-bounce transition-all ${toast.type === 'error' ? 'bg-red-600' : 'bg-navy-900 border border-gold-500/50 shadow-navy-950/30'}`}>
-          <CheckCircle size={18} className="text-gold-400" /> {toast.msg}
+        <div className={`fixed bottom-5 right-5 z-50 px-5 py-3.5 rounded-xl shadow-2xl text-white font-medium flex items-center gap-2.5 animate-bounce transition-all ${
+          toast.type === 'error' 
+            ? 'bg-rose-700 border border-rose-500' 
+            : 'bg-navy-950 border-2 border-gold-500 text-gold-100 shadow-navy-950/40'
+        }`}>
+          <CheckCircle size={19} className="text-gold-400 shrink-0" /> 
+          <span className="font-semibold">{toast.msg}</span>
         </div>
       )}
 
       {/* MOBILE BACKDROP */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-black/50 z-20 md:hidden" onClick={() => setMobileMenuOpen(false)} />
+        <div className="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-xs" onClick={() => setMobileMenuOpen(false)} />
       )}
 
-      {/* SIDEBAR */}
+      {/* SIDEBAR DENGAN BIRU TUA & EMAS */}
       <aside className={`fixed md:static inset-y-0 left-0 z-30 flex flex-col w-64 bg-navy-950 text-white transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 shadow-2xl md:shadow-none border-r border-navy-900`}>
         {/* LOGO & BRANDING HEADER */}
-        <div className="p-4 border-b border-navy-900/80 bg-navy-950/90 flex flex-col gap-2">
+        <div className="p-4 border-b border-navy-900 bg-navy-950 flex flex-col gap-2.5">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="bg-white p-1 rounded-xl shadow-md border border-gold-500/30 flex items-center justify-center">
+              <div className="bg-white p-1 rounded-xl shadow-md border-2 border-gold-500/50 flex items-center justify-center shrink-0">
                 <img src="/logo.png" alt="ASA JASA" className="h-9 w-auto object-contain" />
               </div>
-              <div>
-                <h1 className="text-lg font-black tracking-wider text-white">ASA JASA</h1>
-                <p className="text-[10px] font-semibold text-gold-400 uppercase tracking-wider">Management System</p>
+              <div className="min-w-0">
+                <h1 className="text-lg font-black tracking-wider text-white leading-tight">ASA JASA</h1>
+                <p className="text-[10px] font-bold text-gold-400 uppercase tracking-widest">Management</p>
               </div>
             </div>
             <button className="md:hidden text-slate-300 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
               <X size={20} />
             </button>
           </div>
-          <p className="text-[9px] text-slate-400 tracking-tight leading-tight pt-1 border-t border-navy-900">
-            Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
-          </p>
+          <div className="pt-2 border-t border-navy-900/80">
+            <p className="text-[9px] text-slate-300 font-medium tracking-tight leading-snug">
+              Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
+            </p>
+          </div>
         </div>
 
         {/* SIDEBAR NAVIGATION */}
@@ -143,14 +150,14 @@ export default function AsaJasaApp() {
         {/* SIDEBAR FOOTER ACTIONS */}
         <div className="p-4 border-t border-navy-900 bg-navy-950 space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-300 px-1">
-            <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-400" /> Mode: Lokal</span>
-            <button onClick={exportAllData} title="Ekspor Cadangan JSON" className="hover:text-gold-400 p-1 rounded hover:bg-navy-900 flex items-center gap-1 transition-colors">
+            <span className="flex items-center gap-1.5 font-medium"><ShieldCheck size={14} className="text-emerald-400" /> Mode: Lokal</span>
+            <button onClick={exportAllData} title="Ekspor Cadangan JSON" className="hover:text-gold-400 p-1 rounded hover:bg-navy-900 flex items-center gap-1 transition-colors font-medium text-xs">
               <Download size={13} /> Backup
             </button>
           </div>
           <button 
             onClick={handleResetData}
-            className="w-full text-xs text-slate-400 hover:text-gold-300 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded hover:bg-navy-900/60 transition-colors"
+            className="w-full text-xs text-slate-400 hover:text-gold-300 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded hover:bg-navy-900/60 transition-colors font-medium"
           >
             <RefreshCw size={12} /> Reset Data Contoh
           </button>
@@ -159,13 +166,13 @@ export default function AsaJasaApp() {
 
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        <header className="bg-white border-b border-slate-200 h-16 flex items-center px-4 md:px-8 justify-between z-10 shrink-0 shadow-sm">
+        <header className="bg-white border-b border-slate-200 h-16 flex items-center px-4 md:px-8 justify-between z-10 shrink-0 shadow-xs">
           <div className="flex items-center gap-3">
-            <button className="md:hidden text-navy-900 p-1.5 rounded-lg hover:bg-slate-100" onClick={() => setMobileMenuOpen(true)}>
+            <button className="md:hidden text-navy-950 p-1.5 rounded-lg hover:bg-slate-100" onClick={() => setMobileMenuOpen(true)}>
               <Menu size={22} />
             </button>
             <div>
-              <div className="text-lg font-bold text-navy-950 capitalize leading-tight">
+              <div className="text-lg font-black text-navy-950 capitalize leading-tight">
                 {view === 'dashboard' && 'Dashboard Utama'}
                 {view === 'clients' && 'Data Klien & Mitra'}
                 {view === 'services' && 'Katalog Layanan & Tarif'}
@@ -186,19 +193,19 @@ export default function AsaJasaApp() {
               href="https://github.com/MuhammadAkmalSyarif/Asa-Jasa" 
               target="_blank" 
               rel="noreferrer"
-              className="hidden lg:flex items-center gap-1.5 text-xs bg-navy-50 hover:bg-navy-100 text-navy-900 font-semibold px-3 py-1.5 rounded-xl border border-navy-200 transition-colors"
+              className="hidden lg:flex items-center gap-1.5 text-xs bg-navy-50 hover:bg-navy-100 text-navy-950 font-bold px-3 py-1.5 rounded-xl border border-navy-200 transition-colors"
               title="Buka Repositori GitHub"
             >
-              <ExternalLink size={13} className="text-navy-700" /> GitHub Repo
+              <ExternalLink size={13} className="text-navy-800" /> GitHub Repo
             </a>
             <div className="h-6 w-px bg-slate-200 hidden sm:block"></div>
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-white p-0.5 border border-gold-500/50 shadow-sm flex items-center justify-center">
+              <div className="w-9 h-9 rounded-full bg-white p-0.5 border-2 border-gold-500 shadow-xs flex items-center justify-center">
                 <img src="/logo.png" alt="Profile" className="w-7 h-7 object-contain" />
               </div>
               <div className="hidden sm:block text-left">
                 <p className="font-bold text-sm text-navy-950 leading-tight">Admin ASA JASA</p>
-                <p className="text-[11px] text-gold-600 font-semibold">Super Admin</p>
+                <p className="text-[11px] text-gold-700 font-bold">Super Admin</p>
               </div>
             </div>
           </div>
@@ -268,7 +275,7 @@ export default function AsaJasaApp() {
 }
 
 // ==========================================
-// NAVIGATION
+// NAVIGATION (DENGAN BIRU TUA & EMAS)
 // ==========================================
 const SidebarNav = ({ view, setView }) => {
   const menus = [
@@ -294,7 +301,7 @@ const SidebarNav = ({ view, setView }) => {
     <nav className="space-y-6">
       {menus.map((g, i) => (
         <div key={i} className="px-4">
-          <p className="text-[11px] font-bold text-gold-400 uppercase tracking-wider mb-2 px-3">{g.group}</p>
+          <p className="text-[11px] font-bold text-gold-400 uppercase tracking-widest mb-2 px-3">{g.group}</p>
           <div className="space-y-1">
             {g.items.map(m => {
               const isActive = view === m.id;
@@ -302,10 +309,10 @@ const SidebarNav = ({ view, setView }) => {
                 <button
                   key={m.id}
                   onClick={() => setView(m.id)}
-                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition-all ${
                     isActive 
-                      ? 'bg-navy-800 text-gold-300 shadow-md border-l-4 border-gold-500 font-bold' 
-                      : 'text-slate-300 hover:bg-navy-900/80 hover:text-white'
+                      ? 'bg-navy-900 text-gold-300 font-black shadow-md border-l-4 border-gold-500 shadow-navy-950/50' 
+                      : 'text-slate-300 hover:bg-navy-900/60 hover:text-white font-medium'
                   }`}
                 >
                   <m.icon size={18} className={isActive ? 'text-gold-400' : 'text-slate-400'} /> 
@@ -333,38 +340,38 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
     <div className="space-y-6">
       {/* QUICK STATS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total Klien Terdaftar" value={clients.length} icon={Users} color="bg-navy-800" />
-        <StatCard title="Proyek Aktif Berjalan" value={activeProjects} icon={Briefcase} color="bg-blue-600" />
-        <StatCard title="Tagihan Belum Lunas" value={unpaidInvoices} icon={AlertTriangle} color="bg-amber-500" />
-        <StatCard title="Total Kas Masuk" value={formatIDR(totalRevenue)} icon={DollarSign} color="bg-emerald-600" />
+        <StatCard title="Total Klien Terdaftar" value={clients.length} icon={Users} color="bg-navy-900 text-gold-400 border border-gold-500/30" />
+        <StatCard title="Proyek Aktif Berjalan" value={activeProjects} icon={Briefcase} color="bg-blue-700 text-white" />
+        <StatCard title="Tagihan Belum Lunas" value={unpaidInvoices} icon={AlertTriangle} color="bg-amber-600 text-white" />
+        <StatCard title="Total Kas Masuk" value={formatIDR(totalRevenue)} icon={DollarSign} color="bg-emerald-600 text-white" />
       </div>
 
-      {/* QUICK ACTIONS BANNER DENGAN BRANDING RESMI */}
-      <div className="bg-gradient-to-r from-navy-950 via-navy-900 to-navy-800 rounded-2xl p-6 text-white shadow-lg border border-navy-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+      {/* QUICK ACTIONS BANNER DENGAN BIRU TUA & EMAS */}
+      <div className="bg-gradient-to-r from-navy-950 via-navy-900 to-navy-800 rounded-2xl p-6 text-white shadow-xl border-2 border-navy-900 relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
         <div className="flex items-start sm:items-center gap-4">
-          <div className="bg-white p-2 rounded-2xl shadow-md border border-gold-500/40 shrink-0 hidden sm:block">
+          <div className="bg-white p-2 rounded-2xl shadow-lg border-2 border-gold-500/60 shrink-0 hidden sm:block">
             <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain" />
           </div>
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/30 text-[11px] font-bold uppercase tracking-wider mb-1.5">
-              <Sparkles size={12} /> Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/15 text-gold-300 border border-gold-500/40 text-[11px] font-bold uppercase tracking-wider mb-2">
+              <Sparkles size={13} className="text-gold-400" /> Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
             </div>
             <h2 className="text-xl font-black tracking-tight text-white">Sistem Administrasi Terpadu ASA JASA</h2>
             <p className="text-xs text-slate-300 mt-1 max-w-xl leading-relaxed">
-              Buat Surat Penawaran resmi dengan kop surat berlogo, otomatis buat Invoice saat disetujui, pantau 8 tahapan proyek perizinan, dan terbitkan Kwitansi Resmi instan.
+              Buat Surat Penawaran resmi berlogo, otomatis buat Invoice saat disetujui, pantau 8 tahapan proyek perizinan, dan cetak Kwitansi Resmi dengan Terbilang Rupiah otomatis.
             </p>
           </div>
         </div>
         <div className="flex flex-wrap gap-2.5 shrink-0">
           <button 
             onClick={() => setView('quotations')}
-            className="px-4 py-2.5 bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 font-black rounded-xl text-sm shadow hover:brightness-105 transition-all flex items-center gap-1.5"
+            className="px-5 py-2.5 bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-navy-950 font-black rounded-xl text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-1.5"
           >
             <Plus size={16} /> Buat Penawaran
           </button>
           <button 
             onClick={() => setView('clients')}
-            className="px-4 py-2.5 bg-navy-800 hover:bg-navy-700 text-white font-semibold rounded-xl text-sm border border-navy-700 transition-colors flex items-center gap-1.5"
+            className="px-4 py-2.5 bg-navy-800 hover:bg-navy-700 text-white font-bold rounded-xl text-sm border border-navy-700 transition-colors flex items-center gap-1.5"
           >
             <Users size={16} /> Tambah Klien
           </button>
@@ -377,10 +384,10 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h3 className="text-lg font-bold text-navy-950">Proyek Berjalan Terbaru</h3>
+              <h3 className="text-lg font-black text-navy-950">Proyek Berjalan Terbaru</h3>
               <p className="text-xs text-slate-500">Progress tahapan pengurusan izin & sertifikasi</p>
             </div>
-            <button onClick={() => setView('projects')} className="text-xs font-bold text-navy-800 hover:text-gold-600">
+            <button onClick={() => setView('projects')} className="text-xs font-bold text-navy-800 hover:text-gold-600 transition-colors">
               Lihat Semua &rarr;
             </button>
           </div>
@@ -405,10 +412,10 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h3 className="text-lg font-bold text-navy-950">Penawaran Menunggu (Pending)</h3>
+              <h3 className="text-lg font-black text-navy-950">Penawaran Menunggu (Pending)</h3>
               <p className="text-xs text-slate-500">Surat penawaran yang belum disetujui klien</p>
             </div>
-            <button onClick={() => setView('quotations')} className="text-xs font-bold text-navy-800 hover:text-gold-600">
+            <button onClick={() => setView('quotations')} className="text-xs font-bold text-navy-800 hover:text-gold-600 transition-colors">
               Kelola Penawaran &rarr;
             </button>
           </div>
@@ -420,13 +427,13 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
                   <div>
                     <p className="font-bold text-sm text-navy-900">{q.number}</p>
                     <p className="text-xs text-slate-600 mt-0.5">{client?.companyName || 'Klien tidak ditemukan'}</p>
-                    <p className="text-xs font-semibold text-slate-800 mt-1">{formatIDR(q.total)}</p>
+                    <p className="text-xs font-black text-slate-800 mt-1">{formatIDR(q.total)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge status={q.status} />
                     <button 
                       onClick={() => setPrintData({ type: 'quotation', data: q })}
-                      className="p-1.5 text-navy-800 hover:bg-navy-50 rounded-lg"
+                      className="p-1.5 text-navy-900 hover:bg-navy-50 rounded-lg transition-colors"
                       title="Lihat / Cetak Surat Penawaran"
                     >
                       <Printer size={16} />
@@ -449,8 +456,8 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
 };
 
 const StatCard = ({ title, value, icon: Icon, color }) => (
-  <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex items-center gap-4 hover:shadow-md transition-shadow">
-    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-sm shrink-0 ${color}`}>
+  <div className="bg-white rounded-2xl p-5 shadow-xs border border-slate-200 flex items-center gap-4 hover:shadow-md hover:border-gold-300 transition-all">
+    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-xs shrink-0 ${color}`}>
       <Icon size={22} />
     </div>
     <div className="min-w-0">
@@ -503,25 +510,25 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
             <input 
               type="text" 
               placeholder="Cari perusahaan, PIC, NIB..." 
-              className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-navy-500 focus:border-navy-500 outline-none bg-white shadow-sm" 
+              className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-navy-600 focus:border-navy-600 outline-none bg-white shadow-xs" 
               value={searchTerm} 
               onChange={e => setSearchTerm(e.target.value)} 
             />
           </div>
           <button 
             onClick={() => { setEditingClient(null); setModalOpen(true); }} 
-            className="bg-navy-900 hover:bg-navy-950 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm transition-colors whitespace-nowrap"
+            className="bg-navy-900 hover:bg-navy-950 text-gold-300 border border-navy-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-xs transition-colors whitespace-nowrap"
           >
-            <Plus size={18} /> <span>Tambah Klien</span>
+            <Plus size={18} className="text-gold-400" /> <span>Tambah Klien</span>
           </button>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
                 <th className="p-4">Nama Perusahaan</th>
                 <th className="p-4">PIC / Kontak</th>
                 <th className="p-4">Kategori Usaha</th>
@@ -547,11 +554,11 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
                     </div>
                   </td>
                   <td className="p-4">
-                    <span className="px-2.5 py-1 bg-navy-50 text-navy-900 font-medium text-xs rounded-full border border-navy-200">
+                    <span className="px-2.5 py-1 bg-navy-50 text-navy-950 font-bold text-xs rounded-full border border-navy-200">
                       {c.businessCategory || 'Umum'}
                     </span>
                   </td>
-                  <td className="p-4 text-xs font-mono font-medium text-slate-700">{c.nib || '-'}</td>
+                  <td className="p-4 text-xs font-mono font-bold text-slate-700">{c.nib || '-'}</td>
                   <td className="p-4 text-xs text-slate-600 max-w-xs truncate" title={c.address}>
                     {c.address || '-'}
                   </td>
@@ -611,7 +618,7 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
                 <textarea 
                   name="address" 
                   defaultValue={editingClient?.address} 
-                  className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-500 outline-none text-sm" 
+                  className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm" 
                   rows="3"
                   placeholder="Alamat kantor / tempat usaha..."
                 ></textarea>
@@ -621,7 +628,7 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
               <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">
                 Batal
               </button>
-              <button type="submit" className="px-5 py-2 bg-navy-900 text-white rounded-xl hover:bg-navy-950 text-sm font-semibold shadow-sm">
+              <button type="submit" className="px-5 py-2 bg-navy-900 text-gold-300 rounded-xl hover:bg-navy-950 text-sm font-bold shadow-xs">
                 Simpan Klien
               </button>
             </div>
@@ -677,21 +684,21 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
         </div>
         <button 
           onClick={() => { setEditingService(null); setModalOpen(true); }} 
-          className="bg-navy-900 hover:bg-navy-950 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm transition-colors"
+          className="bg-navy-900 hover:bg-navy-950 text-gold-300 border border-navy-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-xs transition-colors"
         >
-          <Plus size={18} /> Tambah Layanan
+          <Plus size={18} className="text-gold-400" /> Tambah Layanan
         </button>
       </div>
 
-      {/* CATEGORY FILTER TABS */}
+      {/* CATEGORY FILTER TABS DENGAN BIRU TUA & EMAS */}
       <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
         {categories.map(cat => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+            className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
               selectedCategory === cat 
-                ? 'bg-navy-900 text-white shadow-sm' 
+                ? 'bg-navy-950 text-gold-300 border-2 border-gold-500/60 shadow-xs' 
                 : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
             }`}
           >
@@ -703,10 +710,10 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
       {/* SERVICES GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredServices.map(s => (
-          <div key={s.id} className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-navy-400 hover:shadow-md transition-all flex flex-col justify-between">
+          <div key={s.id} className="bg-white p-5 rounded-2xl shadow-xs border border-slate-200 hover:border-gold-400 hover:shadow-md transition-all flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-2.5">
-                <span className="text-[11px] font-bold px-2.5 py-1 bg-navy-50 text-navy-900 rounded-full border border-navy-200">
+                <span className="text-[11px] font-bold px-2.5 py-1 bg-navy-50 text-navy-950 rounded-full border border-navy-200">
                   {s.category}
                 </span>
                 <div className="flex gap-1">
@@ -729,7 +736,7 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
               <span>Siap digunakan di Surat Penawaran</span>
-              <span className="font-semibold text-gold-600">Tersedia</span>
+              <span className="font-bold text-gold-600">Tersedia</span>
             </div>
           </div>
         ))}
@@ -751,7 +758,7 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Kategori</label>
-                <select name="category" defaultValue={editingService?.category || formCategories[0]} className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-500 text-sm bg-white">
+                <select name="category" defaultValue={editingService?.category || formCategories[0]} className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white">
                   {formCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                 </select>
               </div>
@@ -764,13 +771,13 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
                 name="description" 
                 defaultValue={editingService?.description} 
                 placeholder="Rincian ruang lingkup ini akan otomatis masuk ke tabel Surat Penawaran saat layanan dipilih..." 
-                className="w-full p-3 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-500 text-sm" 
+                className="w-full p-3 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm" 
                 rows="4"
               ></textarea>
             </div>
             <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-slate-100">
               <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Batal</button>
-              <button type="submit" className="px-5 py-2 bg-navy-900 text-white rounded-xl hover:bg-navy-950 text-sm font-semibold shadow-sm">Simpan Layanan</button>
+              <button type="submit" className="px-5 py-2 bg-navy-900 text-gold-300 rounded-xl hover:bg-navy-950 text-sm font-bold shadow-xs">Simpan Layanan</button>
             </div>
           </form>
         </Modal>
@@ -855,17 +862,17 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
             </div>
             <button 
               onClick={() => { setEditingQuotation(null); setFormOpen(true); }} 
-              className="bg-navy-900 hover:bg-navy-950 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm transition-colors"
+              className="bg-navy-900 hover:bg-navy-950 text-gold-300 border border-navy-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-xs transition-colors"
             >
-              <Plus size={18} /> Buat Penawaran Baru
+              <Plus size={18} className="text-gold-400" /> Buat Penawaran Baru
             </button>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-bold">
+                  <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
                     <th className="p-4">Nomor & Tanggal</th>
                     <th className="p-4">Klien & Perihal</th>
                     <th className="p-4">Total Penawaran</th>
@@ -897,7 +904,7 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
                           <div className="flex justify-end gap-1 items-center">
                             <button 
                               onClick={() => setPrintData({ type: 'quotation', data: q })} 
-                              className="p-2 text-navy-800 hover:bg-navy-50 rounded-lg transition-colors" 
+                              className="p-2 text-navy-900 hover:bg-navy-50 rounded-lg transition-colors" 
                               title="Cetak / Pratinjau Surat Penawaran"
                             >
                               <Printer size={16} />
@@ -1036,7 +1043,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+    <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-6 md:p-8">
       <div className="flex justify-between items-center mb-6 border-b border-slate-200 pb-4">
         <div>
           <h3 className="text-xl font-black text-navy-950">
@@ -1062,7 +1069,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
             <select 
               value={clientId} 
               onChange={e => setClientId(e.target.value)} 
-              className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-500 outline-none text-sm bg-white" 
+              className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm bg-white" 
               required
             >
               <option value="">-- Pilih Klien Terdaftar --</option>
@@ -1077,7 +1084,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
               type="text" 
               value={subject} 
               onChange={e => setSubject(e.target.value)} 
-              className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-500 outline-none text-sm" 
+              className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm" 
               placeholder="Contoh: Penawaran Sertifikasi Halal BPJPH & NIB OSS RBA" 
               required 
             />
@@ -1085,10 +1092,10 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
         </div>
 
         {/* 1. KALIMAT PEMBUKA */}
-        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+        <div className="bg-navy-50/50 p-4 rounded-2xl border border-navy-200 space-y-2">
           <div className="flex justify-between items-center">
             <label className="block text-sm font-bold text-navy-950">1. Kalimat Pembuka Surat (Posisi Atas Tabel)</label>
-            <button type="button" onClick={() => setOpeningText(defaultOpening)} className="text-xs text-navy-800 font-semibold hover:underline">
+            <button type="button" onClick={() => setOpeningText(defaultOpening)} className="text-xs text-navy-900 font-bold hover:underline">
               Kembalikan ke Teks Standar
             </button>
           </div>
@@ -1096,7 +1103,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
             value={openingText} 
             onChange={e => setOpeningText(e.target.value)} 
             rows="3" 
-            className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-500 outline-none text-sm bg-white"
+            className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm bg-white"
             placeholder="Tulis kalimat pembuka surat penawaran di sini..."
           />
         </div>
@@ -1108,7 +1115,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
             <div className="w-full sm:w-80">
               <select 
                 onChange={e => { addItem(e.target.value); e.target.value=''; }} 
-                className="w-full p-2 border border-navy-300 bg-navy-50 text-navy-950 font-bold rounded-xl focus:ring-2 focus:ring-navy-500 outline-none text-xs"
+                className="w-full p-2 border border-navy-300 bg-navy-50 text-navy-950 font-bold rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-xs"
               >
                 <option value="">+ Pilih & Tambahkan dari Katalog...</option>
                 {services.map(s => (
@@ -1118,7 +1125,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
             </div>
           </div>
 
-          <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead className="bg-navy-950 text-white text-xs uppercase font-bold tracking-wider">
@@ -1138,14 +1145,14 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
                           type="text" 
                           value={item.name} 
                           onChange={e => updateItem(i, 'name', e.target.value)} 
-                          className="w-full font-bold text-navy-950 border border-slate-200 p-2 rounded-lg text-sm focus:ring-1 focus:ring-navy-500"
+                          className="w-full font-bold text-navy-950 border border-slate-200 p-2 rounded-lg text-sm focus:ring-1 focus:ring-navy-600"
                           placeholder="Nama Layanan"
                         />
                         <textarea 
                           value={item.description} 
                           onChange={e => updateItem(i, 'description', e.target.value)} 
                           rows="2"
-                          className="w-full text-xs text-slate-600 border border-slate-200 p-2 rounded-lg focus:ring-1 focus:ring-navy-500"
+                          className="w-full text-xs text-slate-600 border border-slate-200 p-2 rounded-lg focus:ring-1 focus:ring-navy-600"
                           placeholder="Rincian lingkup kerja layanan..."
                         />
                       </td>
@@ -1218,10 +1225,10 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
         </div>
 
         {/* 3. KALIMAT PENUTUP */}
-        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+        <div className="bg-navy-50/50 p-4 rounded-2xl border border-navy-200 space-y-2">
           <div className="flex justify-between items-center">
             <label className="block text-sm font-bold text-navy-950">3. Kalimat Penutup Surat (Posisi Bawah Tabel)</label>
-            <button type="button" onClick={() => setClosingText(defaultClosing)} className="text-xs text-navy-800 font-semibold hover:underline">
+            <button type="button" onClick={() => setClosingText(defaultClosing)} className="text-xs text-navy-900 font-bold hover:underline">
               Kembalikan ke Teks Standar
             </button>
           </div>
@@ -1229,7 +1236,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
             value={closingText} 
             onChange={e => setClosingText(e.target.value)} 
             rows="3" 
-            className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-500 outline-none text-sm bg-white"
+            className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm bg-white"
             placeholder="Tulis kalimat penutup surat penawaran di sini..."
           />
         </div>
@@ -1238,7 +1245,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
           <button type="button" onClick={onCancel} className="px-5 py-2.5 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">
             Batal
           </button>
-          <button type="submit" className="px-6 py-2.5 bg-navy-900 text-white rounded-xl hover:bg-navy-950 text-sm font-bold shadow-sm">
+          <button type="submit" className="px-6 py-2.5 bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-navy-950 rounded-xl text-sm font-black shadow-md">
             {initialData ? 'Simpan Perubahan Penawaran' : 'Simpan & Terbitkan Penawaran'}
           </button>
         </div>
@@ -1306,11 +1313,11 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
                 <th className="p-4">No Invoice</th>
                 <th className="p-4">Klien & Tanggal</th>
                 <th className="p-4">Total / Terbayar</th>
@@ -1337,7 +1344,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                     <td className="p-4">
                       <div className="font-black text-navy-950">{formatIDR(inv.total)}</div>
                       {(inv.amountPaid || 0) > 0 && (
-                        <div className="text-xs font-semibold text-emerald-600">Terbayar: {formatIDR(inv.amountPaid)}</div>
+                        <div className="text-xs font-bold text-emerald-600">Terbayar: {formatIDR(inv.amountPaid)}</div>
                       )}
                       {balance > 0 && (
                         <div className="text-xs font-bold text-rose-600">Sisa: {formatIDR(balance)}</div>
@@ -1356,7 +1363,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                           <Printer size={16} />
                         </button>
                         
-                        {/* Tombol Kwitansi jika sudah ada riwayat pembayaran */}
+                        {/* Tombol Kwitansi Resmi dengan Emas */}
                         {invPayments.length > 0 && (
                           <button 
                             onClick={() => {
@@ -1366,7 +1373,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                                 setReceiptListModal(inv);
                               }
                             }} 
-                            className="px-2.5 py-1.5 text-navy-900 bg-navy-50 hover:bg-navy-100 border border-navy-200 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+                            className="px-2.5 py-1.5 text-gold-900 bg-gold-50 hover:bg-gold-100 border border-gold-300 rounded-lg text-xs font-black flex items-center gap-1 transition-colors"
                             title="Cetak Kwitansi Resmi"
                           >
                             <FileCheck size={14} className="text-gold-600" /> Kwitansi ({invPayments.length})
@@ -1376,7 +1383,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                         {inv.paymentStatus !== 'Lunas' && (
                           <button 
                             onClick={() => setPayModal(inv)} 
-                            className="px-3 py-1.5 text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm transition-colors"
+                            className="px-3 py-1.5 text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg text-xs font-bold flex items-center gap-1 shadow-xs transition-colors"
                           >
                             <DollarSign size={14}/> Bayar
                           </button>
@@ -1401,10 +1408,10 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
       {/* MODAL CATAT PEMBAYARAN */}
       {payModal && (
         <Modal title={`Catat Pembayaran: ${payModal.number}`} onClose={() => setPayModal(null)}>
-          <div className="mb-4 p-4 bg-navy-50 border border-navy-200 text-navy-950 rounded-2xl text-sm space-y-1.5">
-            <div className="flex justify-between"><span>Total Nilai Tagihan:</span><strong className="text-base">{formatIDR(payModal.total)}</strong></div>
-            <div className="flex justify-between"><span>Telah Dibayar Sebelumnya:</span><strong className="text-emerald-700">{formatIDR(payModal.amountPaid || 0)}</strong></div>
-            <div className="flex justify-between border-t border-navy-200 pt-1.5"><span>Sisa yang Harus Dibayar:</span><strong className="text-rose-600 text-base">{formatIDR(payModal.total - (payModal.amountPaid || 0))}</strong></div>
+          <div className="mb-4 p-4 bg-navy-50 border-2 border-navy-200 text-navy-950 rounded-2xl text-sm space-y-1.5">
+            <div className="flex justify-between"><span>Total Nilai Tagihan:</span><strong className="text-base font-black">{formatIDR(payModal.total)}</strong></div>
+            <div className="flex justify-between"><span>Telah Dibayar Sebelumnya:</span><strong className="text-emerald-700 font-bold">{formatIDR(payModal.amountPaid || 0)}</strong></div>
+            <div className="flex justify-between border-t border-navy-200 pt-1.5"><span>Sisa yang Harus Dibayar:</span><strong className="text-rose-600 text-base font-black">{formatIDR(payModal.total - (payModal.amountPaid || 0))}</strong></div>
           </div>
           <form onSubmit={handleRecordPayment} className="space-y-4">
             <div>
@@ -1420,7 +1427,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
             </div>
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1">Metode Pembayaran</label>
-              <select name="method" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-500 text-sm bg-white" required>
+              <select name="method" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white" required>
                 <option value="Transfer Bank BCA">Transfer Bank (BCA)</option>
                 <option value="Transfer Bank Mandiri">Transfer Bank (Mandiri)</option>
                 <option value="Cash / Tunai">Cash / Tunai</option>
@@ -1437,7 +1444,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
             </div>
             <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-slate-100">
               <button type="button" onClick={() => setPayModal(null)} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Batal</button>
-              <button type="submit" className="px-5 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 text-sm font-bold shadow-sm flex items-center gap-1.5">
+              <button type="submit" className="px-5 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 text-sm font-bold shadow-xs flex items-center gap-1.5">
                 <Printer size={15} /> Simpan & Buka Kwitansi
               </button>
             </div>
@@ -1445,7 +1452,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
         </Modal>
       )}
 
-      {/* MODAL PILIH KWITANSI BILA LEBIH DARI 1 KALI PEMBAYARAN */}
+      {/* MODAL PILIH KWITANSI */}
       {receiptListModal && (
         <Modal title={`Daftar Kwitansi Resmi: ${receiptListModal.number}`} onClose={() => setReceiptListModal(null)}>
           <p className="text-xs text-slate-600 mb-3">Invoice ini memiliki beberapa riwayat pembayaran. Pilih kwitansi yang ingin dicetak ulang:</p>
@@ -1459,7 +1466,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                 </div>
                 <button 
                   onClick={() => { setReceiptListModal(null); setPrintData({ type: 'receipt', data: p }); }}
-                  className="px-3 py-1.5 bg-navy-900 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-navy-950 transition-colors"
+                  className="px-3 py-1.5 bg-navy-900 text-gold-300 rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-navy-950 transition-colors"
                 >
                   <Printer size={13} /> Cetak Kwitansi
                 </button>
@@ -1485,11 +1492,11 @@ const PaymentManager = ({ payments, invoices, clients, setPrintData }) => {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
                 <th className="p-4">No Kwitansi & Tgl</th>
                 <th className="p-4">Klien / Invoice Ref</th>
                 <th className="p-4">Jenis & Metode</th>
@@ -1510,7 +1517,7 @@ const PaymentManager = ({ payments, invoices, clients, setPrintData }) => {
                     </td>
                     <td className="p-4">
                       <div className="font-bold text-sm text-slate-800">{client?.companyName}</div>
-                      <div className="text-xs text-navy-700 font-semibold">{inv?.number || p.invoiceNumber}</div>
+                      <div className="text-xs text-navy-800 font-bold">{inv?.number || p.invoiceNumber}</div>
                     </td>
                     <td className="p-4 text-sm">
                       <div className="font-semibold text-slate-700">{p.paymentType || 'Pembayaran'}</div>
@@ -1521,9 +1528,9 @@ const PaymentManager = ({ payments, invoices, clients, setPrintData }) => {
                     <td className="p-4 text-right">
                       <button 
                         onClick={() => setPrintData({ type: 'receipt', data: p })}
-                        className="px-3 py-1.5 bg-navy-900 hover:bg-navy-950 text-white rounded-lg text-xs font-bold inline-flex items-center gap-1.5 shadow-sm transition-colors"
+                        className="px-3.5 py-1.5 bg-navy-900 hover:bg-navy-950 text-gold-300 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 shadow-xs transition-colors border border-navy-800"
                       >
-                        <Printer size={14} /> Cetak Kwitansi
+                        <Printer size={14} className="text-gold-400" /> Cetak Kwitansi
                       </button>
                     </td>
                   </tr>
@@ -1583,17 +1590,17 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
         </div>
         <button 
           onClick={() => setModalOpen(true)}
-          className="bg-navy-900 hover:bg-navy-950 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm transition-colors"
+          className="bg-navy-900 hover:bg-navy-950 text-gold-300 border border-navy-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-xs transition-colors"
         >
-          <Plus size={18} /> Tambah Proyek Manual
+          <Plus size={18} className="text-gold-400" /> Tambah Proyek Manual
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
                 <th className="p-4">Nama Proyek</th>
                 <th className="p-4">Klien</th>
                 <th className="p-4">Tanggal Mulai</th>
@@ -1617,7 +1624,7 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
                           dbAction('projects', 'update', p.id, { status: e.target.value });
                           showToast(`Status proyek diubah ke: ${e.target.value}`);
                         }}
-                        className="p-2 border border-slate-300 rounded-xl text-xs font-semibold bg-white focus:ring-2 focus:ring-navy-500 outline-none shadow-sm cursor-pointer"
+                        className="p-2 border border-slate-300 rounded-xl text-xs font-bold bg-white focus:ring-2 focus:ring-navy-600 outline-none shadow-xs cursor-pointer text-navy-950"
                       >
                         {stages.map(st => <option key={st} value={st}>{st}</option>)}
                       </select>
@@ -1643,7 +1650,7 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
             <Input label="Nama Proyek" name="name" placeholder="Contoh: Pendampingan Halal & BPOM MD PT ABC" required />
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1">Pilih Klien *</label>
-              <select name="clientId" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-500 text-sm bg-white" required>
+              <select name="clientId" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white" required>
                 <option value="">-- Pilih Klien --</option>
                 {clients.map(c => <option key={c.id} value={c.id}>{c.companyName}</option>)}
               </select>
@@ -1652,14 +1659,14 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
               <Input label="Tanggal Mulai" name="startDate" type="date" defaultValue={new Date().toISOString().split('T')[0]} required />
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Tahapan Awal</label>
-                <select name="status" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-500 text-sm bg-white">
+                <select name="status" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white">
                   {stages.map(st => <option key={st} value={st}>{st}</option>)}
                 </select>
               </div>
             </div>
             <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-slate-100">
               <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Batal</button>
-              <button type="submit" className="px-5 py-2 bg-navy-900 text-white rounded-xl hover:bg-navy-950 text-sm font-bold shadow-sm">Simpan Proyek</button>
+              <button type="submit" className="px-5 py-2 bg-navy-900 text-gold-300 rounded-xl hover:bg-navy-950 text-sm font-bold shadow-xs">Simpan Proyek</button>
             </div>
           </form>
         </Modal>
@@ -1684,14 +1691,14 @@ const FinanceDashboard = ({ invoices, payments, setPrintData }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatCard title="Total Nilai Tagihan (Invoice)" value={formatIDR(totalInvoiced)} icon={FileSpreadsheet} color="bg-navy-900" />
-        <StatCard title="Total Kas Masuk (Terbayar)" value={formatIDR(totalCashIn)} icon={CheckCircle} color="bg-emerald-600" />
-        <StatCard title="Total Piutang (Belum Lunas)" value={formatIDR(totalReceivables)} icon={Clock} color="bg-amber-500" />
+        <StatCard title="Total Nilai Tagihan (Invoice)" value={formatIDR(totalInvoiced)} icon={FileSpreadsheet} color="bg-navy-900 text-gold-400" />
+        <StatCard title="Total Kas Masuk (Terbayar)" value={formatIDR(totalCashIn)} icon={CheckCircle} color="bg-emerald-600 text-white" />
+        <StatCard title="Total Piutang (Belum Lunas)" value={formatIDR(totalReceivables)} icon={Clock} color="bg-amber-600 text-white" />
       </div>
 
       {/* RECENT PAYMENTS IN FINANCE */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <h3 className="text-lg font-bold text-navy-950 mb-4">Arus Kas Masuk Terverifikasi</h3>
+      <div className="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
+        <h3 className="text-lg font-black text-navy-950 mb-4">Arus Kas Masuk Terverifikasi</h3>
         <div className="space-y-3">
           {payments.slice(0, 8).map(p => (
             <div key={p.id} className="flex justify-between items-center p-3.5 bg-slate-50/70 hover:bg-slate-100/70 rounded-xl border border-slate-100 transition-colors">
@@ -1719,7 +1726,7 @@ const FinanceDashboard = ({ invoices, payments, setPrintData }) => {
 };
 
 // ==========================================
-// PRINT TEMPLATES (DENGAN LOGO RESMI ASA JASA)
+// PRINT TEMPLATES (DENGAN TEMA RESMI EMAS & BIRU TUA)
 // ==========================================
 const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
   const docData = data.data;
@@ -1734,11 +1741,11 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
     return (
       <div className="min-h-screen bg-slate-200 py-8 flex flex-col items-center print:bg-white print:py-0">
         <div className="w-full max-w-4xl flex justify-between items-center mb-4 print:hidden px-4">
-          <button onClick={onClose} className="px-4 py-2 bg-white rounded-xl shadow-sm font-semibold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-sm">
+          <button onClick={onClose} className="px-4 py-2 bg-white rounded-xl shadow-xs font-semibold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-sm">
             <ArrowRight className="rotate-180" size={16} /> Kembali ke Aplikasi
           </button>
-          <button onClick={() => window.print()} className="px-6 py-2 bg-navy-900 text-white rounded-xl shadow font-bold flex items-center gap-2 hover:bg-navy-950 text-sm">
-            <Printer size={18} /> Cetak / Simpan PDF Kwitansi
+          <button onClick={() => window.print()} className="px-6 py-2 bg-navy-900 text-gold-300 rounded-xl shadow font-bold flex items-center gap-2 hover:bg-navy-950 text-sm border border-navy-800">
+            <Printer size={18} className="text-gold-400" /> Cetak / Simpan PDF Kwitansi
           </button>
         </div>
 
@@ -1755,7 +1762,7 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
               </div>
             </div>
             <div className="text-right">
-              <div className="inline-block bg-navy-50 text-navy-950 px-3.5 py-1 rounded-lg font-black tracking-widest text-base border border-navy-200">
+              <div className="inline-block bg-navy-50 text-navy-950 px-3.5 py-1 rounded-lg font-black tracking-widest text-base border-2 border-gold-500/50">
                 KWITANSI PEMBAYARAN
               </div>
               <p className="font-bold text-slate-800 mt-2 text-sm">No: {docData.number}</p>
@@ -1766,25 +1773,25 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
           {/* Isi Kwitansi */}
           <div className="space-y-4 my-6 text-sm">
             <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
-              <div className="col-span-4 text-slate-600 font-semibold">Telah Terima Dari</div>
+              <div className="col-span-4 text-slate-600 font-bold">Telah Terima Dari</div>
               <div className="col-span-8 font-black text-base text-navy-950">
                 : {client?.companyName || '-'} {client?.picName ? `(Up. ${client.picName})` : ''}
               </div>
             </div>
 
             <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
-              <div className="col-span-4 text-slate-600 font-semibold">Uang Sejumlah</div>
+              <div className="col-span-4 text-slate-600 font-bold">Uang Sejumlah</div>
               <div className="col-span-8">
-                <div className="bg-amber-50/60 border border-gold-300 px-3.5 py-2 rounded-xl italic font-bold text-navy-950">
+                <div className="bg-amber-50/80 border-2 border-gold-400 px-4 py-2 rounded-xl italic font-black text-navy-950">
                   # {terbilang(docData.amount)} Rupiah #
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
-              <div className="col-span-4 text-slate-600 font-semibold">Untuk Pembayaran</div>
+              <div className="col-span-4 text-slate-600 font-bold">Untuk Pembayaran</div>
               <div className="col-span-8 text-slate-800">
-                : <span className="font-bold">{docData.note || docData.paymentType}</span>
+                : <span className="font-black text-navy-900">{docData.note || docData.paymentType}</span>
                 <div className="text-xs text-slate-500 pl-2 mt-1">
                   Referensi Invoice: <strong>{relatedInvoice?.number || docData.invoiceNumber || '-'}</strong> 
                   {relatedInvoice && (
@@ -1795,7 +1802,7 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
             </div>
 
             <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
-              <div className="col-span-4 text-slate-600 font-semibold">Metode Pembayaran</div>
+              <div className="col-span-4 text-slate-600 font-bold">Metode Pembayaran</div>
               <div className="col-span-8 font-bold text-slate-800">: {docData.method}</div>
             </div>
           </div>
@@ -1803,8 +1810,8 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
           {/* Nominal Diterima & Tanda Tangan */}
           <div className="flex justify-between items-end mt-12 pt-4">
             <div>
-              <div className="text-xs font-semibold text-slate-500 mb-1">Jumlah Nominal:</div>
-              <div className="bg-navy-950 text-white px-7 py-3 rounded-2xl font-black text-2xl tracking-wide shadow-sm inline-block border-2 border-gold-500/40">
+              <div className="text-xs font-bold text-slate-500 mb-1">Jumlah Nominal:</div>
+              <div className="bg-navy-950 text-white px-7 py-3 rounded-2xl font-black text-2xl tracking-wide shadow-md inline-block border-2 border-gold-500">
                 {formatIDR(docData.amount)}
               </div>
               <p className="text-[11px] text-slate-400 mt-2">
@@ -1815,7 +1822,7 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
             <div className="text-center pr-6">
               <p className="text-xs text-slate-600 mb-1">Bogor, {formatDate(docData.date)}</p>
               <p className="text-xs font-bold text-slate-700 mb-20">Penerima / Keuangan ASA JASA</p>
-              <p className="font-bold border-b border-slate-800 inline-block px-8 text-slate-900">Admin Keuangan</p>
+              <p className="font-bold border-b-2 border-slate-800 inline-block px-8 text-slate-900">Admin Keuangan</p>
             </div>
           </div>
         </div>
@@ -1827,38 +1834,42 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
   return (
     <div className="min-h-screen bg-slate-200 py-8 flex flex-col items-center print:bg-white print:py-0">
       <div className="w-full max-w-4xl flex justify-between items-center mb-4 print:hidden px-4">
-        <button onClick={onClose} className="px-4 py-2 bg-white rounded-xl shadow-sm font-semibold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-sm">
+        <button onClick={onClose} className="px-4 py-2 bg-white rounded-xl shadow-xs font-semibold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-sm">
           <ArrowRight className="rotate-180" size={16} /> Kembali ke Aplikasi
         </button>
-        <button onClick={() => window.print()} className="px-6 py-2 bg-navy-900 text-white rounded-xl shadow font-bold flex items-center gap-2 hover:bg-navy-950 text-sm">
-          <Printer size={18} /> Cetak / Simpan PDF
+        <button onClick={() => window.print()} className="px-6 py-2 bg-navy-900 text-gold-300 rounded-xl shadow font-bold flex items-center gap-2 hover:bg-navy-950 text-sm border border-navy-800">
+          <Printer size={18} className="text-gold-400" /> Cetak / Simpan PDF
         </button>
       </div>
 
       {/* A4 Printable Page Container */}
       <div className="bg-white shadow-xl print:shadow-none w-full max-w-[21cm] min-h-[29.7cm] p-12 text-sm text-slate-800 rounded-lg print:rounded-none">
-        {/* Kop Surat Resmi dengan Logo */}
-        <div className="flex justify-between items-start border-b-2 border-navy-950 pb-6 mb-6">
-          <div className="flex items-center gap-4">
-            <img src="/logo.png" alt="ASA JASA" className="h-20 w-auto object-contain" />
-            <div>
-              <h1 className="text-3xl font-black text-navy-950 tracking-tighter">ASA JASA</h1>
-              <p className="text-slate-700 font-bold uppercase text-xs tracking-wider">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
-              <div className="text-xs text-slate-500 mt-1 leading-relaxed">
-                Jl. Raya Cibinong No 123, Bogor, Jawa Barat<br/>
-                Email: halo@asajasa.co.id | WA: 0812-3456-7890
+        {/* Kop Surat Resmi dengan Aksen Navy & Emas */}
+        <div className="border-b-4 border-navy-950 pb-2 mb-2">
+          <div className="flex justify-between items-start pb-4">
+            <div className="flex items-center gap-4">
+              <img src="/logo.png" alt="ASA JASA" className="h-20 w-auto object-contain" />
+              <div>
+                <h1 className="text-3xl font-black text-navy-950 tracking-tighter">ASA JASA</h1>
+                <p className="text-gold-600 font-black uppercase text-xs tracking-wider">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
+                <div className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                  Jl. Raya Cibinong No 123, Bogor, Jawa Barat<br/>
+                  Email: halo@asajasa.co.id | WA: 0812-3456-7890
+                </div>
               </div>
             </div>
-          </div>
-          <div className="text-right">
-            <h2 className="text-2xl font-black text-navy-950 uppercase tracking-widest">
-              {isInvoice ? 'INVOICE' : 'SURAT PENAWARAN'}
-            </h2>
-            <p className="text-base font-bold text-navy-900 mt-1">{docData.number}</p>
-            <p className="text-slate-500 mt-1 text-xs">Tanggal: {formatDate(docData.date)}</p>
-            {isInvoice && <p className="text-rose-600 font-bold text-xs mt-0.5">Jatuh Tempo: {formatDate(docData.dueDate)}</p>}
+            <div className="text-right">
+              <h2 className="text-2xl font-black text-navy-950 uppercase tracking-widest">
+                {isInvoice ? 'INVOICE' : 'SURAT PENAWARAN'}
+              </h2>
+              <p className="text-base font-bold text-navy-900 mt-1">{docData.number}</p>
+              <p className="text-slate-500 mt-1 text-xs">Tanggal: {formatDate(docData.date)}</p>
+              {isInvoice && <p className="text-rose-600 font-bold text-xs mt-0.5">Jatuh Tempo: {formatDate(docData.dueDate)}</p>}
+            </div>
           </div>
         </div>
+        {/* Garis Aksen Emas di Bawah Kop */}
+        <div className="border-b-2 border-gold-500 mb-6"></div>
 
         {/* Informasi Klien */}
         <div className="mb-6 flex justify-between">
@@ -1994,7 +2005,7 @@ const Input = ({ label, name, type = "text", defaultValue, required, placeholder
       defaultValue={defaultValue} 
       placeholder={placeholder} 
       required={required} 
-      className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-500 text-sm bg-white" 
+      className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white" 
       {...rest} 
     />
   </div>
@@ -2002,17 +2013,17 @@ const Input = ({ label, name, type = "text", defaultValue, required, placeholder
 
 const Badge = ({ status }) => {
   const colors = {
-    'Pending': 'bg-amber-100 text-amber-900 border border-amber-200',
-    'Disetujui': 'bg-blue-100 text-blue-900 border border-blue-200',
-    'Aktif': 'bg-blue-100 text-blue-900 border border-blue-200',
+    'Pending': 'bg-amber-100 text-amber-900 border border-amber-300',
+    'Disetujui': 'bg-navy-100 text-navy-950 border border-navy-300',
+    'Aktif': 'bg-navy-100 text-navy-950 border border-navy-300',
     'Belum Bayar': 'bg-rose-100 text-rose-900 border border-rose-200',
-    'Parsial': 'bg-orange-100 text-orange-900 border border-orange-200',
+    'Parsial': 'bg-gold-100 text-gold-950 border border-gold-300',
     'Lunas': 'bg-emerald-100 text-emerald-900 border border-emerald-200',
     'Terverifikasi': 'bg-emerald-100 text-emerald-900 border border-emerald-200',
     'Persiapan': 'bg-slate-100 text-slate-800 border border-slate-200',
     'Pengumpulan Dokumen': 'bg-blue-100 text-blue-900 border border-blue-200',
-    'Verifikasi Dokumen': 'bg-indigo-100 text-indigo-900 border border-indigo-200',
-    'Pengajuan SIHALAL / Perizinan': 'bg-purple-100 text-purple-900 border border-purple-200',
+    'Verifikasi Dokumen': 'bg-navy-100 text-navy-900 border border-navy-300',
+    'Pengajuan SIHALAL / Perizinan': 'bg-indigo-100 text-indigo-900 border border-indigo-200',
     'Proses Audit / Pemeriksaan': 'bg-amber-100 text-amber-900 border border-amber-200',
     'Sidang Fatwa / Evaluasi': 'bg-cyan-100 text-cyan-900 border border-cyan-200',
     'Sertifikat Terbit': 'bg-emerald-100 text-emerald-900 border border-emerald-200',
@@ -2027,7 +2038,7 @@ const Badge = ({ status }) => {
 };
 
 const Modal = ({ title, onClose, children }) => (
-  <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+  <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
       <div className="flex justify-between items-center p-5 border-b border-slate-100">
         <h3 className="text-lg font-black text-navy-950">{title}</h3>
@@ -2047,7 +2058,7 @@ const ConfirmModal = ({ title, message, onConfirm, onCancel, confirmText = 'Hapu
     <p className="text-slate-600 text-sm mb-6 leading-relaxed">{message}</p>
     <div className="flex justify-end gap-2.5">
       <button onClick={onCancel} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Batal</button>
-      <button onClick={onConfirm} className={`px-5 py-2 text-white rounded-xl text-sm font-bold shadow-sm ${confirmColor}`}>{confirmText}</button>
+      <button onClick={onConfirm} className={`px-5 py-2 text-white rounded-xl text-sm font-bold shadow-xs ${confirmColor}`}>{confirmText}</button>
     </div>
   </Modal>
 );
