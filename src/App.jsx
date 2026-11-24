@@ -15,7 +15,7 @@ import {
   initialInvoices, initialPayments, initialProjects 
 } from './utils/mockData';
 
-// --- MAIN APPLICATION COMPONENT ---
+// --- MAIN APPLICATION COMPONENT (TEMA RESMI BIRU TUA & EMAS) ---
 export default function AsaJasaApp() {
   const [view, setView] = useState('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -97,45 +97,45 @@ export default function AsaJasaApp() {
     return <PrintTemplate data={printData} onClose={() => setPrintData(null)} clients={clients} invoices={invoices} />;
   }
 
-  // --- MAIN LAYOUT ---
+  // --- MAIN LAYOUT DENGAN TEMA RESMI BIRU TUA & EMAS ---
   return (
-    <div className="flex h-screen bg-slate-50 font-sans text-slate-800 overflow-hidden">
+    <div className="flex h-screen bg-[#000f2e] font-sans text-slate-100 overflow-hidden">
       {/* TOAST NOTIFICATION DENGAN TEMA NAVY & GOLD */}
       {toast && (
-        <div className={`fixed bottom-5 right-5 z-50 px-5 py-3.5 rounded-xl shadow-2xl text-white font-medium flex items-center gap-2.5 animate-bounce transition-all ${
+        <div className={`fixed bottom-5 right-5 z-50 px-5 py-3.5 rounded-2xl shadow-2xl text-white font-medium flex items-center gap-3 animate-bounce transition-all ${
           toast.type === 'error' 
-            ? 'bg-rose-700 border border-rose-500' 
-            : 'bg-navy-950 border-2 border-gold-500 text-gold-100 shadow-navy-950/40'
+            ? 'bg-rose-900 border-2 border-rose-500 text-rose-100' 
+            : 'bg-[#00163f] border-2 border-gold-500 text-gold-100 shadow-gold-500/10'
         }`}>
-          <CheckCircle size={19} className="text-gold-400 shrink-0" /> 
-          <span className="font-semibold">{toast.msg}</span>
+          <CheckCircle size={20} className="text-gold-400 shrink-0" /> 
+          <span className="font-bold text-sm">{toast.msg}</span>
         </div>
       )}
 
       {/* MOBILE BACKDROP */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-xs" onClick={() => setMobileMenuOpen(false)} />
+        <div className="fixed inset-0 bg-black/80 z-20 md:hidden backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
       )}
 
-      {/* SIDEBAR DENGAN BIRU TUA & EMAS */}
-      <aside className={`fixed md:static inset-y-0 left-0 z-30 flex flex-col w-64 bg-navy-950 text-white transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 shadow-2xl md:shadow-none border-r border-navy-900`}>
+      {/* SIDEBAR DENGAN BIRU TUA PEKAT & AKSEN EMAS */}
+      <aside className={`fixed md:static inset-y-0 left-0 z-30 flex flex-col w-64 bg-gradient-to-b from-[#00163f] via-[#001235] to-[#000c24] text-white transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 shadow-2xl md:shadow-none border-r border-navy-800/80`}>
         {/* LOGO & BRANDING HEADER */}
-        <div className="p-4 border-b border-navy-900 bg-navy-950 flex flex-col gap-2.5">
+        <div className="p-4 border-b border-navy-800/80 bg-[#00102e] flex flex-col gap-2.5">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="bg-white p-1 rounded-xl shadow-md border-2 border-gold-500/50 flex items-center justify-center shrink-0">
+              <div className="bg-white p-1 rounded-xl shadow-lg border-2 border-gold-500 flex items-center justify-center shrink-0">
                 <img src="/logo.png" alt="ASA JASA" className="h-9 w-auto object-contain" />
               </div>
               <div className="min-w-0">
                 <h1 className="text-lg font-black tracking-wider text-white leading-tight">ASA JASA</h1>
-                <p className="text-[10px] font-bold text-gold-400 uppercase tracking-widest">Management</p>
+                <p className="text-[10px] font-black text-gold-400 uppercase tracking-widest">Management</p>
               </div>
             </div>
             <button className="md:hidden text-slate-300 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
               <X size={20} />
             </button>
           </div>
-          <div className="pt-2 border-t border-navy-900/80">
+          <div className="pt-2 border-t border-navy-800/80">
             <p className="text-[9px] text-slate-300 font-medium tracking-tight leading-snug">
               Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
             </p>
@@ -148,41 +148,45 @@ export default function AsaJasaApp() {
         </div>
 
         {/* SIDEBAR FOOTER ACTIONS */}
-        <div className="p-4 border-t border-navy-900 bg-navy-950 space-y-2">
+        <div className="p-4 border-t border-navy-800/80 bg-[#000c24] space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-300 px-1">
-            <span className="flex items-center gap-1.5 font-medium"><ShieldCheck size={14} className="text-emerald-400" /> Mode: Lokal</span>
-            <button onClick={exportAllData} title="Ekspor Cadangan JSON" className="hover:text-gold-400 p-1 rounded hover:bg-navy-900 flex items-center gap-1 transition-colors font-medium text-xs">
+            <span className="flex items-center gap-1.5 font-bold"><ShieldCheck size={14} className="text-gold-400" /> Mode: Lokal</span>
+            <button onClick={exportAllData} title="Ekspor Cadangan JSON" className="hover:text-gold-400 p-1 rounded hover:bg-navy-900 flex items-center gap-1 transition-colors font-bold text-xs">
               <Download size={13} /> Backup
             </button>
           </div>
           <button 
             onClick={handleResetData}
-            className="w-full text-xs text-slate-400 hover:text-gold-300 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded hover:bg-navy-900/60 transition-colors font-medium"
+            className="w-full text-xs text-slate-400 hover:text-gold-300 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-navy-900/60 transition-colors font-medium border border-navy-800/60"
           >
             <RefreshCw size={12} /> Reset Data Contoh
           </button>
         </div>
       </aside>
 
-      {/* MAIN CONTENT AREA */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        <header className="bg-white border-b border-slate-200 h-16 flex items-center px-4 md:px-8 justify-between z-10 shrink-0 shadow-xs">
+      {/* MAIN CONTENT AREA DENGAN TEMA BIRU TUA & EMAS */}
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative bg-[#000f2e]">
+        {/* HEADER DENGAN BIRU TUA & AKSEN EMAS */}
+        <header className="bg-gradient-to-r from-[#001438] via-[#001844] to-[#001438] border-b border-navy-800 h-16 flex items-center px-4 md:px-8 justify-between z-10 shrink-0 shadow-lg">
           <div className="flex items-center gap-3">
-            <button className="md:hidden text-navy-950 p-1.5 rounded-lg hover:bg-slate-100" onClick={() => setMobileMenuOpen(true)}>
+            <button className="md:hidden text-gold-400 p-1.5 rounded-lg hover:bg-navy-900" onClick={() => setMobileMenuOpen(true)}>
               <Menu size={22} />
             </button>
             <div>
-              <div className="text-lg font-black text-navy-950 capitalize leading-tight">
-                {view === 'dashboard' && 'Dashboard Utama'}
-                {view === 'clients' && 'Data Klien & Mitra'}
-                {view === 'services' && 'Katalog Layanan & Tarif'}
-                {view === 'quotations' && 'Surat Penawaran (Quotation)'}
-                {view === 'invoices' && 'Invoice / Tagihan Klien'}
-                {view === 'payments' && 'Riwayat Pembayaran & Kwitansi'}
-                {view === 'projects' && 'Monitoring & Progress Proyek'}
-                {view === 'finance' && 'Ringkasan & Laporan Keuangan'}
+              <div className="text-lg font-black text-white capitalize leading-tight flex items-center gap-2">
+                <span>
+                  {view === 'dashboard' && 'Dashboard Utama'}
+                  {view === 'clients' && 'Data Klien & Mitra'}
+                  {view === 'services' && 'Katalog Layanan & Tarif'}
+                  {view === 'quotations' && 'Surat Penawaran (Quotation)'}
+                  {view === 'invoices' && 'Invoice / Tagihan Klien'}
+                  {view === 'payments' && 'Riwayat Pembayaran & Kwitansi'}
+                  {view === 'projects' && 'Monitoring & Progress Proyek'}
+                  {view === 'finance' && 'Ringkasan & Laporan Keuangan'}
+                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-gold-400"></span>
               </div>
-              <p className="text-xs text-slate-500 hidden sm:block">
+              <p className="text-xs text-gold-300/80 hidden sm:block font-medium">
                 ASA JASA • Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
               </p>
             </div>
@@ -193,25 +197,26 @@ export default function AsaJasaApp() {
               href="https://github.com/MuhammadAkmalSyarif/Asa-Jasa" 
               target="_blank" 
               rel="noreferrer"
-              className="hidden lg:flex items-center gap-1.5 text-xs bg-navy-50 hover:bg-navy-100 text-navy-950 font-bold px-3 py-1.5 rounded-xl border border-navy-200 transition-colors"
+              className="hidden lg:flex items-center gap-1.5 text-xs bg-[#001f4e] hover:bg-[#002660] text-gold-300 font-bold px-3 py-1.5 rounded-xl border border-gold-500/30 transition-colors shadow-xs"
               title="Buka Repositori GitHub"
             >
-              <ExternalLink size={13} className="text-navy-800" /> GitHub Repo
+              <ExternalLink size={13} className="text-gold-400" /> GitHub Repo
             </a>
-            <div className="h-6 w-px bg-slate-200 hidden sm:block"></div>
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-white p-0.5 border-2 border-gold-500 shadow-xs flex items-center justify-center">
-                <img src="/logo.png" alt="Profile" className="w-7 h-7 object-contain" />
+            <div className="h-6 w-px bg-navy-800 hidden sm:block"></div>
+            <div className="flex items-center gap-2.5 bg-[#001235] px-3 py-1.5 rounded-xl border border-gold-500/30">
+              <div className="w-8 h-8 rounded-full bg-white p-0.5 border-2 border-gold-500 shadow-xs flex items-center justify-center shrink-0">
+                <img src="/logo.png" alt="Profile" className="w-6 h-6 object-contain" />
               </div>
               <div className="hidden sm:block text-left">
-                <p className="font-bold text-sm text-navy-950 leading-tight">Admin ASA JASA</p>
-                <p className="text-[11px] text-gold-700 font-bold">Super Admin</p>
+                <p className="font-extrabold text-xs text-white leading-tight">Admin ASA JASA</p>
+                <p className="text-[10px] text-gold-400 font-black tracking-wider uppercase">Super Admin</p>
               </div>
             </div>
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-slate-50/70">
+        {/* PAGE CONTENT CONTAINER */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-[#000f2e]">
           {view === 'dashboard' && (
             <Dashboard 
               clients={clients} 
@@ -219,7 +224,7 @@ export default function AsaJasaApp() {
               invoices={invoices} 
               projects={projects} 
               setView={setView} 
-              setPrintData={setPrintData}
+              setPrintData={setPrintData} 
             />
           )}
           {view === 'clients' && <ClientManager clients={clients} dbAction={dbAction} showToast={showToast} />}
@@ -258,14 +263,14 @@ export default function AsaJasaApp() {
               projects={projects} 
               clients={clients} 
               dbAction={dbAction} 
-              showToast={showToast}
+              showToast={showToast} 
             />
           )}
           {view === 'finance' && (
             <FinanceDashboard 
               invoices={invoices} 
               payments={payments} 
-              setPrintData={setPrintData}
+              setPrintData={setPrintData} 
             />
           )}
         </div>
@@ -301,7 +306,7 @@ const SidebarNav = ({ view, setView }) => {
     <nav className="space-y-6">
       {menus.map((g, i) => (
         <div key={i} className="px-4">
-          <p className="text-[11px] font-bold text-gold-400 uppercase tracking-widest mb-2 px-3">{g.group}</p>
+          <p className="text-[11px] font-black text-gold-400 uppercase tracking-widest mb-2 px-3">{g.group}</p>
           <div className="space-y-1">
             {g.items.map(m => {
               const isActive = view === m.id;
@@ -311,8 +316,8 @@ const SidebarNav = ({ view, setView }) => {
                   onClick={() => setView(m.id)}
                   className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition-all ${
                     isActive 
-                      ? 'bg-navy-900 text-gold-300 font-black shadow-md border-l-4 border-gold-500 shadow-navy-950/50' 
-                      : 'text-slate-300 hover:bg-navy-900/60 hover:text-white font-medium'
+                      ? 'bg-gradient-to-r from-[#002663] to-[#001844] text-gold-300 font-black shadow-lg border-l-4 border-gold-500 shadow-navy-950/70' 
+                      : 'text-slate-300 hover:bg-[#001a47] hover:text-white font-medium'
                   }`}
                 >
                   <m.icon size={18} className={isActive ? 'text-gold-400' : 'text-slate-400'} /> 
@@ -328,7 +333,7 @@ const SidebarNav = ({ view, setView }) => {
 };
 
 // ==========================================
-// DASHBOARD
+// DASHBOARD (TEMA BIRU TUA & EMAS)
 // ==========================================
 const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintData }) => {
   const activeProjects = projects.filter(p => p.status !== 'Selesai' && p.status !== 'Batal').length;
@@ -340,20 +345,20 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
     <div className="space-y-6">
       {/* QUICK STATS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total Klien Terdaftar" value={clients.length} icon={Users} color="bg-navy-900 text-gold-400 border border-gold-500/30" />
-        <StatCard title="Proyek Aktif Berjalan" value={activeProjects} icon={Briefcase} color="bg-blue-700 text-white" />
-        <StatCard title="Tagihan Belum Lunas" value={unpaidInvoices} icon={AlertTriangle} color="bg-amber-600 text-white" />
-        <StatCard title="Total Kas Masuk" value={formatIDR(totalRevenue)} icon={DollarSign} color="bg-emerald-600 text-white" />
+        <StatCard title="Total Klien Terdaftar" value={clients.length} icon={Users} accent="text-gold-400" />
+        <StatCard title="Proyek Aktif Berjalan" value={activeProjects} icon={Briefcase} accent="text-sky-400" />
+        <StatCard title="Tagihan Belum Lunas" value={unpaidInvoices} icon={AlertTriangle} accent="text-amber-400" />
+        <StatCard title="Total Kas Masuk" value={formatIDR(totalRevenue)} icon={DollarSign} accent="text-emerald-400" />
       </div>
 
       {/* QUICK ACTIONS BANNER DENGAN BIRU TUA & EMAS */}
-      <div className="bg-gradient-to-r from-navy-950 via-navy-900 to-navy-800 rounded-2xl p-6 text-white shadow-xl border-2 border-navy-900 relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+      <div className="bg-gradient-to-r from-[#00163f] via-[#00225e] to-[#00163f] rounded-2xl p-6 text-white shadow-2xl border-2 border-gold-500/40 relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
         <div className="flex items-start sm:items-center gap-4">
-          <div className="bg-white p-2 rounded-2xl shadow-lg border-2 border-gold-500/60 shrink-0 hidden sm:block">
+          <div className="bg-white p-2.5 rounded-2xl shadow-xl border-2 border-gold-500 shrink-0 hidden sm:block">
             <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain" />
           </div>
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/15 text-gold-300 border border-gold-500/40 text-[11px] font-bold uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/15 text-gold-300 border border-gold-500/50 text-[11px] font-bold uppercase tracking-wider mb-2">
               <Sparkles size={13} className="text-gold-400" /> Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
             </div>
             <h2 className="text-xl font-black tracking-tight text-white">Sistem Administrasi Terpadu ASA JASA</h2>
@@ -365,13 +370,13 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
         <div className="flex flex-wrap gap-2.5 shrink-0">
           <button 
             onClick={() => setView('quotations')}
-            className="px-5 py-2.5 bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-navy-950 font-black rounded-xl text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-1.5"
+            className="px-5 py-2.5 bg-gradient-to-r from-gold-500 via-amber-400 to-gold-600 hover:from-gold-400 hover:to-amber-300 text-navy-950 font-black rounded-xl text-sm shadow-lg shadow-gold-500/20 transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Plus size={16} /> Buat Penawaran
           </button>
           <button 
             onClick={() => setView('clients')}
-            className="px-4 py-2.5 bg-navy-800 hover:bg-navy-700 text-white font-bold rounded-xl text-sm border border-navy-700 transition-colors flex items-center gap-1.5"
+            className="px-4 py-2.5 bg-[#001f4e] hover:bg-[#002766] text-gold-300 font-bold rounded-xl text-sm border border-gold-500/40 transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <Users size={16} /> Tambah Klien
           </button>
@@ -381,13 +386,13 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
       {/* 2-COLUMN SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* PROYEK TERBARU */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col">
+        <div className="bg-[#00163f] p-6 rounded-2xl shadow-xl border border-navy-800 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h3 className="text-lg font-black text-navy-950">Proyek Berjalan Terbaru</h3>
-              <p className="text-xs text-slate-500">Progress tahapan pengurusan izin & sertifikasi</p>
+              <h3 className="text-lg font-black text-white">Proyek Berjalan Terbaru</h3>
+              <p className="text-xs text-slate-300">Progress tahapan pengurusan izin & sertifikasi</p>
             </div>
-            <button onClick={() => setView('projects')} className="text-xs font-bold text-navy-800 hover:text-gold-600 transition-colors">
+            <button onClick={() => setView('projects')} className="text-xs font-bold text-gold-400 hover:text-gold-300 transition-colors">
               Lihat Semua &rarr;
             </button>
           </div>
@@ -395,27 +400,27 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
             {projects.slice(0, 5).map(p => {
               const client = clients.find(c => c.id === p.clientId);
               return (
-                <div key={p.id} className="flex justify-between items-center p-3.5 hover:bg-slate-50 rounded-xl border border-slate-100 transition-colors">
+                <div key={p.id} className="flex justify-between items-center p-3.5 bg-[#001e52]/50 hover:bg-[#002462] rounded-xl border border-navy-800 transition-colors">
                   <div className="max-w-[65%]">
-                    <p className="font-bold text-sm text-navy-950 truncate">{p.name}</p>
-                    <p className="text-xs text-slate-500 mt-0.5 truncate">{client?.companyName || 'Klien Umum'}</p>
+                    <p className="font-bold text-sm text-white truncate">{p.name}</p>
+                    <p className="text-xs text-slate-300 mt-0.5 truncate">{client?.companyName || 'Klien Umum'}</p>
                   </div>
                   <Badge status={p.status} />
                 </div>
               );
             })}
-            {projects.length === 0 && <p className="text-sm text-slate-500 text-center py-8">Belum ada proyek aktif.</p>}
+            {projects.length === 0 && <p className="text-sm text-slate-400 text-center py-8">Belum ada proyek aktif.</p>}
           </div>
         </div>
 
         {/* PENAWARAN MENUNGGU */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col">
+        <div className="bg-[#00163f] p-6 rounded-2xl shadow-xl border border-navy-800 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h3 className="text-lg font-black text-navy-950">Penawaran Menunggu (Pending)</h3>
-              <p className="text-xs text-slate-500">Surat penawaran yang belum disetujui klien</p>
+              <h3 className="text-lg font-black text-white">Penawaran Menunggu (Pending)</h3>
+              <p className="text-xs text-slate-300">Surat penawaran yang belum disetujui klien</p>
             </div>
-            <button onClick={() => setView('quotations')} className="text-xs font-bold text-navy-800 hover:text-gold-600 transition-colors">
+            <button onClick={() => setView('quotations')} className="text-xs font-bold text-gold-400 hover:text-gold-300 transition-colors">
               Kelola Penawaran &rarr;
             </button>
           </div>
@@ -423,17 +428,17 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
             {quotations.filter(q => q.status === 'Pending').slice(0, 5).map(q => {
               const client = clients.find(c => c.id === q.clientId);
               return (
-                <div key={q.id} className="flex justify-between items-center p-3.5 hover:bg-slate-50 rounded-xl border border-slate-100 transition-colors">
+                <div key={q.id} className="flex justify-between items-center p-3.5 bg-[#001e52]/50 hover:bg-[#002462] rounded-xl border border-navy-800 transition-colors">
                   <div>
-                    <p className="font-bold text-sm text-navy-900">{q.number}</p>
-                    <p className="text-xs text-slate-600 mt-0.5">{client?.companyName || 'Klien tidak ditemukan'}</p>
-                    <p className="text-xs font-black text-slate-800 mt-1">{formatIDR(q.total)}</p>
+                    <p className="font-bold text-sm text-gold-300">{q.number}</p>
+                    <p className="text-xs text-slate-300 mt-0.5">{client?.companyName || 'Klien tidak ditemukan'}</p>
+                    <p className="text-xs font-black text-white mt-1">{formatIDR(q.total)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge status={q.status} />
                     <button 
                       onClick={() => setPrintData({ type: 'quotation', data: q })}
-                      className="p-1.5 text-navy-900 hover:bg-navy-50 rounded-lg transition-colors"
+                      className="p-1.5 text-gold-300 hover:text-gold-200 hover:bg-navy-800 rounded-lg transition-colors"
                       title="Lihat / Cetak Surat Penawaran"
                     >
                       <Printer size={16} />
@@ -444,8 +449,8 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
             })}
             {pendingQuotations === 0 && (
               <div className="text-center py-8 text-slate-400">
-                <CheckCircle size={32} className="mx-auto text-emerald-500 mb-2 opacity-80" />
-                <p className="text-sm font-medium text-slate-600">Semua surat penawaran telah disetujui / diproses.</p>
+                <CheckCircle size={32} className="mx-auto text-emerald-400 mb-2 opacity-80" />
+                <p className="text-sm font-medium text-slate-300">Semua surat penawaran telah disetujui / diproses.</p>
               </div>
             )}
           </div>
@@ -455,14 +460,14 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
   );
 };
 
-const StatCard = ({ title, value, icon: Icon, color }) => (
-  <div className="bg-white rounded-2xl p-5 shadow-xs border border-slate-200 flex items-center gap-4 hover:shadow-md hover:border-gold-300 transition-all">
-    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-xs shrink-0 ${color}`}>
-      <Icon size={22} />
+const StatCard = ({ title, value, icon: Icon, accent }) => (
+  <div className="bg-gradient-to-br from-[#001844] via-[#001b4c] to-[#001235] rounded-2xl p-5 shadow-xl border border-gold-500/30 hover:border-gold-400 flex items-center gap-4 transition-all">
+    <div className="w-12 h-12 rounded-xl bg-[#00102e] border border-gold-500/40 flex items-center justify-center shadow-md shrink-0">
+      <Icon size={22} className={accent} />
     </div>
     <div className="min-w-0">
-      <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{title}</p>
-      <p className="text-xl font-black text-navy-950 mt-0.5 truncate">{value}</p>
+      <p className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">{title}</p>
+      <p className="text-xl font-black text-white mt-0.5 truncate">{value}</p>
     </div>
   </div>
 );
@@ -501,8 +506,8 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-black text-navy-950">Data Klien & Mitra</h2>
-          <p className="text-xs text-slate-500">Database perusahaan, pemilik/PIC, legalitas NIB, dan kontak</p>
+          <h2 className="text-2xl font-black text-white">Data Klien & Mitra</h2>
+          <p className="text-xs text-slate-300">Database perusahaan, pemilik/PIC, legalitas NIB, dan kontak</p>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
           <div className="relative flex-1 sm:w-72">
@@ -510,25 +515,25 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
             <input 
               type="text" 
               placeholder="Cari perusahaan, PIC, NIB..." 
-              className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-navy-600 focus:border-navy-600 outline-none bg-white shadow-xs" 
+              className="w-full pl-9 pr-4 py-2 rounded-xl border border-navy-700 text-sm focus:ring-2 focus:ring-gold-500/50 focus:border-gold-400 outline-none bg-[#00163f] text-white placeholder-slate-400 shadow-inner" 
               value={searchTerm} 
               onChange={e => setSearchTerm(e.target.value)} 
             />
           </div>
           <button 
             onClick={() => { setEditingClient(null); setModalOpen(true); }} 
-            className="bg-navy-900 hover:bg-navy-950 text-gold-300 border border-navy-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-xs transition-colors whitespace-nowrap"
+            className="bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-400 hover:to-amber-400 text-navy-950 px-4 py-2 rounded-xl text-sm font-black flex items-center gap-2 shadow-md transition-all whitespace-nowrap cursor-pointer"
           >
-            <Plus size={18} className="text-gold-400" /> <span>Tambah Klien</span>
+            <Plus size={18} /> <span>Tambah Klien</span>
           </button>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
+      <div className="bg-[#00163f] rounded-2xl shadow-xl border border-navy-800 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-[#00102e] text-gold-300 text-xs uppercase tracking-wider font-extrabold border-b border-navy-800">
                 <th className="p-4">Nama Perusahaan</th>
                 <th className="p-4">PIC / Kontak</th>
                 <th className="p-4">Kategori Usaha</th>
@@ -537,43 +542,43 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
                 <th className="p-4 text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-sm">
+            <tbody className="divide-y divide-navy-800/80 text-sm text-slate-200">
               {filteredClients.map(c => (
-                <tr key={c.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="p-4 font-bold text-navy-950">
+                <tr key={c.id} className="hover:bg-[#001f4e]/40 transition-colors">
+                  <td className="p-4 font-bold text-white">
                     <div className="flex items-center gap-2">
-                      <Building2 size={16} className="text-navy-700 shrink-0" />
+                      <Building2 size={16} className="text-gold-400 shrink-0" />
                       <span>{c.companyName}</span>
                     </div>
                   </td>
                   <td className="p-4">
-                    <div className="font-semibold text-slate-800">{c.picName}</div>
-                    <div className="text-xs text-slate-500 flex flex-col gap-0.5 mt-0.5">
-                      <span className="flex items-center gap-1"><Phone size={12} className="text-slate-400" /> {c.phone}</span>
-                      {c.email && <span className="flex items-center gap-1"><Mail size={12} className="text-slate-400" /> {c.email}</span>}
+                    <div className="font-semibold text-slate-100">{c.picName}</div>
+                    <div className="text-xs text-slate-300 flex flex-col gap-0.5 mt-0.5">
+                      <span className="flex items-center gap-1"><Phone size={12} className="text-gold-400" /> {c.phone}</span>
+                      {c.email && <span className="flex items-center gap-1"><Mail size={12} className="text-gold-400" /> {c.email}</span>}
                     </div>
                   </td>
                   <td className="p-4">
-                    <span className="px-2.5 py-1 bg-navy-50 text-navy-950 font-bold text-xs rounded-full border border-navy-200">
+                    <span className="px-2.5 py-1 bg-navy-900 text-gold-300 font-bold text-xs rounded-full border border-gold-500/30">
                       {c.businessCategory || 'Umum'}
                     </span>
                   </td>
-                  <td className="p-4 text-xs font-mono font-bold text-slate-700">{c.nib || '-'}</td>
-                  <td className="p-4 text-xs text-slate-600 max-w-xs truncate" title={c.address}>
+                  <td className="p-4 text-xs font-mono font-bold text-gold-200">{c.nib || '-'}</td>
+                  <td className="p-4 text-xs text-slate-300 max-w-xs truncate" title={c.address}>
                     {c.address || '-'}
                   </td>
                   <td className="p-4 text-right">
                     <div className="flex justify-end gap-1">
                       <button 
                         onClick={() => { setEditingClient(c); setModalOpen(true); }} 
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="p-2 text-sky-400 hover:bg-navy-800 rounded-lg transition-colors"
                         title="Edit Data Klien"
                       >
                         <Edit size={16} />
                       </button>
                       <button 
                         onClick={() => setDeleteTarget(c)} 
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className="p-2 text-rose-400 hover:bg-rose-950/40 rounded-lg transition-colors"
                         title="Hapus Klien"
                       >
                         <Trash size={16} />
@@ -584,7 +589,7 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
               ))}
               {filteredClients.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-slate-500">
+                  <td colSpan="6" className="p-8 text-center text-slate-400">
                     Tidak ditemukan data klien yang sesuai dengan pencarian "{searchTerm}".
                   </td>
                 </tr>
@@ -614,21 +619,21 @@ const ClientManager = ({ clients, dbAction, showToast }) => {
               <Input label="Nomor Induk Berusaha (NIB)" name="nib" defaultValue={editingClient?.nib} placeholder="Contoh: 9120003412991" />
               <Input label="Kategori Usaha" name="businessCategory" defaultValue={editingClient?.businessCategory} placeholder="F&B, Kosmetik, Jasa, Farmasi..." />
               <div className="md:col-span-2">
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Alamat Lengkap</label>
+                <label className="block text-sm font-semibold text-slate-200 mb-1">Alamat Lengkap</label>
                 <textarea 
                   name="address" 
                   defaultValue={editingClient?.address} 
-                  className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm" 
+                  className="w-full p-2.5 border border-navy-700 bg-[#00102e] text-white rounded-xl focus:ring-2 focus:ring-gold-500/50 focus:border-gold-400 outline-none text-sm placeholder-slate-400" 
                   rows="3"
                   placeholder="Alamat kantor / tempat usaha..."
                 ></textarea>
               </div>
             </div>
-            <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-slate-100">
-              <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">
+            <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-navy-800">
+              <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-navy-700 bg-[#00102e] rounded-xl text-slate-300 hover:bg-navy-900 text-sm font-medium">
                 Batal
               </button>
-              <button type="submit" className="px-5 py-2 bg-navy-900 text-gold-300 rounded-xl hover:bg-navy-950 text-sm font-bold shadow-xs">
+              <button type="submit" className="px-5 py-2 bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 font-black rounded-xl hover:from-gold-400 hover:to-amber-400 text-sm shadow-md">
                 Simpan Klien
               </button>
             </div>
@@ -679,14 +684,14 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
     <div className="space-y-5">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-black text-navy-950">Katalog Layanan & Tarif</h2>
-          <p className="text-xs text-slate-500">Daftar tarif resmi konsultasi dan pendampingan legalitas ASA JASA</p>
+          <h2 className="text-2xl font-black text-white">Katalog Layanan & Tarif</h2>
+          <p className="text-xs text-slate-300">Daftar tarif resmi konsultasi dan pendampingan legalitas ASA JASA</p>
         </div>
         <button 
           onClick={() => { setEditingService(null); setModalOpen(true); }} 
-          className="bg-navy-900 hover:bg-navy-950 text-gold-300 border border-navy-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-xs transition-colors"
+          className="bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-400 hover:to-amber-400 text-navy-950 px-4 py-2 rounded-xl text-sm font-black flex items-center gap-2 shadow-md transition-all cursor-pointer"
         >
-          <Plus size={18} className="text-gold-400" /> Tambah Layanan
+          <Plus size={18} /> Tambah Layanan
         </button>
       </div>
 
@@ -698,8 +703,8 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
             onClick={() => setSelectedCategory(cat)}
             className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
               selectedCategory === cat 
-                ? 'bg-navy-950 text-gold-300 border-2 border-gold-500/60 shadow-xs' 
-                : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                ? 'bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 font-black shadow-md border-transparent' 
+                : 'bg-[#00163f] text-slate-300 hover:bg-[#001e52] hover:text-white border border-navy-700'
             }`}
           >
             {cat}
@@ -710,33 +715,33 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
       {/* SERVICES GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredServices.map(s => (
-          <div key={s.id} className="bg-white p-5 rounded-2xl shadow-xs border border-slate-200 hover:border-gold-400 hover:shadow-md transition-all flex flex-col justify-between">
+          <div key={s.id} className="bg-gradient-to-b from-[#001844] to-[#001235] p-5 rounded-2xl shadow-xl border border-navy-800 hover:border-gold-500/70 transition-all flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start mb-2.5">
-                <span className="text-[11px] font-bold px-2.5 py-1 bg-navy-50 text-navy-950 rounded-full border border-navy-200">
+                <span className="text-[11px] font-bold px-2.5 py-1 bg-navy-900 text-gold-300 rounded-full border border-gold-500/30">
                   {s.category}
                 </span>
                 <div className="flex gap-1">
-                  <button onClick={() => { setEditingService(s); setModalOpen(true); }} className="p-1.5 text-slate-400 hover:text-blue-600 rounded hover:bg-blue-50 transition-colors" title="Edit">
+                  <button onClick={() => { setEditingService(s); setModalOpen(true); }} className="p-1.5 text-slate-400 hover:text-sky-300 rounded hover:bg-navy-800 transition-colors" title="Edit">
                     <Edit size={15} />
                   </button>
-                  <button onClick={() => setDeleteTarget(s)} className="p-1.5 text-slate-400 hover:text-red-600 rounded hover:bg-red-50 transition-colors" title="Hapus">
+                  <button onClick={() => setDeleteTarget(s)} className="p-1.5 text-slate-400 hover:text-rose-400 rounded hover:bg-navy-800 transition-colors" title="Hapus">
                     <Trash size={15} />
                   </button>
                 </div>
               </div>
-              <h3 className="font-bold text-base text-navy-950 leading-snug mb-2">{s.name}</h3>
-              <p className="text-2xl font-black text-navy-900 mb-3">
+              <h3 className="font-bold text-base text-white leading-snug mb-2">{s.name}</h3>
+              <p className="text-2xl font-black text-gold-400 mb-3">
                 {formatIDR(s.price)} 
-                <span className="text-xs font-normal text-slate-500 ml-1">/ {s.unit}</span>
+                <span className="text-xs font-normal text-slate-300 ml-1">/ {s.unit}</span>
               </p>
-              <div className="text-xs text-slate-600 line-clamp-4 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+              <div className="text-xs text-slate-300 line-clamp-4 leading-relaxed bg-[#00102e]/70 p-3 rounded-xl border border-navy-800">
                 {s.description || 'Tidak ada deskripsi layanan.'}
               </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-              <span>Siap digunakan di Surat Penawaran</span>
-              <span className="font-bold text-gold-600">Tersedia</span>
+            <div className="mt-4 pt-3 border-t border-navy-800 flex items-center justify-between text-[11px] text-slate-400">
+              <span>Siap di Surat Penawaran</span>
+              <span className="font-black text-gold-400">Tersedia</span>
             </div>
           </div>
         ))}
@@ -757,27 +762,27 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
             <Input label="Nama Layanan" name="name" defaultValue={editingService?.name} placeholder="Contoh: Pendampingan Sertifikasi Halal Reguler" required />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Kategori</label>
-                <select name="category" defaultValue={editingService?.category || formCategories[0]} className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white">
-                  {formCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                <label className="block text-sm font-semibold text-slate-200 mb-1">Kategori</label>
+                <select name="category" defaultValue={editingService?.category || formCategories[0]} className="w-full p-2.5 border border-navy-700 bg-[#00102e] text-white rounded-xl outline-none focus:ring-2 focus:ring-gold-500/50 text-sm">
+                  {formCategories.map(cat => <option key={cat} value={cat} className="bg-navy-950 text-white">{cat}</option>)}
                 </select>
               </div>
               <Input label="Harga Standar (Rp)" name="price" type="number" defaultValue={editingService?.price} placeholder="5000000" required />
               <Input label="Satuan" name="unit" defaultValue={editingService?.unit || 'Paket'} placeholder="Paket / Titik / Produk" required />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">Deskripsi Layanan & Rincian Pekerjaan</label>
+              <label className="block text-sm font-semibold text-slate-200 mb-1">Deskripsi Layanan & Rincian Pekerjaan</label>
               <textarea 
                 name="description" 
                 defaultValue={editingService?.description} 
                 placeholder="Rincian ruang lingkup ini akan otomatis masuk ke tabel Surat Penawaran saat layanan dipilih..." 
-                className="w-full p-3 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm" 
+                className="w-full p-3 border border-navy-700 bg-[#00102e] text-white rounded-xl outline-none focus:ring-2 focus:ring-gold-500/50 text-sm placeholder-slate-400" 
                 rows="4"
               ></textarea>
             </div>
-            <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-slate-100">
-              <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Batal</button>
-              <button type="submit" className="px-5 py-2 bg-navy-900 text-gold-300 rounded-xl hover:bg-navy-950 text-sm font-bold shadow-xs">Simpan Layanan</button>
+            <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-navy-800">
+              <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-navy-700 bg-[#00102e] rounded-xl text-slate-300 hover:bg-navy-900 text-sm font-medium">Batal</button>
+              <button type="submit" className="px-5 py-2 bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 font-black rounded-xl hover:from-gold-400 hover:to-amber-400 text-sm shadow-md">Simpan Layanan</button>
             </div>
           </form>
         </Modal>
@@ -857,22 +862,22 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
         <>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <h2 className="text-2xl font-black text-navy-950">Surat Penawaran (Quotation)</h2>
-              <p className="text-xs text-slate-500">Kelola penawaran harga, kustomisasi kalimat pembuka/penutup, dan buat tagihan</p>
+              <h2 className="text-2xl font-black text-white">Surat Penawaran (Quotation)</h2>
+              <p className="text-xs text-slate-300">Kelola penawaran harga, kustomisasi kalimat pembuka/penutup, dan buat tagihan</p>
             </div>
             <button 
               onClick={() => { setEditingQuotation(null); setFormOpen(true); }} 
-              className="bg-navy-900 hover:bg-navy-950 text-gold-300 border border-navy-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-xs transition-colors"
+              className="bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-400 hover:to-amber-400 text-navy-950 px-4 py-2 rounded-xl text-sm font-black flex items-center gap-2 shadow-md transition-all cursor-pointer"
             >
-              <Plus size={18} className="text-gold-400" /> Buat Penawaran Baru
+              <Plus size={18} /> Buat Penawaran Baru
             </button>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
+          <div className="bg-[#00163f] rounded-2xl shadow-xl border border-navy-800 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
+                  <tr className="bg-[#00102e] text-gold-300 text-xs uppercase tracking-wider font-extrabold border-b border-navy-800">
                     <th className="p-4">Nomor & Tanggal</th>
                     <th className="p-4">Klien & Perihal</th>
                     <th className="p-4">Total Penawaran</th>
@@ -880,22 +885,22 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
                     <th className="p-4 text-right">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-sm">
+                <tbody className="divide-y divide-navy-800/80 text-sm text-slate-200">
                   {quotations.map(q => {
                     const client = clients.find(c => c.id === q.clientId);
                     return (
-                      <tr key={q.id} className="hover:bg-slate-50 transition-colors">
+                      <tr key={q.id} className="hover:bg-[#001f4e]/40 transition-colors">
                         <td className="p-4">
-                          <div className="font-bold text-navy-900">{q.number}</div>
-                          <div className="text-xs text-slate-500 mt-0.5">{formatDate(q.date)}</div>
+                          <div className="font-bold text-gold-300">{q.number}</div>
+                          <div className="text-xs text-slate-400 mt-0.5">{formatDate(q.date)}</div>
                         </td>
                         <td className="p-4">
-                          <div className="font-bold text-navy-950">{client?.companyName || 'Klien tidak ditemukan'}</div>
-                          <div className="text-xs text-slate-500 truncate max-w-sm">{q.subject || 'Penawaran Layanan'}</div>
+                          <div className="font-bold text-white">{client?.companyName || 'Klien tidak ditemukan'}</div>
+                          <div className="text-xs text-slate-300 truncate max-w-sm">{q.subject || 'Penawaran Layanan'}</div>
                         </td>
                         <td className="p-4">
-                          <div className="font-black text-navy-950">{formatIDR(q.total)}</div>
-                          {q.discount > 0 && <div className="text-xs text-red-500">Diskon: {formatIDR(q.discount)}</div>}
+                          <div className="font-black text-white">{formatIDR(q.total)}</div>
+                          {q.discount > 0 && <div className="text-xs text-rose-400">Diskon: {formatIDR(q.discount)}</div>}
                         </td>
                         <td className="p-4">
                           <Badge status={q.status} />
@@ -904,7 +909,7 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
                           <div className="flex justify-end gap-1 items-center">
                             <button 
                               onClick={() => setPrintData({ type: 'quotation', data: q })} 
-                              className="p-2 text-navy-900 hover:bg-navy-50 rounded-lg transition-colors" 
+                              className="p-2 text-gold-300 hover:text-gold-200 hover:bg-navy-800 rounded-lg transition-colors" 
                               title="Cetak / Pratinjau Surat Penawaran"
                             >
                               <Printer size={16} />
@@ -913,14 +918,14 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
                               <>
                                 <button 
                                   onClick={() => { setEditingQuotation(q); setFormOpen(true); }} 
-                                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
+                                  className="p-2 text-sky-400 hover:bg-navy-800 rounded-lg transition-colors" 
                                   title="Edit Penawaran"
                                 >
                                   <Edit size={16} />
                                 </button>
                                 <button 
                                   onClick={() => setConfirmApprove(q)} 
-                                  className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" 
+                                  className="p-2 text-emerald-400 hover:bg-emerald-950/40 rounded-lg transition-colors" 
                                   title="Setujui & Buat Invoice Otomatis"
                                 >
                                   <FileCheck size={16} />
@@ -929,7 +934,7 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
                             )}
                             <button 
                               onClick={() => setDeleteTarget(q)} 
-                              className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" 
+                              className="p-2 text-rose-400 hover:bg-rose-950/40 rounded-lg transition-colors" 
                               title="Hapus"
                             >
                               <Trash size={16} />
@@ -941,7 +946,7 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
                   })}
                   {quotations.length === 0 && (
                     <tr>
-                      <td colSpan="5" className="p-8 text-center text-slate-500">
+                      <td colSpan="5" className="p-8 text-center text-slate-400">
                         Belum ada surat penawaran dibuat. Klik "Buat Penawaran Baru" di atas.
                       </td>
                     </tr>
@@ -958,7 +963,7 @@ const QuotationManager = ({ quotations, clients, services, dbAction, setPrintDat
           title="Setujui Penawaran & Terbitkan Invoice"
           message={`Setujui penawaran ${confirmApprove.number}? Sistem akan otomatis membuat Invoice baru dengan tempo 14 hari serta memulai Proyek baru di tahap Persiapan.`}
           confirmText="Ya, Setujui & Buat Invoice"
-          confirmColor="bg-emerald-600 hover:bg-emerald-700"
+          confirmColor="bg-emerald-600 hover:bg-emerald-500"
           onConfirm={() => handleCreateInvoice(confirmApprove)}
           onCancel={() => setConfirmApprove(null)}
         />
@@ -1043,21 +1048,21 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-6 md:p-8">
-      <div className="flex justify-between items-center mb-6 border-b border-slate-200 pb-4">
+    <div className="bg-[#00163f] rounded-2xl shadow-xl border border-navy-800 p-6 md:p-8 text-white">
+      <div className="flex justify-between items-center mb-6 border-b border-navy-800 pb-4">
         <div>
-          <h3 className="text-xl font-black text-navy-950">
+          <h3 className="text-xl font-black text-white">
             {initialData ? `Edit Surat Penawaran: ${initialData.number}` : 'Buat Surat Penawaran Baru'}
           </h3>
-          <p className="text-xs text-slate-500">Sesuaikan data klien, kalimat pembuka, rincian item layanan, dan kalimat penutup resmi.</p>
+          <p className="text-xs text-slate-300">Sesuaikan data klien, kalimat pembuka, rincian item layanan, dan kalimat penutup resmi.</p>
         </div>
-        <button onClick={onCancel} className="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-slate-100 transition-colors">
+        <button onClick={onCancel} className="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-navy-800 transition-colors">
           <X size={20} />
         </button>
       </div>
 
       {formError && (
-        <div className="mb-4 p-3.5 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm flex items-center gap-2">
+        <div className="mb-4 p-3.5 bg-rose-950/70 border border-rose-500 text-rose-200 rounded-xl text-sm flex items-center gap-2">
           <AlertTriangle size={18} /> {formError}
         </div>
       )}
@@ -1065,26 +1070,26 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Pilih Klien / Perusahaan *</label>
+            <label className="block text-sm font-semibold text-slate-200 mb-1">Pilih Klien / Perusahaan *</label>
             <select 
               value={clientId} 
               onChange={e => setClientId(e.target.value)} 
-              className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm bg-white" 
+              className="w-full p-2.5 border border-navy-700 bg-[#00102e] text-white rounded-xl focus:ring-2 focus:ring-gold-500/50 outline-none text-sm" 
               required
             >
-              <option value="">-- Pilih Klien Terdaftar --</option>
+              <option value="" className="bg-navy-950 text-slate-300">-- Pilih Klien Terdaftar --</option>
               {clients.map(c => (
-                <option key={c.id} value={c.id}>{c.companyName} ({c.picName})</option>
+                <option key={c.id} value={c.id} className="bg-navy-950 text-white">{c.companyName} ({c.picName})</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1">Perihal / Judul Penawaran *</label>
+            <label className="block text-sm font-semibold text-slate-200 mb-1">Perihal / Judul Penawaran *</label>
             <input 
               type="text" 
               value={subject} 
               onChange={e => setSubject(e.target.value)} 
-              className="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm" 
+              className="w-full p-2.5 border border-navy-700 bg-[#00102e] text-white rounded-xl focus:ring-2 focus:ring-gold-500/50 outline-none text-sm" 
               placeholder="Contoh: Penawaran Sertifikasi Halal BPJPH & NIB OSS RBA" 
               required 
             />
@@ -1092,10 +1097,10 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
         </div>
 
         {/* 1. KALIMAT PEMBUKA */}
-        <div className="bg-navy-50/50 p-4 rounded-2xl border border-navy-200 space-y-2">
+        <div className="bg-[#001b4c]/70 p-4 rounded-2xl border border-gold-500/30 space-y-2">
           <div className="flex justify-between items-center">
-            <label className="block text-sm font-bold text-navy-950">1. Kalimat Pembuka Surat (Posisi Atas Tabel)</label>
-            <button type="button" onClick={() => setOpeningText(defaultOpening)} className="text-xs text-navy-900 font-bold hover:underline">
+            <label className="block text-sm font-bold text-gold-300">1. Kalimat Pembuka Surat (Posisi Atas Tabel)</label>
+            <button type="button" onClick={() => setOpeningText(defaultOpening)} className="text-xs text-gold-400 font-bold hover:underline">
               Kembalikan ke Teks Standar
             </button>
           </div>
@@ -1103,7 +1108,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
             value={openingText} 
             onChange={e => setOpeningText(e.target.value)} 
             rows="3" 
-            className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm bg-white"
+            className="w-full p-3 border border-navy-700 bg-[#00102e] text-white rounded-xl focus:ring-2 focus:ring-gold-500/50 outline-none text-sm"
             placeholder="Tulis kalimat pembuka surat penawaran di sini..."
           />
         </div>
@@ -1111,24 +1116,24 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
         {/* 2. TABEL RINCIAN LAYANAN */}
         <div className="space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <label className="block text-sm font-bold text-navy-950">2. Tabel Rincian Layanan & Tarif (Posisi Tengah)</label>
+            <label className="block text-sm font-bold text-gold-300">2. Tabel Rincian Layanan & Tarif (Posisi Tengah)</label>
             <div className="w-full sm:w-80">
               <select 
                 onChange={e => { addItem(e.target.value); e.target.value=''; }} 
-                className="w-full p-2 border border-navy-300 bg-navy-50 text-navy-950 font-bold rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-xs"
+                className="w-full p-2 border border-gold-500/50 bg-[#001f4e] text-gold-300 font-bold rounded-xl focus:ring-2 focus:ring-gold-500 outline-none text-xs"
               >
-                <option value="">+ Pilih & Tambahkan dari Katalog...</option>
+                <option value="" className="bg-navy-950 text-slate-300">+ Pilih & Tambahkan dari Katalog...</option>
                 {services.map(s => (
-                  <option key={s.id} value={s.id}>{s.name} ({formatIDR(s.price)})</option>
+                  <option key={s.id} value={s.id} className="bg-navy-950 text-white">{s.name} ({formatIDR(s.price)})</option>
                 ))}
               </select>
             </div>
           </div>
 
-          <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
+          <div className="border border-navy-800 rounded-2xl overflow-hidden shadow-xl bg-[#00102e]">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
-                <thead className="bg-navy-950 text-white text-xs uppercase font-bold tracking-wider">
+                <thead className="bg-[#000c24] text-gold-300 text-xs uppercase font-extrabold tracking-wider border-b border-navy-800">
                   <tr>
                     <th className="p-3.5">Nama & Deskripsi Layanan</th>
                     <th className="p-3.5 w-36">Harga Satuan (Rp)</th>
@@ -1137,22 +1142,22 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
                     <th className="p-3.5 w-12 text-center"></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-sm">
+                <tbody className="divide-y divide-navy-800/80 text-sm">
                   {items.map((item, i) => (
-                    <tr key={i} className="align-top hover:bg-slate-50/70">
+                    <tr key={i} className="align-top hover:bg-navy-900/50">
                       <td className="p-3 space-y-1.5">
                         <input 
                           type="text" 
                           value={item.name} 
                           onChange={e => updateItem(i, 'name', e.target.value)} 
-                          className="w-full font-bold text-navy-950 border border-slate-200 p-2 rounded-lg text-sm focus:ring-1 focus:ring-navy-600"
+                          className="w-full font-bold text-white border border-navy-700 bg-[#00163f] p-2 rounded-lg text-sm focus:ring-1 focus:ring-gold-400"
                           placeholder="Nama Layanan"
                         />
                         <textarea 
                           value={item.description} 
                           onChange={e => updateItem(i, 'description', e.target.value)} 
                           rows="2"
-                          className="w-full text-xs text-slate-600 border border-slate-200 p-2 rounded-lg focus:ring-1 focus:ring-navy-600"
+                          className="w-full text-xs text-slate-300 border border-navy-700 bg-[#00163f] p-2 rounded-lg focus:ring-1 focus:ring-gold-400"
                           placeholder="Rincian lingkup kerja layanan..."
                         />
                       </td>
@@ -1161,7 +1166,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
                           type="number" 
                           value={item.price} 
                           onChange={e => updateItem(i, 'price', e.target.value)} 
-                          className="w-full border border-slate-300 p-2 rounded-lg text-sm font-semibold" 
+                          className="w-full border border-navy-700 bg-[#00163f] text-white p-2 rounded-lg text-sm font-semibold" 
                         />
                         <span className="text-[11px] text-slate-400 block mt-1">/{item.unit || 'Paket'}</span>
                       </td>
@@ -1171,17 +1176,17 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
                           min="1" 
                           value={item.qty} 
                           onChange={e => updateItem(i, 'qty', e.target.value)} 
-                          className="w-full border border-slate-300 p-2 rounded-lg text-center text-sm font-semibold" 
+                          className="w-full border border-navy-700 bg-[#00163f] text-white p-2 rounded-lg text-center text-sm font-semibold" 
                         />
                       </td>
-                      <td className="p-3 font-black text-right text-navy-950 pt-5">
+                      <td className="p-3 font-black text-right text-gold-400 pt-5">
                         {formatIDR(item.total)}
                       </td>
                       <td className="p-3 pt-5 text-center">
                         <button 
                           type="button" 
                           onClick={() => setItems(prev => prev.filter((_, idx) => idx !== i))} 
-                          className="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors"
+                          className="text-rose-400 hover:bg-rose-950/40 p-1.5 rounded-lg transition-colors"
                           title="Hapus Baris"
                         >
                           <Trash size={16}/>
@@ -1191,7 +1196,7 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
                   ))}
                   {items.length === 0 && (
                     <tr>
-                      <td colSpan="5" className="p-8 text-center text-slate-500 text-sm">
+                      <td colSpan="5" className="p-8 text-center text-slate-400 text-sm">
                         Belum ada layanan dipilih. Silakan pilih layanan melalui dropdown Katalog Layanan di atas.
                       </td>
                     </tr>
@@ -1202,21 +1207,21 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
           </div>
 
           <div className="flex justify-end pt-2">
-            <div className="w-full sm:w-80 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2.5 text-sm">
-              <div className="flex justify-between font-medium text-slate-600">
+            <div className="w-full sm:w-80 bg-[#001235] p-4 rounded-2xl border-2 border-gold-500/40 space-y-2.5 text-sm">
+              <div className="flex justify-between font-medium text-slate-300">
                 <span>Subtotal</span>
-                <span className="font-bold text-slate-800">{formatIDR(subtotal)}</span>
+                <span className="font-bold text-white">{formatIDR(subtotal)}</span>
               </div>
-              <div className="flex justify-between items-center text-slate-600">
+              <div className="flex justify-between items-center text-slate-300">
                 <span>Diskon (Rp)</span>
                 <input 
                   type="number" 
                   value={discount} 
                   onChange={e => setDiscount(Number(e.target.value))} 
-                  className="w-32 border border-slate-300 bg-white p-1.5 rounded-lg text-right font-semibold text-sm" 
+                  className="w-32 border border-navy-700 bg-[#00163f] text-white p-1.5 rounded-lg text-right font-semibold text-sm" 
                 />
               </div>
-              <div className="flex justify-between font-black text-lg text-navy-950 border-t border-slate-200 pt-2.5">
+              <div className="flex justify-between font-black text-lg text-gold-400 border-t border-navy-800 pt-2.5">
                 <span>Total Penawaran</span>
                 <span>{formatIDR(total)}</span>
               </div>
@@ -1225,10 +1230,10 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
         </div>
 
         {/* 3. KALIMAT PENUTUP */}
-        <div className="bg-navy-50/50 p-4 rounded-2xl border border-navy-200 space-y-2">
+        <div className="bg-[#001b4c]/70 p-4 rounded-2xl border border-gold-500/30 space-y-2">
           <div className="flex justify-between items-center">
-            <label className="block text-sm font-bold text-navy-950">3. Kalimat Penutup Surat (Posisi Bawah Tabel)</label>
-            <button type="button" onClick={() => setClosingText(defaultClosing)} className="text-xs text-navy-900 font-bold hover:underline">
+            <label className="block text-sm font-bold text-gold-300">3. Kalimat Penutup Surat (Posisi Bawah Tabel)</label>
+            <button type="button" onClick={() => setClosingText(defaultClosing)} className="text-xs text-gold-400 font-bold hover:underline">
               Kembalikan ke Teks Standar
             </button>
           </div>
@@ -1236,16 +1241,16 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
             value={closingText} 
             onChange={e => setClosingText(e.target.value)} 
             rows="3" 
-            className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-navy-600 outline-none text-sm bg-white"
+            className="w-full p-3 border border-navy-700 bg-[#00102e] text-white rounded-xl focus:ring-2 focus:ring-gold-500/50 outline-none text-sm"
             placeholder="Tulis kalimat penutup surat penawaran di sini..."
           />
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-          <button type="button" onClick={onCancel} className="px-5 py-2.5 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">
+        <div className="flex justify-end gap-3 pt-4 border-t border-navy-800">
+          <button type="button" onClick={onCancel} className="px-5 py-2.5 border border-navy-700 bg-[#00102e] rounded-xl text-slate-300 hover:bg-navy-900 text-sm font-medium">
             Batal
           </button>
-          <button type="submit" className="px-6 py-2.5 bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-navy-950 rounded-xl text-sm font-black shadow-md">
+          <button type="submit" className="px-6 py-2.5 bg-gradient-to-r from-gold-500 via-amber-400 to-gold-600 hover:from-gold-400 hover:to-amber-300 text-navy-950 rounded-xl text-sm font-black shadow-lg shadow-gold-500/20">
             {initialData ? 'Simpan Perubahan Penawaran' : 'Simpan & Terbitkan Penawaran'}
           </button>
         </div>
@@ -1308,16 +1313,16 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-black text-navy-950">Invoice / Tagihan Klien</h2>
-          <p className="text-xs text-slate-500">Daftar tagihan pembayaran jasa konsultasi & status pelunasan</p>
+          <h2 className="text-2xl font-black text-white">Invoice / Tagihan Klien</h2>
+          <p className="text-xs text-slate-300">Daftar tagihan pembayaran jasa konsultasi & status pelunasan</p>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
+      <div className="bg-[#00163f] rounded-2xl shadow-xl border border-navy-800 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-[#00102e] text-gold-300 text-xs uppercase tracking-wider font-extrabold border-b border-navy-800">
                 <th className="p-4">No Invoice</th>
                 <th className="p-4">Klien & Tanggal</th>
                 <th className="p-4">Total / Terbayar</th>
@@ -1325,29 +1330,29 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                 <th className="p-4 text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-sm">
+            <tbody className="divide-y divide-navy-800/80 text-sm text-slate-200">
               {invoices.map(inv => {
                 const client = clients.find(c => c.id === inv.clientId);
                 const balance = inv.total - (inv.amountPaid || 0);
                 const invPayments = payments.filter(p => p.invoiceId === inv.id);
 
                 return (
-                  <tr key={inv.id} className="hover:bg-slate-50 transition-colors">
+                  <tr key={inv.id} className="hover:bg-[#001f4e]/40 transition-colors">
                     <td className="p-4">
-                      <div className="font-bold text-navy-950">{inv.number}</div>
-                      <div className="text-xs text-slate-500 mt-0.5">Jatuh tempo: {formatDate(inv.dueDate)}</div>
+                      <div className="font-bold text-gold-300">{inv.number}</div>
+                      <div className="text-xs text-slate-400 mt-0.5">Jatuh tempo: {formatDate(inv.dueDate)}</div>
                     </td>
                     <td className="p-4">
-                      <div className="font-bold text-navy-950">{client?.companyName}</div>
-                      <div className="text-xs text-slate-500">Tgl Invoice: {formatDate(inv.date)}</div>
+                      <div className="font-bold text-white">{client?.companyName}</div>
+                      <div className="text-xs text-slate-300">Tgl Invoice: {formatDate(inv.date)}</div>
                     </td>
                     <td className="p-4">
-                      <div className="font-black text-navy-950">{formatIDR(inv.total)}</div>
+                      <div className="font-black text-white">{formatIDR(inv.total)}</div>
                       {(inv.amountPaid || 0) > 0 && (
-                        <div className="text-xs font-bold text-emerald-600">Terbayar: {formatIDR(inv.amountPaid)}</div>
+                        <div className="text-xs font-bold text-emerald-400">Terbayar: {formatIDR(inv.amountPaid)}</div>
                       )}
                       {balance > 0 && (
-                        <div className="text-xs font-bold text-rose-600">Sisa: {formatIDR(balance)}</div>
+                        <div className="text-xs font-bold text-rose-400">Sisa: {formatIDR(balance)}</div>
                       )}
                     </td>
                     <td className="p-4">
@@ -1357,7 +1362,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                       <div className="flex justify-end items-center gap-1.5">
                         <button 
                           onClick={() => setPrintData({ type: 'invoice', data: inv })} 
-                          className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors" 
+                          className="p-2 text-slate-300 hover:text-white hover:bg-navy-800 rounded-lg transition-colors" 
                           title="Cetak Invoice"
                         >
                           <Printer size={16} />
@@ -1373,17 +1378,17 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                                 setReceiptListModal(inv);
                               }
                             }} 
-                            className="px-2.5 py-1.5 text-gold-900 bg-gold-50 hover:bg-gold-100 border border-gold-300 rounded-lg text-xs font-black flex items-center gap-1 transition-colors"
+                            className="px-2.5 py-1.5 text-gold-300 bg-gold-500/15 hover:bg-gold-500/25 border border-gold-500/50 rounded-lg text-xs font-black flex items-center gap-1 transition-colors"
                             title="Cetak Kwitansi Resmi"
                           >
-                            <FileCheck size={14} className="text-gold-600" /> Kwitansi ({invPayments.length})
+                            <FileCheck size={14} className="text-gold-400" /> Kwitansi ({invPayments.length})
                           </button>
                         )}
 
                         {inv.paymentStatus !== 'Lunas' && (
                           <button 
                             onClick={() => setPayModal(inv)} 
-                            className="px-3 py-1.5 text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg text-xs font-bold flex items-center gap-1 shadow-xs transition-colors"
+                            className="px-3 py-1.5 text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg text-xs font-bold flex items-center gap-1 shadow-md transition-colors"
                           >
                             <DollarSign size={14}/> Bayar
                           </button>
@@ -1395,7 +1400,7 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
               })}
               {invoices.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-500">
+                  <td colSpan="5" className="p-8 text-center text-slate-400">
                     Belum ada invoice diterbitkan. Setujui Surat Penawaran untuk membuat invoice otomatis.
                   </td>
                 </tr>
@@ -1408,10 +1413,10 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
       {/* MODAL CATAT PEMBAYARAN */}
       {payModal && (
         <Modal title={`Catat Pembayaran: ${payModal.number}`} onClose={() => setPayModal(null)}>
-          <div className="mb-4 p-4 bg-navy-50 border-2 border-navy-200 text-navy-950 rounded-2xl text-sm space-y-1.5">
-            <div className="flex justify-between"><span>Total Nilai Tagihan:</span><strong className="text-base font-black">{formatIDR(payModal.total)}</strong></div>
-            <div className="flex justify-between"><span>Telah Dibayar Sebelumnya:</span><strong className="text-emerald-700 font-bold">{formatIDR(payModal.amountPaid || 0)}</strong></div>
-            <div className="flex justify-between border-t border-navy-200 pt-1.5"><span>Sisa yang Harus Dibayar:</span><strong className="text-rose-600 text-base font-black">{formatIDR(payModal.total - (payModal.amountPaid || 0))}</strong></div>
+          <div className="mb-4 p-4 bg-[#00102e] border-2 border-gold-500/40 text-white rounded-2xl text-sm space-y-1.5">
+            <div className="flex justify-between"><span>Total Nilai Tagihan:</span><strong className="text-base font-black text-gold-400">{formatIDR(payModal.total)}</strong></div>
+            <div className="flex justify-between"><span>Telah Dibayar Sebelumnya:</span><strong className="text-emerald-400 font-bold">{formatIDR(payModal.amountPaid || 0)}</strong></div>
+            <div className="flex justify-between border-t border-navy-800 pt-1.5"><span>Sisa yang Harus Dibayar:</span><strong className="text-rose-400 text-base font-black">{formatIDR(payModal.total - (payModal.amountPaid || 0))}</strong></div>
           </div>
           <form onSubmit={handleRecordPayment} className="space-y-4">
             <div>
@@ -1426,13 +1431,13 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">Metode Pembayaran</label>
-              <select name="method" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white" required>
-                <option value="Transfer Bank BCA">Transfer Bank (BCA)</option>
-                <option value="Transfer Bank Mandiri">Transfer Bank (Mandiri)</option>
-                <option value="Cash / Tunai">Cash / Tunai</option>
-                <option value="QRIS">QRIS</option>
-                <option value="Virtual Account">Virtual Account</option>
+              <label className="block text-sm font-semibold text-slate-200 mb-1">Metode Pembayaran</label>
+              <select name="method" className="w-full p-2.5 border border-navy-700 bg-[#00102e] text-white rounded-xl outline-none focus:ring-2 focus:ring-gold-500/50 text-sm" required>
+                <option value="Transfer Bank BCA" className="bg-navy-950 text-white">Transfer Bank (BCA)</option>
+                <option value="Transfer Bank Mandiri" className="bg-navy-950 text-white">Transfer Bank (Mandiri)</option>
+                <option value="Cash / Tunai" className="bg-navy-950 text-white">Cash / Tunai</option>
+                <option value="QRIS" className="bg-navy-950 text-white">QRIS</option>
+                <option value="Virtual Account" className="bg-navy-950 text-white">Virtual Account</option>
               </select>
             </div>
             <div>
@@ -1442,9 +1447,9 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
                 placeholder="Contoh: Pembayaran Uang Muka (DP 50%) / Pelunasan Akhir..." 
               />
             </div>
-            <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-slate-100">
-              <button type="button" onClick={() => setPayModal(null)} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Batal</button>
-              <button type="submit" className="px-5 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 text-sm font-bold shadow-xs flex items-center gap-1.5">
+            <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-navy-800">
+              <button type="button" onClick={() => setPayModal(null)} className="px-4 py-2 border border-navy-700 bg-[#00102e] rounded-xl text-slate-300 hover:bg-navy-900 text-sm font-medium">Batal</button>
+              <button type="submit" className="px-5 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-500 text-sm font-bold shadow-md flex items-center gap-1.5">
                 <Printer size={15} /> Simpan & Buka Kwitansi
               </button>
             </div>
@@ -1455,18 +1460,18 @@ const InvoiceManager = ({ invoices, quotations, clients, payments, dbAction, set
       {/* MODAL PILIH KWITANSI */}
       {receiptListModal && (
         <Modal title={`Daftar Kwitansi Resmi: ${receiptListModal.number}`} onClose={() => setReceiptListModal(null)}>
-          <p className="text-xs text-slate-600 mb-3">Invoice ini memiliki beberapa riwayat pembayaran. Pilih kwitansi yang ingin dicetak ulang:</p>
+          <p className="text-xs text-slate-300 mb-3">Invoice ini memiliki beberapa riwayat pembayaran. Pilih kwitansi yang ingin dicetak ulang:</p>
           <div className="space-y-2.5">
             {payments.filter(p => p.invoiceId === receiptListModal.id).map(p => (
-              <div key={p.id} className="flex justify-between items-center p-3.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
+              <div key={p.id} className="flex justify-between items-center p-3.5 border border-navy-800 bg-[#00102e] rounded-xl hover:bg-navy-900 transition-colors">
                 <div>
-                  <div className="font-bold text-navy-900 text-sm">{p.number} <span className="text-xs font-normal text-slate-500">({formatDate(p.date)})</span></div>
-                  <div className="text-xs text-slate-600 mt-0.5">{p.note || p.paymentType} • {p.method}</div>
-                  <div className="font-black text-emerald-600 text-sm mt-1">{formatIDR(p.amount)}</div>
+                  <div className="font-bold text-gold-300 text-sm">{p.number} <span className="text-xs font-normal text-slate-400">({formatDate(p.date)})</span></div>
+                  <div className="text-xs text-slate-300 mt-0.5">{p.note || p.paymentType} • {p.method}</div>
+                  <div className="font-black text-emerald-400 text-sm mt-1">{formatIDR(p.amount)}</div>
                 </div>
                 <button 
                   onClick={() => { setReceiptListModal(null); setPrintData({ type: 'receipt', data: p }); }}
-                  className="px-3 py-1.5 bg-navy-900 text-gold-300 rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-navy-950 transition-colors"
+                  className="px-3 py-1.5 bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 rounded-lg text-xs font-black flex items-center gap-1.5 hover:from-gold-400 hover:to-amber-400 transition-colors"
                 >
                   <Printer size={13} /> Cetak Kwitansi
                 </button>
@@ -1487,16 +1492,16 @@ const PaymentManager = ({ payments, invoices, clients, setPrintData }) => {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-black text-navy-950">Riwayat Pembayaran & Kwitansi Resmi</h2>
-          <p className="text-xs text-slate-500">Arsip seluruh transaksi kas masuk yang telah diverifikasi dan memiliki Kwitansi Resmi</p>
+          <h2 className="text-2xl font-black text-white">Riwayat Pembayaran & Kwitansi Resmi</h2>
+          <p className="text-xs text-slate-300">Arsip seluruh transaksi kas masuk yang telah diverifikasi dan memiliki Kwitansi Resmi</p>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
+      <div className="bg-[#00163f] rounded-2xl shadow-xl border border-navy-800 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-[#00102e] text-gold-300 text-xs uppercase tracking-wider font-extrabold border-b border-navy-800">
                 <th className="p-4">No Kwitansi & Tgl</th>
                 <th className="p-4">Klien / Invoice Ref</th>
                 <th className="p-4">Jenis & Metode</th>
@@ -1505,32 +1510,32 @@ const PaymentManager = ({ payments, invoices, clients, setPrintData }) => {
                 <th className="p-4 text-right">Kwitansi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-sm">
+            <tbody className="divide-y divide-navy-800/80 text-sm text-slate-200">
               {payments.map(p => {
                 const client = clients.find(c => c.id === p.clientId);
                 const inv = invoices.find(i => i.id === p.invoiceId);
                 return (
-                  <tr key={p.id} className="hover:bg-slate-50 transition-colors">
+                  <tr key={p.id} className="hover:bg-[#001f4e]/40 transition-colors">
                     <td className="p-4">
-                      <div className="font-bold text-slate-900">{p.number}</div>
-                      <div className="text-xs text-slate-500 mt-0.5">{formatDate(p.date)}</div>
+                      <div className="font-bold text-gold-300">{p.number}</div>
+                      <div className="text-xs text-slate-400 mt-0.5">{formatDate(p.date)}</div>
                     </td>
                     <td className="p-4">
-                      <div className="font-bold text-sm text-slate-800">{client?.companyName}</div>
-                      <div className="text-xs text-navy-800 font-bold">{inv?.number || p.invoiceNumber}</div>
+                      <div className="font-bold text-sm text-white">{client?.companyName}</div>
+                      <div className="text-xs text-gold-400 font-bold">{inv?.number || p.invoiceNumber}</div>
                     </td>
                     <td className="p-4 text-sm">
-                      <div className="font-semibold text-slate-700">{p.paymentType || 'Pembayaran'}</div>
-                      <div className="text-xs text-slate-500">{p.method}</div>
+                      <div className="font-semibold text-slate-200">{p.paymentType || 'Pembayaran'}</div>
+                      <div className="text-xs text-slate-400">{p.method}</div>
                     </td>
-                    <td className="p-4 font-black text-emerald-600">{formatIDR(p.amount)}</td>
+                    <td className="p-4 font-black text-emerald-400">{formatIDR(p.amount)}</td>
                     <td className="p-4"><Badge status={p.status} /></td>
                     <td className="p-4 text-right">
                       <button 
                         onClick={() => setPrintData({ type: 'receipt', data: p })}
-                        className="px-3.5 py-1.5 bg-navy-900 hover:bg-navy-950 text-gold-300 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 shadow-xs transition-colors border border-navy-800"
+                        className="px-3.5 py-1.5 bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-400 hover:to-amber-400 text-navy-950 rounded-lg text-xs font-black inline-flex items-center gap-1.5 shadow-md transition-colors"
                       >
-                        <Printer size={14} className="text-gold-400" /> Cetak Kwitansi
+                        <Printer size={14} /> Cetak Kwitansi
                       </button>
                     </td>
                   </tr>
@@ -1538,7 +1543,7 @@ const PaymentManager = ({ payments, invoices, clients, setPrintData }) => {
               })}
               {payments.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-slate-500">
+                  <td colSpan="6" className="p-8 text-center text-slate-400">
                     Belum ada riwayat pembayaran yang dicatat.
                   </td>
                 </tr>
@@ -1585,22 +1590,22 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-black text-navy-950">Monitoring & Progress Proyek</h2>
-          <p className="text-xs text-slate-500">Tracking tahapan pendampingan perizinan dan sertifikasi halal klien</p>
+          <h2 className="text-2xl font-black text-white">Monitoring & Progress Proyek</h2>
+          <p className="text-xs text-slate-300">Tracking tahapan pendampingan perizinan dan sertifikasi halal klien</p>
         </div>
         <button 
           onClick={() => setModalOpen(true)}
-          className="bg-navy-900 hover:bg-navy-950 text-gold-300 border border-navy-800 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-xs transition-colors"
+          className="bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-400 hover:to-amber-400 text-navy-950 px-4 py-2 rounded-xl text-sm font-black flex items-center gap-2 shadow-md transition-all cursor-pointer"
         >
-          <Plus size={18} className="text-gold-400" /> Tambah Proyek Manual
+          <Plus size={18} /> Tambah Proyek Manual
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden">
+      <div className="bg-[#00163f] rounded-2xl shadow-xl border border-navy-800 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-navy-950 text-white text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-[#00102e] text-gold-300 text-xs uppercase tracking-wider font-extrabold border-b border-navy-800">
                 <th className="p-4">Nama Proyek</th>
                 <th className="p-4">Klien</th>
                 <th className="p-4">Tanggal Mulai</th>
@@ -1608,14 +1613,14 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
                 <th className="p-4 text-right">Update Tahapan</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-sm">
+            <tbody className="divide-y divide-navy-800/80 text-sm text-slate-200">
               {projects.map(p => {
                 const client = clients.find(c => c.id === p.clientId);
                 return (
-                  <tr key={p.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="p-4 font-bold text-navy-950">{p.name}</td>
-                    <td className="p-4 text-sm text-slate-600">{client?.companyName || '-'}</td>
-                    <td className="p-4 text-sm text-slate-500">{formatDate(p.startDate)}</td>
+                  <tr key={p.id} className="hover:bg-[#001f4e]/40 transition-colors">
+                    <td className="p-4 font-bold text-white">{p.name}</td>
+                    <td className="p-4 text-sm text-slate-300">{client?.companyName || '-'}</td>
+                    <td className="p-4 text-sm text-slate-400">{formatDate(p.startDate)}</td>
                     <td className="p-4"><Badge status={p.status} /></td>
                     <td className="p-4 text-right">
                       <select
@@ -1624,9 +1629,9 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
                           dbAction('projects', 'update', p.id, { status: e.target.value });
                           showToast(`Status proyek diubah ke: ${e.target.value}`);
                         }}
-                        className="p-2 border border-slate-300 rounded-xl text-xs font-bold bg-white focus:ring-2 focus:ring-navy-600 outline-none shadow-xs cursor-pointer text-navy-950"
+                        className="p-2 border border-navy-700 bg-[#00102e] text-gold-300 rounded-xl text-xs font-bold focus:ring-2 focus:ring-gold-500 outline-none shadow-md cursor-pointer"
                       >
-                        {stages.map(st => <option key={st} value={st}>{st}</option>)}
+                        {stages.map(st => <option key={st} value={st} className="bg-navy-950 text-white">{st}</option>)}
                       </select>
                     </td>
                   </tr>
@@ -1634,7 +1639,7 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
               })}
               {projects.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-500">
+                  <td colSpan="5" className="p-8 text-center text-slate-400">
                     Belum ada proyek berjalan. Proyek akan otomatis dibuat saat Surat Penawaran disetujui.
                   </td>
                 </tr>
@@ -1649,24 +1654,24 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
           <form onSubmit={handleCreateProject} className="space-y-4">
             <Input label="Nama Proyek" name="name" placeholder="Contoh: Pendampingan Halal & BPOM MD PT ABC" required />
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">Pilih Klien *</label>
-              <select name="clientId" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white" required>
-                <option value="">-- Pilih Klien --</option>
-                {clients.map(c => <option key={c.id} value={c.id}>{c.companyName}</option>)}
+              <label className="block text-sm font-semibold text-slate-200 mb-1">Pilih Klien *</label>
+              <select name="clientId" className="w-full p-2.5 border border-navy-700 bg-[#00102e] text-white rounded-xl outline-none focus:ring-2 focus:ring-gold-500/50 text-sm" required>
+                <option value="" className="bg-navy-950 text-slate-300">-- Pilih Klien --</option>
+                {clients.map(c => <option key={c.id} value={c.id} className="bg-navy-950 text-white">{c.companyName}</option>)}
               </select>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input label="Tanggal Mulai" name="startDate" type="date" defaultValue={new Date().toISOString().split('T')[0]} required />
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Tahapan Awal</label>
-                <select name="status" className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white">
-                  {stages.map(st => <option key={st} value={st}>{st}</option>)}
+                <label className="block text-sm font-semibold text-slate-200 mb-1">Tahapan Awal</label>
+                <select name="status" className="w-full p-2.5 border border-navy-700 bg-[#00102e] text-white rounded-xl outline-none focus:ring-2 focus:ring-gold-500/50 text-sm">
+                  {stages.map(st => <option key={st} value={st} className="bg-navy-950 text-white">{st}</option>)}
                 </select>
               </div>
             </div>
-            <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-slate-100">
-              <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Batal</button>
-              <button type="submit" className="px-5 py-2 bg-navy-900 text-gold-300 rounded-xl hover:bg-navy-950 text-sm font-bold shadow-xs">Simpan Proyek</button>
+            <div className="flex justify-end gap-2.5 mt-6 pt-4 border-t border-navy-800">
+              <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 border border-navy-700 bg-[#00102e] rounded-xl text-slate-300 hover:bg-navy-900 text-sm font-medium">Batal</button>
+              <button type="submit" className="px-5 py-2 bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 font-black rounded-xl hover:from-gold-400 hover:to-amber-400 text-sm shadow-md">Simpan Proyek</button>
             </div>
           </form>
         </Modal>
@@ -1686,31 +1691,31 @@ const FinanceDashboard = ({ invoices, payments, setPrintData }) => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-black text-navy-950">Laporan & Ringkasan Keuangan</h2>
-        <p className="text-xs text-slate-500">Rekapitulasi total tagihan, kas masuk, piutang, dan arus kas pembayaran</p>
+        <h2 className="text-2xl font-black text-white">Laporan & Ringkasan Keuangan</h2>
+        <p className="text-xs text-slate-300">Rekapitulasi total tagihan, kas masuk, piutang, dan arus kas pembayaran</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatCard title="Total Nilai Tagihan (Invoice)" value={formatIDR(totalInvoiced)} icon={FileSpreadsheet} color="bg-navy-900 text-gold-400" />
-        <StatCard title="Total Kas Masuk (Terbayar)" value={formatIDR(totalCashIn)} icon={CheckCircle} color="bg-emerald-600 text-white" />
-        <StatCard title="Total Piutang (Belum Lunas)" value={formatIDR(totalReceivables)} icon={Clock} color="bg-amber-600 text-white" />
+        <StatCard title="Total Nilai Tagihan (Invoice)" value={formatIDR(totalInvoiced)} icon={FileSpreadsheet} accent="text-gold-400" />
+        <StatCard title="Total Kas Masuk (Terbayar)" value={formatIDR(totalCashIn)} icon={CheckCircle} accent="text-emerald-400" />
+        <StatCard title="Total Piutang (Belum Lunas)" value={formatIDR(totalReceivables)} icon={Clock} accent="text-rose-400" />
       </div>
 
       {/* RECENT PAYMENTS IN FINANCE */}
-      <div className="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
-        <h3 className="text-lg font-black text-navy-950 mb-4">Arus Kas Masuk Terverifikasi</h3>
+      <div className="bg-[#00163f] p-6 rounded-2xl shadow-xl border border-navy-800">
+        <h3 className="text-lg font-black text-white mb-4">Arus Kas Masuk Terverifikasi</h3>
         <div className="space-y-3">
           {payments.slice(0, 8).map(p => (
-            <div key={p.id} className="flex justify-between items-center p-3.5 bg-slate-50/70 hover:bg-slate-100/70 rounded-xl border border-slate-100 transition-colors">
+            <div key={p.id} className="flex justify-between items-center p-3.5 bg-[#001e52]/50 hover:bg-[#002462] rounded-xl border border-navy-800 transition-colors">
               <div>
-                <p className="font-bold text-sm text-navy-950">{p.number} • <span className="font-normal text-slate-500 text-xs">{formatDate(p.date)}</span></p>
-                <p className="text-xs text-slate-600 mt-0.5">{p.note || p.paymentType} ({p.method})</p>
+                <p className="font-bold text-sm text-gold-300">{p.number} • <span className="font-normal text-slate-400 text-xs">{formatDate(p.date)}</span></p>
+                <p className="text-xs text-slate-300 mt-0.5">{p.note || p.paymentType} ({p.method})</p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="font-black text-emerald-600 text-base">{formatIDR(p.amount)}</span>
+                <span className="font-black text-emerald-400 text-base">{formatIDR(p.amount)}</span>
                 <button 
                   onClick={() => setPrintData({ type: 'receipt', data: p })}
-                  className="p-1.5 text-navy-900 hover:bg-navy-50 rounded-lg transition-colors"
+                  className="p-1.5 text-gold-300 hover:text-gold-200 hover:bg-navy-800 rounded-lg transition-colors"
                   title="Cetak Kwitansi"
                 >
                   <Printer size={16} />
@@ -1718,7 +1723,7 @@ const FinanceDashboard = ({ invoices, payments, setPrintData }) => {
               </div>
             </div>
           ))}
-          {payments.length === 0 && <p className="text-sm text-slate-500 text-center py-6">Belum ada catatan kas masuk.</p>}
+          {payments.length === 0 && <p className="text-sm text-slate-400 text-center py-6">Belum ada catatan kas masuk.</p>}
         </div>
       </div>
     </div>
@@ -1739,18 +1744,18 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
   // --- TEMPLATE KHUSUS KWITANSI RESMI PEMBAYARAN ---
   if (isReceipt) {
     return (
-      <div className="min-h-screen bg-slate-200 py-8 flex flex-col items-center print:bg-white print:py-0">
+      <div className="min-h-screen bg-[#000c24] py-8 flex flex-col items-center print:bg-white print:py-0">
         <div className="w-full max-w-4xl flex justify-between items-center mb-4 print:hidden px-4">
-          <button onClick={onClose} className="px-4 py-2 bg-white rounded-xl shadow-xs font-semibold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-sm">
+          <button onClick={onClose} className="px-4 py-2 bg-[#00163f] border border-navy-700 rounded-xl shadow-lg font-bold text-slate-200 flex items-center gap-2 hover:bg-navy-900 text-sm">
             <ArrowRight className="rotate-180" size={16} /> Kembali ke Aplikasi
           </button>
-          <button onClick={() => window.print()} className="px-6 py-2 bg-navy-900 text-gold-300 rounded-xl shadow font-bold flex items-center gap-2 hover:bg-navy-950 text-sm border border-navy-800">
-            <Printer size={18} className="text-gold-400" /> Cetak / Simpan PDF Kwitansi
+          <button onClick={() => window.print()} className="px-6 py-2 bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-400 hover:to-amber-400 text-navy-950 rounded-xl shadow-lg font-black flex items-center gap-2 text-sm">
+            <Printer size={18} /> Cetak / Simpan PDF Kwitansi
           </button>
         </div>
 
         {/* Kwitansi Resmi Format Formal A4 Landscape / Half A4 */}
-        <div className="bg-white shadow-xl print:shadow-none w-full max-w-[22cm] p-10 text-sm text-slate-800 border-t-8 border-navy-950 rounded-lg print:rounded-none">
+        <div className="bg-white shadow-2xl print:shadow-none w-full max-w-[22cm] p-10 text-sm text-slate-800 border-t-8 border-navy-950 rounded-lg print:rounded-none">
           {/* Header Kwitansi dengan Logo Resmi */}
           <div className="flex justify-between items-start border-b-2 border-slate-300 pb-5 mb-6">
             <div className="flex items-center gap-4">
@@ -1832,18 +1837,18 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
 
   // --- TEMPLATE SURAT PENAWARAN (QUOTATION) & INVOICE ---
   return (
-    <div className="min-h-screen bg-slate-200 py-8 flex flex-col items-center print:bg-white print:py-0">
+    <div className="min-h-screen bg-[#000c24] py-8 flex flex-col items-center print:bg-white print:py-0">
       <div className="w-full max-w-4xl flex justify-between items-center mb-4 print:hidden px-4">
-        <button onClick={onClose} className="px-4 py-2 bg-white rounded-xl shadow-xs font-semibold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-sm">
+        <button onClick={onClose} className="px-4 py-2 bg-[#00163f] border border-navy-700 rounded-xl shadow-lg font-bold text-slate-200 flex items-center gap-2 hover:bg-navy-900 text-sm">
           <ArrowRight className="rotate-180" size={16} /> Kembali ke Aplikasi
         </button>
-        <button onClick={() => window.print()} className="px-6 py-2 bg-navy-900 text-gold-300 rounded-xl shadow font-bold flex items-center gap-2 hover:bg-navy-950 text-sm border border-navy-800">
-          <Printer size={18} className="text-gold-400" /> Cetak / Simpan PDF
+        <button onClick={() => window.print()} className="px-6 py-2 bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-400 hover:to-amber-400 text-navy-950 rounded-xl shadow-lg font-black flex items-center gap-2 text-sm">
+          <Printer size={18} /> Cetak / Simpan PDF
         </button>
       </div>
 
       {/* A4 Printable Page Container */}
-      <div className="bg-white shadow-xl print:shadow-none w-full max-w-[21cm] min-h-[29.7cm] p-12 text-sm text-slate-800 rounded-lg print:rounded-none">
+      <div className="bg-white shadow-2xl print:shadow-none w-full max-w-[21cm] min-h-[29.7cm] p-12 text-sm text-slate-800 rounded-lg print:rounded-none">
         {/* Kop Surat Resmi dengan Aksen Navy & Emas */}
         <div className="border-b-4 border-navy-950 pb-2 mb-2">
           <div className="flex justify-between items-start pb-4">
@@ -1992,12 +1997,12 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
 };
 
 // ==========================================
-// REUSABLE UI COMPONENTS
+// REUSABLE UI COMPONENTS (TEMA BIRU TUA & EMAS)
 // ==========================================
 const Input = ({ label, name, type = "text", defaultValue, required, placeholder, ...rest }) => (
   <div>
-    <label className="block text-sm font-semibold text-slate-700 mb-1">
-      {label} {required && <span className="text-red-500">*</span>}
+    <label className="block text-sm font-semibold text-slate-200 mb-1">
+      {label} {required && <span className="text-rose-400">*</span>}
     </label>
     <input 
       type={type} 
@@ -2005,7 +2010,7 @@ const Input = ({ label, name, type = "text", defaultValue, required, placeholder
       defaultValue={defaultValue} 
       placeholder={placeholder} 
       required={required} 
-      className="w-full p-2.5 border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-navy-600 text-sm bg-white" 
+      className="w-full p-2.5 border border-navy-700 bg-[#00102e] text-white rounded-xl outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-400 text-sm placeholder-slate-400" 
       {...rest} 
     />
   </div>
@@ -2013,36 +2018,36 @@ const Input = ({ label, name, type = "text", defaultValue, required, placeholder
 
 const Badge = ({ status }) => {
   const colors = {
-    'Pending': 'bg-amber-100 text-amber-900 border border-amber-300',
-    'Disetujui': 'bg-navy-100 text-navy-950 border border-navy-300',
-    'Aktif': 'bg-navy-100 text-navy-950 border border-navy-300',
-    'Belum Bayar': 'bg-rose-100 text-rose-900 border border-rose-200',
-    'Parsial': 'bg-gold-100 text-gold-950 border border-gold-300',
-    'Lunas': 'bg-emerald-100 text-emerald-900 border border-emerald-200',
-    'Terverifikasi': 'bg-emerald-100 text-emerald-900 border border-emerald-200',
-    'Persiapan': 'bg-slate-100 text-slate-800 border border-slate-200',
-    'Pengumpulan Dokumen': 'bg-blue-100 text-blue-900 border border-blue-200',
-    'Verifikasi Dokumen': 'bg-navy-100 text-navy-900 border border-navy-300',
-    'Pengajuan SIHALAL / Perizinan': 'bg-indigo-100 text-indigo-900 border border-indigo-200',
-    'Proses Audit / Pemeriksaan': 'bg-amber-100 text-amber-900 border border-amber-200',
-    'Sidang Fatwa / Evaluasi': 'bg-cyan-100 text-cyan-900 border border-cyan-200',
-    'Sertifikat Terbit': 'bg-emerald-100 text-emerald-900 border border-emerald-200',
-    'Selesai': 'bg-emerald-100 text-emerald-900 border border-emerald-200',
-    'Batal': 'bg-rose-100 text-rose-900 border border-rose-200',
+    'Pending': 'bg-amber-500/15 text-amber-300 border border-amber-500/40',
+    'Disetujui': 'bg-sky-500/15 text-sky-300 border border-sky-400/40',
+    'Aktif': 'bg-blue-500/15 text-blue-300 border border-blue-400/40',
+    'Belum Bayar': 'bg-rose-500/15 text-rose-300 border border-rose-500/40',
+    'Parsial': 'bg-gold-500/15 text-gold-300 border border-gold-500/40',
+    'Lunas': 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40',
+    'Terverifikasi': 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40',
+    'Persiapan': 'bg-slate-700/40 text-slate-300 border border-slate-600',
+    'Pengumpulan Dokumen': 'bg-cyan-500/15 text-cyan-300 border border-cyan-400/40',
+    'Verifikasi Dokumen': 'bg-indigo-500/15 text-indigo-300 border border-indigo-400/40',
+    'Pengajuan SIHALAL / Perizinan': 'bg-purple-500/15 text-purple-300 border border-purple-400/40',
+    'Proses Audit / Pemeriksaan': 'bg-amber-500/15 text-amber-300 border border-amber-400/40',
+    'Sidang Fatwa / Evaluasi': 'bg-sky-500/15 text-sky-300 border border-sky-400/40',
+    'Sertifikat Terbit': 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 font-black',
+    'Selesai': 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 font-black',
+    'Batal': 'bg-rose-500/15 text-rose-300 border border-rose-500/40',
   };
   return (
-    <span className={`px-2.5 py-1 text-xs font-bold rounded-full whitespace-nowrap ${colors[status] || 'bg-slate-100 text-slate-800'}`}>
+    <span className={`px-2.5 py-1 text-xs font-bold rounded-full whitespace-nowrap ${colors[status] || 'bg-slate-800 text-slate-300 border border-slate-700'}`}>
       {status}
     </span>
   );
 };
 
 const Modal = ({ title, onClose, children }) => (
-  <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-      <div className="flex justify-between items-center p-5 border-b border-slate-100">
-        <h3 className="text-lg font-black text-navy-950">{title}</h3>
-        <button onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+  <div className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div className="bg-[#00163f] border-2 border-gold-500/40 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden text-white animate-in fade-in zoom-in-95 duration-150">
+      <div className="flex justify-between items-center p-5 border-b border-navy-800 bg-[#00102e]">
+        <h3 className="text-lg font-black text-white">{title}</h3>
+        <button onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-navy-800 transition-colors">
           <X size={20}/>
         </button>
       </div>
@@ -2053,12 +2058,12 @@ const Modal = ({ title, onClose, children }) => (
   </div>
 );
 
-const ConfirmModal = ({ title, message, onConfirm, onCancel, confirmText = 'Hapus', confirmColor = 'bg-rose-600 hover:bg-rose-700' }) => (
+const ConfirmModal = ({ title, message, onConfirm, onCancel, confirmText = 'Hapus', confirmColor = 'bg-rose-600 hover:bg-rose-500' }) => (
   <Modal title={title} onClose={onCancel}>
-    <p className="text-slate-600 text-sm mb-6 leading-relaxed">{message}</p>
+    <p className="text-slate-300 text-sm mb-6 leading-relaxed">{message}</p>
     <div className="flex justify-end gap-2.5">
-      <button onClick={onCancel} className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Batal</button>
-      <button onClick={onConfirm} className={`px-5 py-2 text-white rounded-xl text-sm font-bold shadow-xs ${confirmColor}`}>{confirmText}</button>
+      <button onClick={onCancel} className="px-4 py-2 border border-navy-700 bg-[#00102e] rounded-xl text-slate-300 hover:bg-navy-900 text-sm font-medium">Batal</button>
+      <button onClick={onConfirm} className={`px-5 py-2 text-white rounded-xl text-sm font-bold shadow-md ${confirmColor}`}>{confirmText}</button>
     </div>
   </Modal>
 );
