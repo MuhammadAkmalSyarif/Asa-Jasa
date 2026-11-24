@@ -146,22 +146,6 @@ export default function AsaJasaApp() {
         <div className="flex-1 overflow-y-auto py-4">
           <SidebarNav view={view} setView={(v) => { setView(v); setMobileMenuOpen(false); }} />
         </div>
-
-        {/* SIDEBAR FOOTER ACTIONS */}
-        <div className="p-4 border-t border-navy-800/80 bg-[#000c24] space-y-2">
-          <div className="flex items-center justify-between text-xs text-slate-300 px-1">
-            <span className="flex items-center gap-1.5 font-bold"><ShieldCheck size={14} className="text-gold-400" /> Mode: Lokal</span>
-            <button onClick={exportAllData} title="Ekspor Cadangan JSON" className="hover:text-gold-400 p-1 rounded hover:bg-navy-900 flex items-center gap-1 transition-colors font-bold text-xs">
-              <Download size={13} /> Backup
-            </button>
-          </div>
-          <button 
-            onClick={handleResetData}
-            className="w-full text-xs text-slate-400 hover:text-gold-300 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg hover:bg-navy-900/60 transition-colors font-medium border border-navy-800/60"
-          >
-            <RefreshCw size={12} /> Reset Data Contoh
-          </button>
-        </div>
       </aside>
 
       {/* MAIN CONTENT AREA DENGAN TEMA BIRU TUA & EMAS */}
@@ -189,28 +173,6 @@ export default function AsaJasaApp() {
               <p className="text-xs text-gold-300/80 hidden sm:block font-medium">
                 ASA JASA • Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
               </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <a 
-              href="https://github.com/MuhammadAkmalSyarif/Asa-Jasa" 
-              target="_blank" 
-              rel="noreferrer"
-              className="hidden lg:flex items-center gap-1.5 text-xs bg-[#001f4e] hover:bg-[#002660] text-gold-300 font-bold px-3 py-1.5 rounded-xl border border-gold-500/30 transition-colors shadow-xs"
-              title="Buka Repositori GitHub"
-            >
-              <ExternalLink size={13} className="text-gold-400" /> GitHub Repo
-            </a>
-            <div className="h-6 w-px bg-navy-800 hidden sm:block"></div>
-            <div className="flex items-center gap-2.5 bg-[#001235] px-3 py-1.5 rounded-xl border border-gold-500/30">
-              <div className="w-8 h-8 rounded-full bg-white p-0.5 border-2 border-gold-500 shadow-xs flex items-center justify-center shrink-0">
-                <img src="/logo.png" alt="Profile" className="w-6 h-6 object-contain" />
-              </div>
-              <div className="hidden sm:block text-left">
-                <p className="font-extrabold text-xs text-white leading-tight">Admin ASA JASA</p>
-                <p className="text-[10px] text-gold-400 font-black tracking-wider uppercase">Super Admin</p>
-              </div>
             </div>
           </div>
         </header>
