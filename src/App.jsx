@@ -14,6 +14,7 @@ import {
   initialClients, initialServices, initialQuotations, 
   initialInvoices, initialPayments, initialProjects 
 } from './utils/mockData';
+import { supabase } from './supabaseClient';
 
 // --- MAIN APPLICATION COMPONENT (TEMA PROFESIONAL PUTIH / LIGHT CLEAN) ---
 export default function AsaJasaApp() {
@@ -35,6 +36,43 @@ export default function AsaJasaApp() {
   useEffect(() => { saveToStorage('invoices', invoices); }, [invoices]);
   useEffect(() => { saveToStorage('payments', payments); }, [payments]);
   useEffect(() => { saveToStorage('projects', projects); }, [projects]);
+
+  // Sync to Supabase Cloud Database
+  const [cloudSynced, setCloudSynced] = useState(false);
+  useEffect(() => {
+    if (!supabase) return;
+
+    const syncWithSupabase = async () => {
+      try {
+        const collections = [
+          { name: 'clients', setter: setClients, initial: initialClients },
+          { name: 'services', setter: setServices, initial: initialServices },
+          { name: 'quotations', setter: setQuotations, initial: initialQuotations },
+          { name: 'invoices', setter: setInvoices, initial: initialInvoices },
+          { name: 'payments', setter: setPayments, initial: initialPayments },
+          { name: 'projects', setter: setProjects, initial: initialProjects }
+        ];
+
+        let anyDataFound = false;
+        for (const col of collections) {
+          const { data, error } = await supabase.from(col.name).select('*');
+          if (!error && data) {
+            if (data.length > 0) {
+              col.setter(data);
+              anyDataFound = true;
+            } else if (col.initial && col.initial.length > 0) {
+              await supabase.from(col.name).insert(col.initial);
+            }
+          }
+        }
+        setCloudSynced(true);
+      } catch (err) {
+        console.warn('Supabase initial fetch fallback to local:', err);
+      }
+    };
+
+    syncWithSupabase();
+  }, []);
 
   // Print State: { type: 'quotation' | 'invoice' | 'receipt', data: {} }
   const [printData, setPrintData] = useState(null);
@@ -119,16 +157,31 @@ export default function AsaJasaApp() {
       const newId = `${collectionName.slice(0, 3)}-${Date.now()}`;
       const newRecord = { ...data, id: newId, createdAt: Date.now() };
       setter(prev => [newRecord, ...prev]);
+      if (supabase) {
+        supabase.from(collectionName).insert(newRecord).then(({ error }) => {
+          if (error) console.error(`Error inserting ${collectionName} into Supabase:`, error);
+        });
+      }
       return newRecord;
     }
 
     if (action === 'update') {
       setter(prev => prev.map(item => item.id === id ? { ...item, ...data, updatedAt: Date.now() } : item));
+      if (supabase) {
+        supabase.from(collectionName).update(data).eq('id', id).then(({ error }) => {
+          if (error) console.error(`Error updating ${collectionName} in Supabase:`, error);
+        });
+      }
       return { id, ...data };
     }
 
     if (action === 'delete') {
       setter(prev => prev.filter(item => item.id !== id));
+      if (supabase) {
+        supabase.from(collectionName).delete().eq('id', id).then(({ error }) => {
+          if (error) console.error(`Error deleting ${collectionName} from Supabase:`, error);
+        });
+      }
       return { id };
     }
   };
@@ -325,6 +378,19 @@ export default function AsaJasaApp() {
                 ASA JASA • Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
               </p>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {cloudSynced ? (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200" title="Terhubung ke Database Cloud Supabase">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Cloud DB Online
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200" title="Menggunakan Penyimpanan Lokal">
+                <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                Local Storage
+              </span>
+            )}
           </div>
         </header>
 
