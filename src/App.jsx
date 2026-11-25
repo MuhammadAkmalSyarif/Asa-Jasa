@@ -1735,24 +1735,31 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
         {/* Kwitansi Resmi Format Formal A4 Landscape / Half A4 */}
         <div className="bg-white shadow-xl print:shadow-none w-full max-w-[22cm] p-10 text-sm text-slate-800 border-t-8 border-slate-900 rounded-lg print:rounded-none">
           {/* Header Kwitansi dengan Logo Resmi */}
-          <div className="flex justify-between items-start border-b-2 border-slate-200 pb-5 mb-6">
-            <div className="flex items-start gap-4 flex-1">
-              <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <h1 className="text-2xl font-black text-slate-900 tracking-tighter">ASA JASA</h1>
-                <p className="text-slate-700 font-bold text-xs uppercase tracking-wider">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
-                <div className="text-xs text-slate-500 mt-1 leading-relaxed">
-                  <p>Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914</p>
-                  <p>Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 | Email: halo@asajasa.id | Telpon: 0851-9611-5669</p>
+          <div className="border-b-2 border-slate-200 pb-3 mb-6">
+            <div className="flex justify-between items-center pb-3">
+              <div className="flex items-center gap-4">
+                <img src="/logo.png" alt="ASA JASA" className="h-14 w-auto object-contain shrink-0" />
+                <div>
+                  <h1 className="text-2xl font-black text-slate-900 tracking-tighter leading-none">ASA JASA</h1>
+                  <p className="text-slate-700 font-bold text-xs uppercase tracking-wider mt-1">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
                 </div>
               </div>
-            </div>
-            <div className="text-right">
-              <div className="inline-block bg-slate-100 text-slate-900 px-3.5 py-1 rounded-lg font-black tracking-widest text-base border border-slate-300">
-                KWITANSI PEMBAYARAN
+              <div className="text-right shrink-0">
+                <div className="inline-block bg-slate-100 text-slate-900 px-3.5 py-1 rounded-lg font-black tracking-widest text-base border border-slate-300">
+                  KWITANSI PEMBAYARAN
+                </div>
+                <p className="font-bold text-slate-800 mt-1.5 text-sm">No: {docData.number}</p>
+                <p className="text-xs text-slate-500">Tanggal: {formatDate(docData.date)}</p>
               </div>
-              <p className="font-bold text-slate-800 mt-2 text-sm">No: {docData.number}</p>
-              <p className="text-xs text-slate-500">Tanggal: {formatDate(docData.date)}</p>
+            </div>
+
+            <div className="pt-2 border-t border-slate-100 text-xs text-slate-500 space-y-0.5">
+              <p className="text-slate-600 font-medium leading-normal">
+                Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914
+              </p>
+              <p className="text-[11px] text-slate-400 leading-normal">
+                Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 &nbsp;|&nbsp; Email: halo@asajasa.id &nbsp;|&nbsp; Telpon: 0851-9611-5669
+              </p>
             </div>
           </div>
 
@@ -1831,27 +1838,36 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
       {/* A4 Printable Page Container */}
       <div className="bg-white shadow-xl print:shadow-none w-full max-w-[21cm] min-h-[29.7cm] p-12 text-sm text-slate-800 rounded-lg print:rounded-none">
         {/* Kop Surat Resmi */}
-        <div className="border-b-4 border-slate-900 pb-2 mb-2">
-          <div className="flex justify-between items-start pb-4">
-            <div className="flex items-start gap-4 flex-1 mr-6">
-              <img src="/logo.png" alt="ASA JASA" className="h-20 w-auto object-contain shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <h1 className="text-3xl font-black text-slate-900 tracking-tighter">ASA JASA</h1>
-                <p className="text-blue-700 font-black uppercase text-xs tracking-wider">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
-                <div className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                  <p>Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914</p>
-                  <p>Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 | Email: halo@asajasa.id | Telpon: 0851-9611-5669</p>
-                </div>
+        <div className="border-b-4 border-slate-900 pb-3 mb-2">
+          {/* Baris Atas: Logo & Identitas di Kiri, Judul Dokumen di Kanan */}
+          <div className="flex justify-between items-center pb-3">
+            <div className="flex items-center gap-4">
+              <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain shrink-0" />
+              <div>
+                <h1 className="text-3xl font-black text-slate-900 tracking-tighter leading-none">ASA JASA</h1>
+                <p className="text-blue-700 font-black uppercase text-xs tracking-wider mt-1.5">
+                  Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
+                </p>
               </div>
             </div>
             <div className="text-right shrink-0">
               <h2 className="text-2xl font-black text-slate-900 uppercase tracking-wider">
                 {isInvoice ? 'INVOICE' : 'SURAT PENAWARAN'}
               </h2>
-              <p className="text-base font-bold text-blue-700 mt-1">{docData.number}</p>
-              <p className="text-slate-500 mt-1 text-xs">Tanggal: {formatDate(docData.date)}</p>
+              <p className="text-base font-bold text-blue-700 mt-0.5">{docData.number}</p>
+              <p className="text-slate-500 text-xs">Tanggal: {formatDate(docData.date)}</p>
               {isInvoice && <p className="text-rose-600 font-bold text-xs mt-0.5">Jatuh Tempo: {formatDate(docData.dueDate)}</p>}
             </div>
+          </div>
+
+          {/* Baris Alamat & Kontak: Memanjang Rapi ke Samping Kanan (Tidak Menumpuk di Bawah Tulisan ASA JASA) */}
+          <div className="pt-2.5 border-t border-slate-200 text-xs text-slate-500 space-y-1">
+            <p className="text-slate-600 font-medium leading-normal">
+              Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914
+            </p>
+            <p className="text-[11px] text-slate-400 leading-normal">
+              Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 &nbsp;|&nbsp; Email: halo@asajasa.id &nbsp;|&nbsp; Telpon: 0851-9611-5669
+            </p>
           </div>
         </div>
         {/* Garis Aksen di Bawah Kop */}
