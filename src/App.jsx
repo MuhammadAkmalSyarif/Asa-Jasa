@@ -1810,10 +1810,18 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
               </p>
             </div>
 
-            <div className="text-center pr-6">
-              <p className="text-xs text-slate-600 mb-1">Bogor, {formatDate(docData.date)}</p>
-              <p className="text-xs font-bold text-slate-700 mb-20">Penerima / Keuangan ASA JASA</p>
-              <p className="font-bold border-b-2 border-slate-800 inline-block px-8 text-slate-900">Admin Keuangan</p>
+            <div className="text-center pr-6 inline-flex flex-col items-center">
+              <p className="text-xs text-slate-600 mb-0.5">Bogor, {formatDate(docData.date)}</p>
+              <p className="text-xs font-bold text-slate-700">Penerima / Keuangan ASA JASA</p>
+              <div className="h-20 flex items-center justify-center my-1">
+                <img 
+                  src="/ttd-keuangan.png" 
+                  alt="Tanda Tangan Keuangan" 
+                  className="h-20 w-auto object-contain mix-blend-multiply" 
+                />
+              </div>
+              <p className="font-bold border-b-2 border-slate-800 inline-block px-6 text-slate-900">Elis Maesaroh</p>
+              <p className="text-slate-600 font-medium text-[11px] mt-0.5">Admin Keuangan</p>
             </div>
           </div>
         </div>
