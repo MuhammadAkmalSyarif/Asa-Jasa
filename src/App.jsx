@@ -1736,15 +1736,15 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
         <div className="bg-white shadow-xl print:shadow-none w-full max-w-[22cm] p-10 text-sm text-slate-800 border-t-8 border-slate-900 rounded-lg print:rounded-none">
           {/* Header Kwitansi dengan Logo Resmi */}
           <div className="flex justify-between items-start border-b-2 border-slate-200 pb-5 mb-6">
-            <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain" />
-              <div>
+            <div className="flex items-start gap-4 flex-1">
+              <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain shrink-0 mt-0.5" />
+              <div className="flex-1">
                 <h1 className="text-2xl font-black text-slate-900 tracking-tighter">ASA JASA</h1>
                 <p className="text-slate-700 font-bold text-xs uppercase tracking-wider">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                  Perum Hidayatullah Jaya No. 35A, Jl. Kelurahan Pondok Rajeg Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor, Jawa Barat 16914<br />
-                  Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 | Email: halo@asajasa.id | Telpon: 0851-9611-5669
-                </p>
+                <div className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  <p>Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914</p>
+                  <p>Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 | Email: halo@asajasa.id | Telpon: 0851-9611-5669</p>
+                </div>
               </div>
             </div>
             <div className="text-right">
@@ -1833,20 +1833,19 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
         {/* Kop Surat Resmi */}
         <div className="border-b-4 border-slate-900 pb-2 mb-2">
           <div className="flex justify-between items-start pb-4">
-            <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="ASA JASA" className="h-20 w-auto object-contain" />
-              <div>
+            <div className="flex items-start gap-4 flex-1 mr-6">
+              <img src="/logo.png" alt="ASA JASA" className="h-20 w-auto object-contain shrink-0 mt-0.5" />
+              <div className="flex-1">
                 <h1 className="text-3xl font-black text-slate-900 tracking-tighter">ASA JASA</h1>
                 <p className="text-blue-700 font-black uppercase text-xs tracking-wider">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
                 <div className="text-xs text-slate-500 mt-1.5 leading-relaxed">
-                  Perum Hidayatullah Jaya No. 35A, Jl. Kelurahan Pondok Rajeg Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor, Jawa Barat 16914<br/>
-                  Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023<br/>
-                  Email: halo@asajasa.id | Telpon: 0851-9611-5669
+                  <p>Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914</p>
+                  <p>Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 | Email: halo@asajasa.id | Telpon: 0851-9611-5669</p>
                 </div>
               </div>
             </div>
-            <div className="text-right shrink-0 ml-4">
-              <h2 className="text-2xl font-black text-slate-900 uppercase tracking-widest">
+            <div className="text-right shrink-0">
+              <h2 className="text-2xl font-black text-slate-900 uppercase tracking-wider">
                 {isInvoice ? 'INVOICE' : 'SURAT PENAWARAN'}
               </h2>
               <p className="text-base font-bold text-blue-700 mt-1">{docData.number}</p>
@@ -1957,7 +1956,7 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
         <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 mb-10">
           <p className="font-bold mb-1 text-slate-900">Keterangan & Rekening Pembayaran:</p>
           <ul className="list-disc pl-4 space-y-1 text-[11px]">
-            <li>Pembayaran ditransfer ke Rekening <strong>Bank Syariah Indonesia (BSI) No.: 7357140123 a.n. PT Berkah Mandiri Pangan</strong>.</li>
+            <li>Pembayaran ditransfer ke Rekening <strong>Bank Syariah Indonesia (BSI) No.: 7357140123 a.n. PT. Amanah Sejahtera Alhamdulillah</strong>.</li>
             <li>{isInvoice ? 'Invoice ini sah dan berlaku sebagai bukti penagihan resmi.' : 'Harga dan penawaran berlaku 3 hari kerja sejak tanggal surat ini diterbitkan.'}</li>
           </ul>
         </div>
