@@ -1976,7 +1976,7 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
         </div>
 
         {/* Kolom Tanda Tangan */}
-        <div className="mt-12 flex justify-end px-10 text-xs">
+        <div className="mt-12 flex justify-start px-10 text-xs">
           <div className="text-center">
             <p className="mb-20 font-semibold text-slate-600">Hormat Kami, ASA JASA</p>
             <p className="font-bold border-b border-slate-600 inline-block px-8 text-slate-900">Direktur</p>
