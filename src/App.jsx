@@ -1976,10 +1976,18 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
         </div>
 
         {/* Kolom Tanda Tangan */}
-        <div className="mt-12 flex justify-start px-10 text-xs">
-          <div className="text-center">
-            <p className="mb-20 font-semibold text-slate-600">Hormat Kami, ASA JASA</p>
-            <p className="font-bold border-b border-slate-600 inline-block px-8 text-slate-900">Direktur</p>
+        <div className="mt-8 flex justify-start px-8 text-xs">
+          <div className="text-center inline-flex flex-col items-center">
+            <p className="font-semibold text-slate-700">Hormat Kami, ASA JASA</p>
+            <div className="h-20 flex items-center justify-center my-1">
+              <img 
+                src="/ttd-direktur.png" 
+                alt="Tanda Tangan Direktur" 
+                className="h-20 w-auto object-contain mix-blend-multiply" 
+              />
+            </div>
+            <p className="font-bold border-b border-slate-700 inline-block px-4 text-slate-900">Muhammad Akmal Syarif</p>
+            <p className="text-slate-600 font-medium text-[11px] mt-0.5">Direktur</p>
           </div>
         </div>
       </div>
