@@ -3,8 +3,8 @@ import {
   LayoutDashboard, Users, BookOpen, FileText, FileSpreadsheet, 
   CreditCard, Briefcase, DollarSign, Plus, Edit, Trash, X, Search, 
   Menu, Printer, CheckCircle, Clock, AlertTriangle, ArrowRight, 
-  FileCheck, Download, RefreshCw, Building2, Phone, Mail, ShieldCheck,
-  ExternalLink, Sparkles, LogOut, Loader2
+  FileCheck, Download, RefreshCw, Building2, Phone, Mail,
+  ExternalLink, Sparkles
 } from 'lucide-react';
 import { 
   formatIDR, formatDate, generateNumber, terbilang, 
@@ -85,59 +85,6 @@ export default function AsaJasaApp() {
     setTimeout(() => setToast(null), 3500);
   };
 
-  // --- AUTHENTICATION STATE & GITHUB OAUTH ---
-  const [user, setUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem('asajasa_user');
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
-  const [authLoading, setAuthLoading] = useState(false);
-
-  // Tangkap callback (?code=XYZ) dari GitHub
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    if (code) {
-      setAuthLoading(true);
-      window.history.replaceState({}, document.title, window.location.pathname);
-
-      fetch(`/api/auth?code=${code}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && !data.error && data.login) {
-            setUser(data);
-            localStorage.setItem('asajasa_user', JSON.stringify(data));
-            showToast(`Selamat datang, ${data.name || data.login}!`);
-          } else {
-            showToast(data.error_description || data.error || 'Gagal login via GitHub', 'error');
-          }
-        })
-        .catch(err => {
-          showToast(`Error login: ${err.message}`, 'error');
-        })
-        .finally(() => {
-          setAuthLoading(false);
-        });
-    }
-  }, []);
-
-  const handleLoginWithGithub = () => {
-    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-    if (!clientId) {
-      showToast('Client ID GitHub belum disetel di file .env!', 'error');
-      return;
-    }
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=read:user`;
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('asajasa_user');
-    setUser(null);
-    showToast('Berhasil keluar dari akun.');
-  };
 
   // Generic DB Action Dispatcher for Local State
   const dbAction = (collectionName, action, id = null, data = {}) => {
@@ -204,70 +151,6 @@ export default function AsaJasaApp() {
     return <PrintTemplate data={printData} onClose={() => setPrintData(null)} clients={clients} invoices={invoices} />;
   }
 
-  // --- LOGIN SCREEN JIKA BELUM LOGIN ---
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-slate-100/70 flex flex-col justify-center items-center p-4 font-sans text-slate-800">
-        {toast && (
-          <div className={`fixed top-5 right-5 z-50 px-5 py-3.5 rounded-2xl shadow-xl font-medium flex items-center gap-3 animate-bounce transition-all ${
-            toast.type === 'error' 
-              ? 'bg-white border-2 border-rose-500 text-slate-800 shadow-rose-500/10' 
-              : 'bg-white border-2 border-emerald-500 text-slate-800 shadow-emerald-500/10'
-          }`}>
-            {toast.type === 'error' ? (
-              <AlertTriangle size={20} className="text-rose-500 shrink-0" />
-            ) : (
-              <CheckCircle size={20} className="text-emerald-500 shrink-0" />
-            )}
-            <span className="font-bold text-sm text-slate-800">{toast.msg}</span>
-          </div>
-        )}
-
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-slate-200/80 p-8 text-center relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 via-indigo-500 to-sky-400" />
-          
-          <div className="flex justify-center mb-5">
-            <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-center">
-              <img src="/logo.png" alt="ASA JASA" className="h-12 w-auto object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
-            </div>
-          </div>
-
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">ASA JASA</h2>
-          <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mt-0.5">Management System</p>
-          <p className="text-sm text-slate-500 mt-3 leading-relaxed">
-            Sistem manajemen administrasi, perizinan & proyek. Silakan masuk dengan akun GitHub Anda untuk melanjutkan.
-          </p>
-
-          <div className="mt-8 space-y-4">
-            <button
-              onClick={handleLoginWithGithub}
-              disabled={authLoading}
-              className="w-full flex items-center justify-center gap-3 px-5 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer"
-            >
-              {authLoading ? (
-                <>
-                  <Loader2 size={20} className="animate-spin text-slate-300" />
-                  <span>Memproses Login GitHub...</span>
-                </>
-              ) : (
-                <>
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                  </svg>
-                  <span>Masuk dengan GitHub</span>
-                </>
-              )}
-            </button>
-          </div>
-
-          <div className="mt-8 pt-5 border-t border-slate-100 flex items-center justify-center gap-2 text-xs text-slate-400">
-            <ShieldCheck size={16} className="text-emerald-500" />
-            <span>Autentikasi Terenkripsi & Aman via GitHub OAuth</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   // --- MAIN LAYOUT DENGAN TEMA PROFESIONAL PUTIH ---
   return (
@@ -323,33 +206,6 @@ export default function AsaJasaApp() {
           <SidebarNav view={view} setView={(v) => { setView(v); setMobileMenuOpen(false); }} />
         </div>
 
-        {/* USER PROFILE & LOGOUT FOOTER */}
-        {user && (
-          <div className="p-3.5 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <img 
-                src={user.avatar_url || 'https://github.com/identicons/default.png'} 
-                alt={user.name || user.login} 
-                className="w-9 h-9 rounded-full ring-2 ring-blue-500/30 object-cover shrink-0" 
-              />
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-800 truncate leading-tight">
-                  {user.name || user.login}
-                </p>
-                <p className="text-[10px] text-slate-500 truncate">
-                  @{user.login}
-                </p>
-              </div>
-            </div>
-            <button 
-              onClick={handleLogout}
-              title="Keluar"
-              className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0"
-            >
-              <LogOut size={16} />
-            </button>
-          </div>
-        )}
       </aside>
 
       {/* MAIN CONTENT AREA DENGAN TEMA PUTIH BERSIH */}
