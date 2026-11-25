@@ -226,7 +226,7 @@ export const initialProjects = [
     id: "prj-2",
     name: "Proyek: Pendaftaran Izin SPP-PIRT Bumbu Alami",
     clientId: "cl-2",
-    status: "Sidang Fatwa / Evaluasi",
+    status: "Proses Audit/Pemeriksaan",
     startDate: "2026-10-25",
     createdAt: Date.now() - 25 * 86400000
   }

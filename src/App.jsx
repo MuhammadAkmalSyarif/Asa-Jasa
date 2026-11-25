@@ -329,7 +329,7 @@ const Dashboard = ({ clients, quotations, invoices, projects, setView, setPrintD
             </div>
             <h2 className="text-xl font-black tracking-tight text-slate-900">Sistem Administrasi Terpadu ASA JASA</h2>
             <p className="text-xs text-slate-600 mt-1 max-w-xl leading-relaxed">
-              Buat Surat Penawaran resmi berlogo, otomatis buat Invoice saat disetujui, pantau 8 tahapan proyek perizinan, dan cetak Kwitansi Resmi dengan Terbilang Rupiah otomatis.
+              Buat Surat Penawaran resmi berlogo, otomatis buat Invoice saat disetujui, pantau 6 tahapan proyek perizinan, dan cetak Kwitansi Resmi dengan Terbilang Rupiah otomatis.
             </p>
           </div>
         </div>
@@ -1541,12 +1541,10 @@ const ProjectManager = ({ projects, clients, dbAction, showToast }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const stages = [
     'Persiapan',
-    'Pengumpulan Dokumen',
     'Verifikasi Dokumen',
-    'Pengajuan SIHALAL / Perizinan',
-    'Proses Audit / Pemeriksaan',
-    'Sidang Fatwa / Evaluasi',
-    'Sertifikat Terbit',
+    'Proses Ajuan',
+    'Proses Audit/Pemeriksaan',
+    'Proses Perbaikan Hasil Audit',
     'Selesai'
   ];
 
@@ -2023,12 +2021,11 @@ const Badge = ({ status }) => {
     'Lunas': 'bg-emerald-50 text-emerald-700 border border-emerald-200',
     'Terverifikasi': 'bg-emerald-50 text-emerald-700 border border-emerald-200',
     'Persiapan': 'bg-slate-100 text-slate-700 border border-slate-200',
-    'Pengumpulan Dokumen': 'bg-cyan-50 text-cyan-700 border border-cyan-200',
     'Verifikasi Dokumen': 'bg-indigo-50 text-indigo-700 border border-indigo-200',
-    'Pengajuan SIHALAL / Perizinan': 'bg-purple-50 text-purple-700 border border-purple-200',
+    'Proses Ajuan': 'bg-purple-50 text-purple-700 border border-purple-200',
+    'Proses Audit/Pemeriksaan': 'bg-amber-50 text-amber-700 border border-amber-200',
     'Proses Audit / Pemeriksaan': 'bg-amber-50 text-amber-700 border border-amber-200',
-    'Sidang Fatwa / Evaluasi': 'bg-sky-50 text-sky-700 border border-sky-200',
-    'Sertifikat Terbit': 'bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold',
+    'Proses Perbaikan Hasil Audit': 'bg-orange-50 text-orange-700 border border-orange-200',
     'Selesai': 'bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold',
     'Batal': 'bg-rose-50 text-rose-700 border border-rose-200',
   };
