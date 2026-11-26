@@ -86,7 +86,7 @@ export const initialServices = [
   },
   {
     id: "srv-7",
-    name: "Jasa Pembuatan Website Profil Usaha & Sistem Digital (Web Development)",
+    name: "Web Development",
     category: "Web Development",
     price: 3500000,
     unit: "Paket Website",
