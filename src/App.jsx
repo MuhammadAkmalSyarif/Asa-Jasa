@@ -54,9 +54,15 @@ export default function AsaJasaApp() {
         ];
 
         let anyDataFound = false;
+        let hasError = false;
         for (const col of collections) {
           const { data, error } = await supabase.from(col.name).select('*');
-          if (!error && data) {
+          if (error) {
+            console.warn(`Supabase error on ${col.name}:`, error.message);
+            hasError = true;
+            continue;
+          }
+          if (data) {
             if (data.length > 0) {
               col.setter(data);
               anyDataFound = true;
@@ -65,7 +71,9 @@ export default function AsaJasaApp() {
             }
           }
         }
-        setCloudSynced(true);
+        if (!hasError) {
+          setCloudSynced(true);
+        }
       } catch (err) {
         console.warn('Supabase initial fetch fallback to local:', err);
       }
