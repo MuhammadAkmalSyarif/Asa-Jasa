@@ -2132,11 +2132,11 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
           </table>
 
           {/* Rekap Total */}
-          <div className="flex justify-end mb-2.5">
-            <div className="w-1/2 max-w-xs ml-auto text-xs">
+          <div className="flex justify-end mb-3">
+            <div className="w-64 sm:w-72 text-xs">
               <div className="flex justify-between py-1 font-medium text-slate-600">
                 <span>Subtotal</span>
-                <span>{formatIDR(docData.subtotal)}</span>
+                <span className="font-semibold text-slate-900">{formatIDR(docData.subtotal)}</span>
               </div>
               {docData.discount > 0 && (
                 <div className="flex justify-between py-1 text-rose-600 font-semibold">
@@ -2144,17 +2144,20 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
                   <span>-{formatIDR(docData.discount)}</span>
                 </div>
               )}
-              <div className="flex justify-between py-1.5 border-t-2 border-slate-900 font-black text-sm text-slate-900">
+              {/* Garis pemisah diturunkan dengan margin vertikal tegas agar tidak menimpa teks diskon */}
+              <div className="w-full border-b-2 border-slate-900 my-2.5"></div>
+              <div className="flex justify-between py-1 font-black text-sm text-slate-900">
                 <span>TOTAL {isInvoice ? 'TAGIHAN' : ''}</span>
-                <span>{formatIDR(docData.total)}</span>
+                <span className="text-base text-blue-700">{formatIDR(docData.total)}</span>
               </div>
               {isInvoice && (
                 <>
-                  <div className="flex justify-between py-1 text-emerald-600 font-bold">
+                  <div className="flex justify-between py-1 text-emerald-600 font-bold mt-1">
                     <span>Telah Dibayar</span>
                     <span>{formatIDR(docData.amountPaid || 0)}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-t font-black text-rose-600 text-xs">
+                  <div className="w-full border-b border-slate-300 my-2"></div>
+                  <div className="flex justify-between py-1 font-black text-rose-600 text-xs">
                     <span>SISA PEMBAYARAN</span>
                     <span>{formatIDR(docData.total - (docData.amountPaid || 0))}</span>
                   </div>

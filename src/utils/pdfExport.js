@@ -55,7 +55,12 @@ export const exportElementToPdf = async (elementOrId, filename = 'dokumen.pdf', 
     : (canvasHeight / canvasWidth) <= (pdfHeight / pdfWidth) * 1.25;
 
   if (isSinglePage) {
-    const ratio = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
+    // Beri batas margin pengaman 4mm di sekeliling agar dokumen pas di kertas A4 tanpa mepet ke tepi
+    const margin = options.margin !== undefined ? options.margin : 4;
+    const maxAllowedWidth = pdfWidth - (margin * 2);
+    const maxAllowedHeight = pdfHeight - (margin * 2);
+
+    const ratio = Math.min(maxAllowedWidth / canvasWidth, maxAllowedHeight / canvasHeight);
     const finalWidth = canvasWidth * ratio;
     const finalHeight = canvasHeight * ratio;
     const offsetX = (pdfWidth - finalWidth) / 2;
