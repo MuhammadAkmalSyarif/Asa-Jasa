@@ -83,6 +83,14 @@ export const initialServices = [
     price: 2500000,
     unit: "Sesi / Dokumen",
     description: "Review legalitas badan hukum PT/CV, kajian izin operasional daerah, kesesuaian tata ruang (RDTR), dan konsultasi kepatuhan regulasi bisnis di Indonesia."
+  },
+  {
+    id: "srv-7",
+    name: "Jasa Pembuatan Website Profil Usaha & Sistem Digital (Web Development)",
+    category: "Web Development",
+    price: 3500000,
+    unit: "Paket Website",
+    description: "Pengembangan website profil perusahaan / landing page modern & responsif (mobile friendly), optimasi SEO Google, integrasi tombol WhatsApp / form kontak, domain & hosting, serta panduan pengelolaan CMS."
   }
 ];
 

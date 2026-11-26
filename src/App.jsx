@@ -696,7 +696,8 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('Semua');
 
-  const categories = ["Semua", "Sertifikasi Halal", "Perizinan Usaha (NIB)", "Izin Edar (BPOM/PIRT)", "Sistem Manajemen (ISO/HACCP)", "Konsultasi"];
+  const defaultCategories = ["Semua", "Sertifikasi Halal", "Perizinan Usaha (NIB)", "Izin Edar (BPOM/PIRT)", "Sistem Manajemen (ISO/HACCP)", "Web Development", "Konsultasi"];
+  const categories = Array.from(new Set([...defaultCategories, ...services.map(s => s.category).filter(Boolean)]));
   const formCategories = categories.filter(c => c !== 'Semua');
 
   const filteredServices = services.filter(s => 
@@ -802,7 +803,7 @@ const ServiceCatalog = ({ services, dbAction, showToast }) => {
       {isModalOpen && (
         <Modal title={editingService ? "Edit Layanan" : "Tambah Layanan Baru"} onClose={() => setModalOpen(false)}>
           <form onSubmit={handleSave} className="space-y-4">
-            <Input label="Nama Layanan" name="name" defaultValue={editingService?.name} placeholder="Contoh: Pendampingan Sertifikasi Halal Reguler" required />
+            <Input label="Nama Layanan" name="name" defaultValue={editingService?.name} placeholder="Contoh: Pendampingan Sertifikasi Halal / Pembuatan Website" required />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Kategori</label>
