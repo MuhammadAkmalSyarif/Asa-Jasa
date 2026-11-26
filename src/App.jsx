@@ -1820,7 +1820,8 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
       const targetId = isReceipt ? 'printable-receipt' : 'printable-document';
       await exportElementToPdf(targetId, filename, {
         orientation: 'p',
-        scale: 2
+        scale: 2,
+        singlePage: true
       });
     } catch (err) {
       console.error('Gagal membuat PDF:', err);
@@ -1965,16 +1966,17 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
 
               <div className="text-center pr-6 inline-flex flex-col items-center">
                 <p className="text-xs text-slate-600 mb-0.5">Bogor, {formatDate(docData.date)}</p>
-                <p className="text-xs font-bold text-slate-700">Penerima / Keuangan ASA JASA</p>
-                <div className="h-20 flex items-center justify-center my-1">
+                <p className="text-xs font-bold text-slate-700 mb-1">Penerima / Keuangan ASA JASA</p>
+                <div className="h-16 flex items-center justify-center my-0.5">
                   <img 
                     src="/ttd-keuangan.png" 
                     alt="Tanda Tangan Keuangan" 
-                    className="h-20 w-auto object-contain mix-blend-multiply" 
+                    className="h-16 w-auto object-contain mix-blend-multiply" 
                   />
                 </div>
-                <p className="font-bold border-b-2 border-slate-800 inline-block px-6 text-slate-900">Elis Maesaroh</p>
-                <p className="text-slate-600 font-medium text-[11px] mt-0.5">Admin Keuangan</p>
+                <p className="font-bold text-slate-900 text-sm">Elis Maesaroh</p>
+                <div className="w-40 border-b-2 border-slate-800 my-1"></div>
+                <p className="text-slate-600 font-medium text-[11px]">Admin Keuangan</p>
               </div>
             </div>
           </div>
@@ -2035,60 +2037,60 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
       <div className="w-full overflow-x-auto flex justify-start lg:justify-center p-2 sm:p-4">
         <div 
           id="printable-document"
-          className="bg-white shadow-xl print:shadow-none w-[21cm] min-w-[21cm] min-h-[29.7cm] p-10 sm:p-12 text-sm text-slate-800 rounded-lg print:rounded-none print:w-full print:min-w-0 print:p-0"
+          className="bg-white shadow-xl print:shadow-none w-[21cm] min-w-[21cm] px-9 py-6 text-sm text-slate-800 rounded-lg print:rounded-none print:w-full print:min-w-0 print:p-0"
         >
           {/* Kop Surat Resmi */}
-          <div className="border-b-4 border-slate-900 pb-3 mb-2">
+          <div className="border-b-4 border-slate-900 pb-2.5 mb-1.5">
             {/* Baris Atas: Logo & Identitas di Kiri, Judul Dokumen di Kanan */}
-            <div className="flex justify-between items-center pb-3 gap-6">
-              <div className="flex items-center gap-4">
-                <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain shrink-0" />
+            <div className="flex justify-between items-center pb-2.5 gap-6">
+              <div className="flex items-center gap-3.5">
+                <img src="/logo.png" alt="ASA JASA" className="h-14 w-auto object-contain shrink-0" />
                 <div>
-                  <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none">ASA JASA</h1>
-                  <p className="text-blue-700 font-black uppercase text-xs tracking-wider mt-1.5 whitespace-nowrap">
+                  <h1 className="text-2xl font-black text-slate-900 tracking-tight leading-none">ASA JASA</h1>
+                  <p className="text-blue-700 font-black uppercase text-[11px] tracking-wider mt-1 whitespace-nowrap">
                     Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
                   </p>
                 </div>
               </div>
               <div className="text-right shrink-0">
-                <h2 className="text-2xl font-black text-slate-900 uppercase tracking-wider">
+                <h2 className="text-xl font-black text-slate-900 uppercase tracking-wider">
                   {isInvoice ? 'INVOICE' : 'SURAT PENAWARAN'}
                 </h2>
-                <p className="text-base font-bold text-blue-700 mt-0.5">{docData.number}</p>
-                <p className="text-slate-500 text-xs">Tanggal: {formatDate(docData.date)}</p>
-                {isInvoice && <p className="text-rose-600 font-bold text-xs mt-0.5">Jatuh Tempo: {formatDate(docData.dueDate)}</p>}
+                <p className="text-sm font-bold text-blue-700 mt-0.5">{docData.number}</p>
+                <p className="text-slate-500 text-[11px]">Tanggal: {formatDate(docData.date)}</p>
+                {isInvoice && <p className="text-rose-600 font-bold text-[11px] mt-0.5">Jatuh Tempo: {formatDate(docData.dueDate)}</p>}
               </div>
             </div>
 
             {/* Baris Alamat & Kontak: Memanjang Rapi ke Samping Kanan */}
-            <div className="pt-2.5 border-t border-slate-200 text-xs text-slate-500 space-y-1">
+            <div className="pt-2 border-t border-slate-200 text-[11px] text-slate-500 space-y-0.5">
               <p className="text-slate-600 font-medium leading-normal">
                 Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914
               </p>
-              <p className="text-[11px] text-slate-400 leading-normal">
+              <p className="text-[10px] text-slate-400 leading-normal">
                 Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 &nbsp;|&nbsp; Email: halo@asajasa.id &nbsp;|&nbsp; Telpon: 0851-9611-5669
               </p>
             </div>
           </div>
           {/* Garis Aksen di Bawah Kop */}
-          <div className="border-b-2 border-blue-600 mb-6"></div>
+          <div className="border-b-2 border-blue-600 mb-3.5"></div>
 
           {/* Informasi Klien */}
-          <div className="mb-6 flex justify-between">
+          <div className="mb-3 flex justify-between">
             <div className="w-2/3">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Kepada Yth:</p>
-              <p className="font-black text-base text-slate-900">{client?.companyName || 'Nama Perusahaan / Klien'}</p>
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Kepada Yth:</p>
+              <p className="font-black text-sm text-slate-900">{client?.companyName || 'Nama Perusahaan / Klien'}</p>
               <p className="text-slate-700 font-semibold text-xs">{client?.picName ? `Up. ${client.picName}` : ''}</p>
-              <p className="text-slate-600 mt-1 max-w-md text-xs">{client?.address || 'Alamat tidak tersedia'}</p>
-              <p className="text-slate-600 mt-0.5 text-xs">{client?.phone || '-'}</p>
+              <p className="text-slate-600 mt-0.5 max-w-md text-xs">{client?.address || 'Alamat tidak tersedia'}</p>
+              <p className="text-slate-600 text-xs">{client?.phone || '-'}</p>
             </div>
           </div>
 
           {/* Perihal & Kalimat Pembuka (Khusus Surat Penawaran) */}
           {!isInvoice && (
-            <div className="mb-6 space-y-3">
+            <div className="mb-3 space-y-1">
               {docData.subject && (
-                <div className="font-bold text-slate-900 text-sm">
+                <div className="font-bold text-slate-900 text-xs">
                   Perihal: <span className="underline">{docData.subject}</span>
                 </div>
               )}
@@ -2099,60 +2101,60 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
           )}
 
           {/* Tabel Rincian Layanan */}
-          <table className="w-full mb-6 border-collapse">
+          <table className="w-full mb-2.5 border-collapse">
             <thead>
-              <tr className="bg-slate-900 text-white text-xs uppercase font-bold tracking-wider">
-                <th className="p-3 text-left w-10">No</th>
-                <th className="p-3 text-left">Deskripsi Layanan & Lingkup Kerja</th>
-                <th className="p-3 text-center w-16">Qty</th>
-                <th className="p-3 text-right w-32">Harga Satuan</th>
-                <th className="p-3 text-right w-36">Total</th>
+              <tr className="bg-slate-900 text-white text-[11px] uppercase font-bold tracking-wider">
+                <th className="p-2 text-left w-8">No</th>
+                <th className="p-2 text-left">Deskripsi Layanan & Lingkup Kerja</th>
+                <th className="p-2 text-center w-16">Qty</th>
+                <th className="p-2 text-right w-28">Harga Satuan</th>
+                <th className="p-2 text-right w-32">Total</th>
               </tr>
             </thead>
             <tbody className="text-xs">
               {(docData.items || []).map((item, idx) => (
                 <tr key={idx} className="border-b border-slate-200 align-top">
-                  <td className="p-3 font-semibold text-slate-600">{idx + 1}</td>
-                  <td className="p-3">
-                    <div className="font-bold text-slate-900 text-sm">{item.name}</div>
+                  <td className="p-2 font-semibold text-slate-600">{idx + 1}</td>
+                  <td className="p-2">
+                    <div className="font-bold text-slate-900 text-xs">{item.name}</div>
                     {item.description && (
-                      <div className="text-[11px] text-slate-600 mt-1 whitespace-pre-line leading-relaxed">
+                      <div className="text-[11px] text-slate-600 mt-0.5 whitespace-pre-line leading-relaxed">
                         {item.description}
                       </div>
                     )}
                   </td>
-                  <td className="p-3 text-center font-medium">{item.qty} {item.unit || ''}</td>
-                  <td className="p-3 text-right font-medium">{formatIDR(item.price)}</td>
-                  <td className="p-3 text-right font-bold text-slate-900">{formatIDR(item.total)}</td>
+                  <td className="p-2 text-center font-medium">{item.qty} {item.unit || ''}</td>
+                  <td className="p-2 text-right font-medium">{formatIDR(item.price)}</td>
+                  <td className="p-2 text-right font-bold text-slate-900">{formatIDR(item.total)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
 
           {/* Rekap Total */}
-          <div className="flex justify-end mb-6">
-            <div className="w-1/2 max-w-sm ml-auto text-xs">
-              <div className="flex justify-between py-1.5 font-medium text-slate-600">
+          <div className="flex justify-end mb-2.5">
+            <div className="w-1/2 max-w-xs ml-auto text-xs">
+              <div className="flex justify-between py-1 font-medium text-slate-600">
                 <span>Subtotal</span>
                 <span>{formatIDR(docData.subtotal)}</span>
               </div>
               {docData.discount > 0 && (
-                <div className="flex justify-between py-1.5 text-rose-600 font-semibold">
+                <div className="flex justify-between py-1 text-rose-600 font-semibold">
                   <span>Diskon</span>
                   <span>-{formatIDR(docData.discount)}</span>
                 </div>
               )}
-              <div className="flex justify-between py-2.5 border-t-2 border-slate-900 font-black text-base text-slate-900">
+              <div className="flex justify-between py-1.5 border-t-2 border-slate-900 font-black text-sm text-slate-900">
                 <span>TOTAL {isInvoice ? 'TAGIHAN' : ''}</span>
                 <span>{formatIDR(docData.total)}</span>
               </div>
               {isInvoice && (
                 <>
-                  <div className="flex justify-between py-1.5 text-emerald-600 font-bold">
+                  <div className="flex justify-between py-1 text-emerald-600 font-bold">
                     <span>Telah Dibayar</span>
                     <span>{formatIDR(docData.amountPaid || 0)}</span>
                   </div>
-                  <div className="flex justify-between py-1.5 border-t font-black text-rose-600 text-sm">
+                  <div className="flex justify-between py-1 border-t font-black text-rose-600 text-xs">
                     <span>SISA PEMBAYARAN</span>
                     <span>{formatIDR(docData.total - (docData.amountPaid || 0))}</span>
                   </div>
@@ -2163,33 +2165,34 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
 
           {/* Kalimat Penutup (Khusus Surat Penawaran) */}
           {!isInvoice && docData.closingText && (
-            <div className="mb-6 whitespace-pre-line text-slate-700 leading-relaxed text-justify text-xs">
+            <div className="mb-2.5 whitespace-pre-line text-slate-700 leading-relaxed text-justify text-xs">
               {docData.closingText}
             </div>
           )}
 
           {/* Syarat & Rekening Pembayaran */}
-          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 mb-10">
-            <p className="font-bold mb-1 text-slate-900">Keterangan & Rekening Pembayaran:</p>
-            <ul className="list-disc pl-4 space-y-1 text-[11px]">
+          <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-[11px] text-slate-600 mb-2.5">
+            <p className="font-bold mb-0.5 text-slate-900">Keterangan & Rekening Pembayaran:</p>
+            <ul className="list-disc pl-4 space-y-0.5 text-[10px]">
               <li>Pembayaran ditransfer ke Rekening <strong>Bank Syariah Indonesia (BSI) No.: 7357140123 a.n. PT. Amanah Sejahtera Alhamdulillah</strong>.</li>
               <li>{isInvoice ? 'Invoice ini sah dan berlaku sebagai bukti penagihan resmi.' : 'Harga dan penawaran berlaku 3 hari kerja sejak tanggal surat ini diterbitkan.'}</li>
             </ul>
           </div>
 
           {/* Kolom Tanda Tangan */}
-          <div className="mt-8 flex justify-start px-8 text-xs">
+          <div className="mt-2 flex justify-start px-4 text-xs">
             <div className="text-center inline-flex flex-col items-center">
-              <p className="font-semibold text-slate-700">Hormat Kami, ASA JASA</p>
-              <div className="h-20 flex items-center justify-center my-1">
+              <p className="font-semibold text-slate-700 mb-0.5">Hormat Kami, ASA JASA</p>
+              <div className="h-16 flex items-center justify-center my-0.5">
                 <img 
                   src="/ttd-direktur.png" 
                   alt="Tanda Tangan Direktur" 
-                  className="h-20 w-auto object-contain mix-blend-multiply" 
+                  className="h-16 w-auto object-contain mix-blend-multiply" 
                 />
               </div>
-              <p className="font-bold border-b border-slate-700 inline-block px-4 text-slate-900">Muhammad Akmal Syarif</p>
-              <p className="text-slate-600 font-medium text-[11px] mt-0.5">Direktur</p>
+              <p className="font-bold text-slate-900 text-sm">Muhammad Akmal Syarif</p>
+              <div className="w-44 border-b-2 border-slate-800 my-1"></div>
+              <p className="text-slate-600 font-medium text-[11px]">Direktur</p>
             </div>
           </div>
         </div>

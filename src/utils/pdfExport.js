@@ -7,7 +7,7 @@ import html2canvas from 'html2canvas';
  *
  * @param {HTMLElement|string} elementOrId - Elemen DOM atau string ID elemen
  * @param {string} filename - Nama file PDF yang akan diunduh
- * @param {Object} options - Pengaturan tambahan (orientation, scale)
+ * @param {Object} options - Pengaturan tambahan (orientation, scale, singlePage)
  */
 export const exportElementToPdf = async (elementOrId, filename = 'dokumen.pdf', options = {}) => {
   const element = typeof elementOrId === 'string' 
@@ -21,7 +21,7 @@ export const exportElementToPdf = async (elementOrId, filename = 'dokumen.pdf', 
   // Opsi orientasi: 'p' (portrait) atau 'l' (landscape)
   const orientation = options.orientation || 'p';
 
-  // Render elemen ke Canvas dengan resolusi tinggi (scale 2 untuk hasil teks tajam)
+  // Render elemen ke Canvas dengan resolusi tinggi (scale 2 untuk teks tajam)
   const canvas = await html2canvas(element, {
     scale: options.scale || 2,
     useCORS: true,
@@ -47,18 +47,33 @@ export const exportElementToPdf = async (elementOrId, filename = 'dokumen.pdf', 
   const canvasWidth = canvas.width;
   const canvasHeight = canvas.height;
 
-  // Hitung rasio tinggi gambar di PDF
-  const imgHeight = (canvasHeight * pdfWidth) / canvasWidth;
-  const imgData = canvas.toDataURL('image/jpeg', 0.95);
+  const imgData = canvas.toDataURL('image/jpeg', 0.96);
 
+  // Jika diminta singlePage (atau dokumen mendekati 1 halaman A4), paskan persis ke 1 halaman
+  const isSinglePage = options.singlePage !== undefined 
+    ? options.singlePage 
+    : (canvasHeight / canvasWidth) <= (pdfHeight / pdfWidth) * 1.25;
+
+  if (isSinglePage) {
+    const ratio = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
+    const finalWidth = canvasWidth * ratio;
+    const finalHeight = canvasHeight * ratio;
+    const offsetX = (pdfWidth - finalWidth) / 2;
+    const offsetY = (pdfHeight - finalHeight) / 2;
+
+    pdf.addImage(imgData, 'JPEG', offsetX, offsetY, finalWidth, finalHeight, undefined, 'FAST');
+    pdf.save(filename);
+    return;
+  }
+
+  // Multi-halaman untuk dokumen sangat panjang jika singlePage: false
+  const imgHeight = (canvasHeight * pdfWidth) / canvasWidth;
   let heightLeft = imgHeight;
   let position = 0;
 
-  // Halaman pertama
   pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight, undefined, 'FAST');
   heightLeft -= pdfHeight;
 
-  // Dukungan multi-halaman jika dokumen panjang (misal Surat Penawaran dengan banyak item)
   while (heightLeft > 5) {
     position = heightLeft - imgHeight;
     pdf.addPage();
@@ -66,6 +81,5 @@ export const exportElementToPdf = async (elementOrId, filename = 'dokumen.pdf', 
     heightLeft -= pdfHeight;
   }
 
-  // Simpan/Unduh file PDF langsung ke perangkat user
   pdf.save(filename);
 };
