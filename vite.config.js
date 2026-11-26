@@ -8,4 +8,16 @@ export default defineConfig({
     port: 5173,
     open: true,
   },
+  build: {
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          pdf: ['jspdf', 'html2canvas'],
+          supabase: ['@supabase/supabase-js'],
+          reactVendor: ['react', 'react-dom']
+        }
+      }
+    }
+  }
 });

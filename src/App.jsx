@@ -15,6 +15,7 @@ import {
   initialInvoices, initialPayments, initialProjects 
 } from './utils/mockData';
 import { supabase } from './supabaseClient';
+import { exportElementToPdf } from './utils/pdfExport';
 
 // --- MAIN APPLICATION COMPONENT (TEMA PROFESIONAL PUTIH / LIGHT CLEAN) ---
 export default function AsaJasaApp() {
@@ -1059,10 +1060,20 @@ const QuotationForm = ({ clients, services, initialData, onSave, onCancel }) => 
     setItems(prev => {
       const copy = [...prev];
       if (field === 'price' || field === 'qty') {
-        copy[index][field] = Number(value);
-        copy[index].total = copy[index].price * copy[index].qty;
+        const numVal = Number(value);
+        const item = copy[index];
+        const newPrice = field === 'price' ? numVal : item.price;
+        const newQty = field === 'qty' ? numVal : item.qty;
+        copy[index] = {
+          ...item,
+          [field]: numVal,
+          total: newPrice * newQty
+        };
       } else {
-        copy[index][field] = value;
+        copy[index] = {
+          ...copy[index],
+          [field]: value
+        };
       }
       return copy;
     });
@@ -1794,112 +1805,177 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
   const isReceipt = docType === 'receipt';
   const client = clients.find(c => c.id === docData.clientId);
   const relatedInvoice = isReceipt ? invoices.find(i => i.id === docData.invoiceId) : null;
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+
+  const handleDownloadPdf = async () => {
+    setIsGeneratingPdf(true);
+    try {
+      const cleanNum = (docData.number || 'doc').replace(/[^a-zA-Z0-9-_]/g, '_');
+      const filename = isReceipt 
+        ? `Kwitansi_${cleanNum}.pdf` 
+        : isInvoice 
+          ? `Invoice_${cleanNum}.pdf` 
+          : `Surat_Penawaran_${cleanNum}.pdf`;
+
+      const targetId = isReceipt ? 'printable-receipt' : 'printable-document';
+      await exportElementToPdf(targetId, filename, {
+        orientation: 'p',
+        scale: 2
+      });
+    } catch (err) {
+      console.error('Gagal membuat PDF:', err);
+      alert('Gagal mengunduh file PDF secara otomatis. Silakan gunakan tombol "Cetak Printer" lalu pilih "Simpan sebagai PDF".');
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
 
   // --- TEMPLATE KHUSUS KWITANSI RESMI PEMBAYARAN ---
   if (isReceipt) {
     return (
-      <div className="min-h-screen bg-slate-100 py-8 flex flex-col items-center print:bg-white print:py-0">
-        <div className="w-full max-w-4xl flex justify-between items-center mb-4 print:hidden px-4">
-          <button onClick={onClose} className="px-4 py-2 bg-white border border-slate-300 rounded-xl shadow-sm font-bold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-sm">
+      <div className="min-h-screen bg-slate-100 py-6 sm:py-8 flex flex-col items-center print:bg-white print:py-0">
+        <div className="w-full max-w-4xl flex flex-wrap justify-between items-center gap-3 mb-4 print:hidden px-3 sm:px-4">
+          <button 
+            onClick={onClose} 
+            className="px-4 py-2.5 bg-white border border-slate-300 rounded-xl shadow-xs font-bold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-xs sm:text-sm cursor-pointer"
+          >
             <ArrowRight className="rotate-180" size={16} /> Kembali ke Aplikasi
           </button>
-          <button onClick={() => window.print()} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm font-bold flex items-center gap-2 text-sm">
-            <Printer size={18} /> Cetak / Simpan PDF Kwitansi
-          </button>
+          
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={handleDownloadPdf} 
+              disabled={isGeneratingPdf}
+              className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-xl shadow-md font-bold flex items-center gap-2 text-xs sm:text-sm cursor-pointer transition-all"
+            >
+              {isGeneratingPdf ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  <span>Menyiapkan PDF...</span>
+                </>
+              ) : (
+                <>
+                  <Download size={18} /> 
+                  <span>Download / Simpan PDF</span>
+                </>
+              )}
+            </button>
+            
+            <button 
+              onClick={() => window.print()} 
+              className="px-4 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl shadow-xs font-bold flex items-center gap-2 text-xs sm:text-sm cursor-pointer"
+              title="Cetak langsung ke printer atau dialog cetak browser"
+            >
+              <Printer size={16} /> 
+              <span className="hidden sm:inline">Cetak Printer</span>
+            </button>
+          </div>
         </div>
 
-        {/* Kwitansi Resmi Format Formal A4 Landscape / Half A4 */}
-        <div className="bg-white shadow-xl print:shadow-none w-full max-w-[22cm] p-10 text-sm text-slate-800 border-t-8 border-slate-900 rounded-lg print:rounded-none">
-          {/* Header Kwitansi dengan Logo Resmi */}
-          <div className="border-b-2 border-slate-200 pb-3 mb-6">
-            <div className="flex justify-between items-center pb-3">
-              <div className="flex items-center gap-4">
-                <img src="/logo.png" alt="ASA JASA" className="h-14 w-auto object-contain shrink-0" />
-                <div>
-                  <h1 className="text-2xl font-black text-slate-900 tracking-tighter leading-none">ASA JASA</h1>
-                  <p className="text-slate-700 font-bold text-xs uppercase tracking-wider mt-1">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
+        {/* Petunjuk Geser Layar HP */}
+        <div className="w-full max-w-4xl px-4 mb-2 print:hidden lg:hidden text-center">
+          <span className="text-[11px] text-slate-500 bg-white border border-slate-200 px-3 py-1 rounded-full shadow-2xs">
+            👆 Geser ke samping (swipe) untuk melihat seluruh isi kwitansi secara utuh
+          </span>
+        </div>
+
+        {/* Kwitansi Resmi Container dengan Overflow X */}
+        <div className="w-full overflow-x-auto flex justify-start lg:justify-center p-2 sm:p-4">
+          <div 
+            id="printable-receipt"
+            className="bg-white shadow-xl print:shadow-none w-[22cm] min-w-[22cm] p-10 text-sm text-slate-800 border-t-8 border-slate-900 rounded-lg print:rounded-none print:w-full print:min-w-0 print:p-0"
+          >
+            {/* Header Kwitansi dengan Logo Resmi */}
+            <div className="border-b-2 border-slate-200 pb-3 mb-6">
+              <div className="flex justify-between items-center pb-3 gap-6">
+                <div className="flex items-center gap-4">
+                  <img src="/logo.png" alt="ASA JASA" className="h-14 w-auto object-contain shrink-0" />
+                  <div>
+                    <h1 className="text-2xl font-black text-slate-900 tracking-tight leading-none">ASA JASA</h1>
+                    <p className="text-slate-700 font-bold text-xs uppercase tracking-wider mt-1 whitespace-nowrap">Solusi Legalitas, Perizinan, Sertifikasi & IT Developer</p>
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="inline-block bg-slate-100 text-slate-900 px-3.5 py-1 rounded-lg font-black tracking-widest text-base border border-slate-300">
+                    KWITANSI PEMBAYARAN
+                  </div>
+                  <p className="font-bold text-slate-800 mt-1.5 text-sm">No: {docData.number}</p>
+                  <p className="text-xs text-slate-500">Tanggal: {formatDate(docData.date)}</p>
                 </div>
               </div>
-              <div className="text-right shrink-0">
-                <div className="inline-block bg-slate-100 text-slate-900 px-3.5 py-1 rounded-lg font-black tracking-widest text-base border border-slate-300">
-                  KWITANSI PEMBAYARAN
-                </div>
-                <p className="font-bold text-slate-800 mt-1.5 text-sm">No: {docData.number}</p>
-                <p className="text-xs text-slate-500">Tanggal: {formatDate(docData.date)}</p>
+
+              <div className="pt-2 border-t border-slate-100 text-xs text-slate-500 space-y-0.5">
+                <p className="text-slate-600 font-medium leading-normal">
+                  Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914
+                </p>
+                <p className="text-[11px] text-slate-400 leading-normal">
+                  Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 &nbsp;|&nbsp; Email: halo@asajasa.id &nbsp;|&nbsp; Telpon: 0851-9611-5669
+                </p>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-slate-100 text-xs text-slate-500 space-y-0.5">
-              <p className="text-slate-600 font-medium leading-normal">
-                Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914
-              </p>
-              <p className="text-[11px] text-slate-400 leading-normal">
-                Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 &nbsp;|&nbsp; Email: halo@asajasa.id &nbsp;|&nbsp; Telpon: 0851-9611-5669
-              </p>
-            </div>
-          </div>
-
-          {/* Isi Kwitansi */}
-          <div className="space-y-4 my-6 text-sm">
-            <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
-              <div className="col-span-4 text-slate-600 font-bold">Telah Terima Dari</div>
-              <div className="col-span-8 font-black text-base text-slate-900">
-                : {client?.companyName || '-'} {client?.picName ? `(Up. ${client.picName})` : ''}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
-              <div className="col-span-4 text-slate-600 font-bold">Uang Sejumlah</div>
-              <div className="col-span-8">
-                <div className="bg-slate-50 border border-slate-300 px-4 py-2 rounded-xl italic font-black text-slate-900">
-                  # {terbilang(docData.amount)} Rupiah #
+            {/* Isi Kwitansi */}
+            <div className="space-y-4 my-6 text-sm">
+              <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
+                <div className="col-span-4 text-slate-600 font-bold">Telah Terima Dari</div>
+                <div className="col-span-8 font-black text-base text-slate-900">
+                  : {client?.companyName || '-'} {client?.picName ? `(Up. ${client.picName})` : ''}
                 </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
-              <div className="col-span-4 text-slate-600 font-bold">Untuk Pembayaran</div>
-              <div className="col-span-8 text-slate-800">
-                : <span className="font-black text-slate-900">{docData.note || docData.paymentType}</span>
-                <div className="text-xs text-slate-500 pl-2 mt-1">
-                  Referensi Invoice: <strong>{relatedInvoice?.number || docData.invoiceNumber || '-'}</strong> 
-                  {relatedInvoice && (
-                    <span> • Status Tagihan: <strong className="text-slate-900">{relatedInvoice.paymentStatus}</strong> (Total Tagihan: {formatIDR(relatedInvoice.total)})</span>
-                  )}
+              <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
+                <div className="col-span-4 text-slate-600 font-bold">Uang Sejumlah</div>
+                <div className="col-span-8">
+                  <div className="bg-slate-50 border border-slate-300 px-4 py-2 rounded-xl italic font-black text-slate-900">
+                    # {terbilang(docData.amount)} Rupiah #
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
-              <div className="col-span-4 text-slate-600 font-bold">Metode Pembayaran</div>
-              <div className="col-span-8 font-bold text-slate-800">: {docData.method}</div>
-            </div>
-          </div>
-
-          {/* Nominal Diterima & Tanda Tangan */}
-          <div className="flex justify-between items-end mt-12 pt-4">
-            <div>
-              <div className="text-xs font-bold text-slate-500 mb-1">Jumlah Nominal:</div>
-              <div className="bg-slate-900 text-white px-7 py-3 rounded-2xl font-black text-2xl tracking-wide shadow-md inline-block">
-                {formatIDR(docData.amount)}
+              <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
+                <div className="col-span-4 text-slate-600 font-bold">Untuk Pembayaran</div>
+                <div className="col-span-8 text-slate-800">
+                  : <span className="font-black text-slate-900">{docData.note || docData.paymentType}</span>
+                  <div className="text-xs text-slate-500 pl-2 mt-1">
+                    Referensi Invoice: <strong>{relatedInvoice?.number || docData.invoiceNumber || '-'}</strong> 
+                    {relatedInvoice && (
+                      <span> • Status Tagihan: <strong className="text-slate-900">{relatedInvoice.paymentStatus}</strong> (Total Tagihan: {formatIDR(relatedInvoice.total)})</span>
+                    )}
+                  </div>
+                </div>
               </div>
-              <p className="text-[11px] text-slate-400 mt-2">
-                * Kwitansi ini sah dan diterbitkan secara elektronik oleh sistem manajemen ASA JASA.
-              </p>
+
+              <div className="grid grid-cols-12 items-baseline border-b border-dashed border-slate-300 pb-2.5">
+                <div className="col-span-4 text-slate-600 font-bold">Metode Pembayaran</div>
+                <div className="col-span-8 font-bold text-slate-800">: {docData.method}</div>
+              </div>
             </div>
 
-            <div className="text-center pr-6 inline-flex flex-col items-center">
-              <p className="text-xs text-slate-600 mb-0.5">Bogor, {formatDate(docData.date)}</p>
-              <p className="text-xs font-bold text-slate-700">Penerima / Keuangan ASA JASA</p>
-              <div className="h-20 flex items-center justify-center my-1">
-                <img 
-                  src="/ttd-keuangan.png" 
-                  alt="Tanda Tangan Keuangan" 
-                  className="h-20 w-auto object-contain mix-blend-multiply" 
-                />
+            {/* Nominal Diterima & Tanda Tangan */}
+            <div className="flex justify-between items-end mt-12 pt-4">
+              <div>
+                <div className="text-xs font-bold text-slate-500 mb-1">Jumlah Nominal:</div>
+                <div className="bg-slate-900 text-white px-7 py-3 rounded-2xl font-black text-2xl tracking-wide shadow-md inline-block">
+                  {formatIDR(docData.amount)}
+                </div>
+                <p className="text-[11px] text-slate-400 mt-2">
+                  * Kwitansi ini sah dan diterbitkan secara elektronik oleh sistem manajemen ASA JASA.
+                </p>
               </div>
-              <p className="font-bold border-b-2 border-slate-800 inline-block px-6 text-slate-900">Elis Maesaroh</p>
-              <p className="text-slate-600 font-medium text-[11px] mt-0.5">Admin Keuangan</p>
+
+              <div className="text-center pr-6 inline-flex flex-col items-center">
+                <p className="text-xs text-slate-600 mb-0.5">Bogor, {formatDate(docData.date)}</p>
+                <p className="text-xs font-bold text-slate-700">Penerima / Keuangan ASA JASA</p>
+                <div className="h-20 flex items-center justify-center my-1">
+                  <img 
+                    src="/ttd-keuangan.png" 
+                    alt="Tanda Tangan Keuangan" 
+                    className="h-20 w-auto object-contain mix-blend-multiply" 
+                  />
+                </div>
+                <p className="font-bold border-b-2 border-slate-800 inline-block px-6 text-slate-900">Elis Maesaroh</p>
+                <p className="text-slate-600 font-medium text-[11px] mt-0.5">Admin Keuangan</p>
+              </div>
             </div>
           </div>
         </div>
@@ -1909,171 +1985,212 @@ const PrintTemplate = ({ data, onClose, clients, invoices = [] }) => {
 
   // --- TEMPLATE SURAT PENAWARAN (QUOTATION) & INVOICE ---
   return (
-    <div className="min-h-screen bg-slate-100 py-8 flex flex-col items-center print:bg-white print:py-0">
-      <div className="w-full max-w-4xl flex justify-between items-center mb-4 print:hidden px-4">
-        <button onClick={onClose} className="px-4 py-2 bg-white border border-slate-300 rounded-xl shadow-sm font-bold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-sm">
+    <div className="min-h-screen bg-slate-100 py-6 sm:py-8 flex flex-col items-center print:bg-white print:py-0">
+      <div className="w-full max-w-4xl flex flex-wrap justify-between items-center gap-3 mb-4 print:hidden px-3 sm:px-4">
+        <button 
+          onClick={onClose} 
+          className="px-4 py-2.5 bg-white border border-slate-300 rounded-xl shadow-xs font-bold text-slate-700 flex items-center gap-2 hover:bg-slate-50 text-xs sm:text-sm cursor-pointer"
+        >
           <ArrowRight className="rotate-180" size={16} /> Kembali ke Aplikasi
         </button>
-        <button onClick={() => window.print()} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm font-bold flex items-center gap-2 text-sm">
-          <Printer size={18} /> Cetak / Simpan PDF
-        </button>
-      </div>
 
-      {/* A4 Printable Page Container */}
-      <div className="bg-white shadow-xl print:shadow-none w-full max-w-[21cm] min-h-[29.7cm] p-12 text-sm text-slate-800 rounded-lg print:rounded-none">
-        {/* Kop Surat Resmi */}
-        <div className="border-b-4 border-slate-900 pb-3 mb-2">
-          {/* Baris Atas: Logo & Identitas di Kiri, Judul Dokumen di Kanan */}
-          <div className="flex justify-between items-center pb-3">
-            <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain shrink-0" />
-              <div>
-                <h1 className="text-3xl font-black text-slate-900 tracking-tighter leading-none">ASA JASA</h1>
-                <p className="text-blue-700 font-black uppercase text-xs tracking-wider mt-1.5">
-                  Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
-                </p>
-              </div>
-            </div>
-            <div className="text-right shrink-0">
-              <h2 className="text-2xl font-black text-slate-900 uppercase tracking-wider">
-                {isInvoice ? 'INVOICE' : 'SURAT PENAWARAN'}
-              </h2>
-              <p className="text-base font-bold text-blue-700 mt-0.5">{docData.number}</p>
-              <p className="text-slate-500 text-xs">Tanggal: {formatDate(docData.date)}</p>
-              {isInvoice && <p className="text-rose-600 font-bold text-xs mt-0.5">Jatuh Tempo: {formatDate(docData.dueDate)}</p>}
-            </div>
-          </div>
-
-          {/* Baris Alamat & Kontak: Memanjang Rapi ke Samping Kanan (Tidak Menumpuk di Bawah Tulisan ASA JASA) */}
-          <div className="pt-2.5 border-t border-slate-200 text-xs text-slate-500 space-y-1">
-            <p className="text-slate-600 font-medium leading-normal">
-              Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914
-            </p>
-            <p className="text-[11px] text-slate-400 leading-normal">
-              Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 &nbsp;|&nbsp; Email: halo@asajasa.id &nbsp;|&nbsp; Telpon: 0851-9611-5669
-            </p>
-          </div>
-        </div>
-        {/* Garis Aksen di Bawah Kop */}
-        <div className="border-b-2 border-blue-600 mb-6"></div>
-
-        {/* Informasi Klien */}
-        <div className="mb-6 flex justify-between">
-          <div className="w-2/3">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Kepada Yth:</p>
-            <p className="font-black text-base text-slate-900">{client?.companyName}</p>
-            <p className="text-slate-700 font-semibold text-xs">Up. {client?.picName}</p>
-            <p className="text-slate-600 mt-1 max-w-md text-xs">{client?.address || 'Alamat tidak tersedia'}</p>
-            <p className="text-slate-600 mt-0.5 text-xs">{client?.phone}</p>
-          </div>
-        </div>
-
-        {/* Perihal & Kalimat Pembuka (Khusus Surat Penawaran) */}
-        {!isInvoice && (
-          <div className="mb-6 space-y-3">
-            {docData.subject && (
-              <div className="font-bold text-slate-900 text-sm">
-                Perihal: <span className="underline">{docData.subject}</span>
-              </div>
-            )}
-            <div className="whitespace-pre-line text-slate-700 leading-relaxed text-justify text-xs">
-              {docData.openingText || 'Dengan hormat,\nBersama ini kami sampaikan penawaran harga layanan konsultasi sebagai berikut:'}
-            </div>
-          </div>
-        )}
-
-        {/* Tabel Rincian Layanan */}
-        <table className="w-full mb-6 border-collapse">
-          <thead>
-            <tr className="bg-slate-900 text-white text-xs uppercase font-bold tracking-wider">
-              <th className="p-3 text-left w-10">No</th>
-              <th className="p-3 text-left">Deskripsi Layanan & Lingkup Kerja</th>
-              <th className="p-3 text-center w-16">Qty</th>
-              <th className="p-3 text-right w-32">Harga Satuan</th>
-              <th className="p-3 text-right w-36">Total</th>
-            </tr>
-          </thead>
-          <tbody className="text-xs">
-            {docData.items.map((item, idx) => (
-              <tr key={idx} className="border-b border-slate-200 align-top">
-                <td className="p-3 font-semibold text-slate-600">{idx + 1}</td>
-                <td className="p-3">
-                  <div className="font-bold text-slate-900 text-sm">{item.name}</div>
-                  {item.description && (
-                    <div className="text-[11px] text-slate-600 mt-1 whitespace-pre-line leading-relaxed">
-                      {item.description}
-                    </div>
-                  )}
-                </td>
-                <td className="p-3 text-center font-medium">{item.qty} {item.unit || ''}</td>
-                <td className="p-3 text-right font-medium">{formatIDR(item.price)}</td>
-                <td className="p-3 text-right font-bold text-slate-900">{formatIDR(item.total)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Rekap Total */}
-        <div className="flex justify-end mb-6">
-          <div className="w-1/2 max-w-sm ml-auto text-xs">
-            <div className="flex justify-between py-1.5 font-medium text-slate-600">
-              <span>Subtotal</span>
-              <span>{formatIDR(docData.subtotal)}</span>
-            </div>
-            {docData.discount > 0 && (
-              <div className="flex justify-between py-1.5 text-rose-600 font-semibold">
-                <span>Diskon</span>
-                <span>-{formatIDR(docData.discount)}</span>
-              </div>
-            )}
-            <div className="flex justify-between py-2.5 border-t-2 border-slate-900 font-black text-base text-slate-900">
-              <span>TOTAL {isInvoice ? 'TAGIHAN' : ''}</span>
-              <span>{formatIDR(docData.total)}</span>
-            </div>
-            {isInvoice && (
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={handleDownloadPdf} 
+            disabled={isGeneratingPdf}
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-xl shadow-md font-bold flex items-center gap-2 text-xs sm:text-sm cursor-pointer transition-all"
+          >
+            {isGeneratingPdf ? (
               <>
-                <div className="flex justify-between py-1.5 text-emerald-600 font-bold">
-                  <span>Telah Dibayar</span>
-                  <span>{formatIDR(docData.amountPaid || 0)}</span>
-                </div>
-                <div className="flex justify-between py-1.5 border-t font-black text-rose-600 text-sm">
-                  <span>SISA PEMBAYARAN</span>
-                  <span>{formatIDR(docData.total - (docData.amountPaid || 0))}</span>
-                </div>
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                <span>Menyiapkan PDF...</span>
+              </>
+            ) : (
+              <>
+                <Download size={18} /> 
+                <span>Download / Simpan PDF</span>
               </>
             )}
-          </div>
+          </button>
+
+          <button 
+            onClick={() => window.print()} 
+            className="px-4 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl shadow-xs font-bold flex items-center gap-2 text-xs sm:text-sm cursor-pointer"
+            title="Cetak langsung ke printer atau dialog cetak browser"
+          >
+            <Printer size={16} /> 
+            <span className="hidden sm:inline">Cetak Printer</span>
+          </button>
         </div>
+      </div>
 
-        {/* Kalimat Penutup (Khusus Surat Penawaran) */}
-        {!isInvoice && docData.closingText && (
-          <div className="mb-6 whitespace-pre-line text-slate-700 leading-relaxed text-justify text-xs">
-            {docData.closingText}
-          </div>
-        )}
+      {/* Petunjuk Geser Layar HP */}
+      <div className="w-full max-w-4xl px-4 mb-2 print:hidden lg:hidden text-center">
+        <span className="text-[11px] text-slate-500 bg-white border border-slate-200 px-3 py-1 rounded-full shadow-2xs">
+          👆 Geser ke samping (swipe) untuk melihat seluruh isi dokumen A4 secara utuh
+        </span>
+      </div>
 
-        {/* Syarat & Rekening Pembayaran */}
-        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 mb-10">
-          <p className="font-bold mb-1 text-slate-900">Keterangan & Rekening Pembayaran:</p>
-          <ul className="list-disc pl-4 space-y-1 text-[11px]">
-            <li>Pembayaran ditransfer ke Rekening <strong>Bank Syariah Indonesia (BSI) No.: 7357140123 a.n. PT. Amanah Sejahtera Alhamdulillah</strong>.</li>
-            <li>{isInvoice ? 'Invoice ini sah dan berlaku sebagai bukti penagihan resmi.' : 'Harga dan penawaran berlaku 3 hari kerja sejak tanggal surat ini diterbitkan.'}</li>
-          </ul>
-        </div>
-
-        {/* Kolom Tanda Tangan */}
-        <div className="mt-8 flex justify-start px-8 text-xs">
-          <div className="text-center inline-flex flex-col items-center">
-            <p className="font-semibold text-slate-700">Hormat Kami, ASA JASA</p>
-            <div className="h-20 flex items-center justify-center my-1">
-              <img 
-                src="/ttd-direktur.png" 
-                alt="Tanda Tangan Direktur" 
-                className="h-20 w-auto object-contain mix-blend-multiply" 
-              />
+      {/* A4 Printable Page Container dengan Wrapper Scrollable untuk Mobile */}
+      <div className="w-full overflow-x-auto flex justify-start lg:justify-center p-2 sm:p-4">
+        <div 
+          id="printable-document"
+          className="bg-white shadow-xl print:shadow-none w-[21cm] min-w-[21cm] min-h-[29.7cm] p-10 sm:p-12 text-sm text-slate-800 rounded-lg print:rounded-none print:w-full print:min-w-0 print:p-0"
+        >
+          {/* Kop Surat Resmi */}
+          <div className="border-b-4 border-slate-900 pb-3 mb-2">
+            {/* Baris Atas: Logo & Identitas di Kiri, Judul Dokumen di Kanan */}
+            <div className="flex justify-between items-center pb-3 gap-6">
+              <div className="flex items-center gap-4">
+                <img src="/logo.png" alt="ASA JASA" className="h-16 w-auto object-contain shrink-0" />
+                <div>
+                  <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none">ASA JASA</h1>
+                  <p className="text-blue-700 font-black uppercase text-xs tracking-wider mt-1.5 whitespace-nowrap">
+                    Solusi Legalitas, Perizinan, Sertifikasi & IT Developer
+                  </p>
+                </div>
+              </div>
+              <div className="text-right shrink-0">
+                <h2 className="text-2xl font-black text-slate-900 uppercase tracking-wider">
+                  {isInvoice ? 'INVOICE' : 'SURAT PENAWARAN'}
+                </h2>
+                <p className="text-base font-bold text-blue-700 mt-0.5">{docData.number}</p>
+                <p className="text-slate-500 text-xs">Tanggal: {formatDate(docData.date)}</p>
+                {isInvoice && <p className="text-rose-600 font-bold text-xs mt-0.5">Jatuh Tempo: {formatDate(docData.dueDate)}</p>}
+              </div>
             </div>
-            <p className="font-bold border-b border-slate-700 inline-block px-4 text-slate-900">Muhammad Akmal Syarif</p>
-            <p className="text-slate-600 font-medium text-[11px] mt-0.5">Direktur</p>
+
+            {/* Baris Alamat & Kontak: Memanjang Rapi ke Samping Kanan */}
+            <div className="pt-2.5 border-t border-slate-200 text-xs text-slate-500 space-y-1">
+              <p className="text-slate-600 font-medium leading-normal">
+                Jalan Kelurahan Pondok Rajeg No. 35A, Rt. 05 Rw. 02, Pondok Rajeg, Cibinong Bogor 16914
+              </p>
+              <p className="text-[11px] text-slate-400 leading-normal">
+                Menkumham NOMOR: AHU-050109.AH.01.30.Tahun 2023 &nbsp;|&nbsp; Email: halo@asajasa.id &nbsp;|&nbsp; Telpon: 0851-9611-5669
+              </p>
+            </div>
+          </div>
+          {/* Garis Aksen di Bawah Kop */}
+          <div className="border-b-2 border-blue-600 mb-6"></div>
+
+          {/* Informasi Klien */}
+          <div className="mb-6 flex justify-between">
+            <div className="w-2/3">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Kepada Yth:</p>
+              <p className="font-black text-base text-slate-900">{client?.companyName || 'Nama Perusahaan / Klien'}</p>
+              <p className="text-slate-700 font-semibold text-xs">{client?.picName ? `Up. ${client.picName}` : ''}</p>
+              <p className="text-slate-600 mt-1 max-w-md text-xs">{client?.address || 'Alamat tidak tersedia'}</p>
+              <p className="text-slate-600 mt-0.5 text-xs">{client?.phone || '-'}</p>
+            </div>
+          </div>
+
+          {/* Perihal & Kalimat Pembuka (Khusus Surat Penawaran) */}
+          {!isInvoice && (
+            <div className="mb-6 space-y-3">
+              {docData.subject && (
+                <div className="font-bold text-slate-900 text-sm">
+                  Perihal: <span className="underline">{docData.subject}</span>
+                </div>
+              )}
+              <div className="whitespace-pre-line text-slate-700 leading-relaxed text-justify text-xs">
+                {docData.openingText || 'Dengan hormat,\nBersama ini kami sampaikan penawaran harga layanan konsultasi sebagai berikut:'}
+              </div>
+            </div>
+          )}
+
+          {/* Tabel Rincian Layanan */}
+          <table className="w-full mb-6 border-collapse">
+            <thead>
+              <tr className="bg-slate-900 text-white text-xs uppercase font-bold tracking-wider">
+                <th className="p-3 text-left w-10">No</th>
+                <th className="p-3 text-left">Deskripsi Layanan & Lingkup Kerja</th>
+                <th className="p-3 text-center w-16">Qty</th>
+                <th className="p-3 text-right w-32">Harga Satuan</th>
+                <th className="p-3 text-right w-36">Total</th>
+              </tr>
+            </thead>
+            <tbody className="text-xs">
+              {(docData.items || []).map((item, idx) => (
+                <tr key={idx} className="border-b border-slate-200 align-top">
+                  <td className="p-3 font-semibold text-slate-600">{idx + 1}</td>
+                  <td className="p-3">
+                    <div className="font-bold text-slate-900 text-sm">{item.name}</div>
+                    {item.description && (
+                      <div className="text-[11px] text-slate-600 mt-1 whitespace-pre-line leading-relaxed">
+                        {item.description}
+                      </div>
+                    )}
+                  </td>
+                  <td className="p-3 text-center font-medium">{item.qty} {item.unit || ''}</td>
+                  <td className="p-3 text-right font-medium">{formatIDR(item.price)}</td>
+                  <td className="p-3 text-right font-bold text-slate-900">{formatIDR(item.total)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Rekap Total */}
+          <div className="flex justify-end mb-6">
+            <div className="w-1/2 max-w-sm ml-auto text-xs">
+              <div className="flex justify-between py-1.5 font-medium text-slate-600">
+                <span>Subtotal</span>
+                <span>{formatIDR(docData.subtotal)}</span>
+              </div>
+              {docData.discount > 0 && (
+                <div className="flex justify-between py-1.5 text-rose-600 font-semibold">
+                  <span>Diskon</span>
+                  <span>-{formatIDR(docData.discount)}</span>
+                </div>
+              )}
+              <div className="flex justify-between py-2.5 border-t-2 border-slate-900 font-black text-base text-slate-900">
+                <span>TOTAL {isInvoice ? 'TAGIHAN' : ''}</span>
+                <span>{formatIDR(docData.total)}</span>
+              </div>
+              {isInvoice && (
+                <>
+                  <div className="flex justify-between py-1.5 text-emerald-600 font-bold">
+                    <span>Telah Dibayar</span>
+                    <span>{formatIDR(docData.amountPaid || 0)}</span>
+                  </div>
+                  <div className="flex justify-between py-1.5 border-t font-black text-rose-600 text-sm">
+                    <span>SISA PEMBAYARAN</span>
+                    <span>{formatIDR(docData.total - (docData.amountPaid || 0))}</span>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Kalimat Penutup (Khusus Surat Penawaran) */}
+          {!isInvoice && docData.closingText && (
+            <div className="mb-6 whitespace-pre-line text-slate-700 leading-relaxed text-justify text-xs">
+              {docData.closingText}
+            </div>
+          )}
+
+          {/* Syarat & Rekening Pembayaran */}
+          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 mb-10">
+            <p className="font-bold mb-1 text-slate-900">Keterangan & Rekening Pembayaran:</p>
+            <ul className="list-disc pl-4 space-y-1 text-[11px]">
+              <li>Pembayaran ditransfer ke Rekening <strong>Bank Syariah Indonesia (BSI) No.: 7357140123 a.n. PT. Amanah Sejahtera Alhamdulillah</strong>.</li>
+              <li>{isInvoice ? 'Invoice ini sah dan berlaku sebagai bukti penagihan resmi.' : 'Harga dan penawaran berlaku 3 hari kerja sejak tanggal surat ini diterbitkan.'}</li>
+            </ul>
+          </div>
+
+          {/* Kolom Tanda Tangan */}
+          <div className="mt-8 flex justify-start px-8 text-xs">
+            <div className="text-center inline-flex flex-col items-center">
+              <p className="font-semibold text-slate-700">Hormat Kami, ASA JASA</p>
+              <div className="h-20 flex items-center justify-center my-1">
+                <img 
+                  src="/ttd-direktur.png" 
+                  alt="Tanda Tangan Direktur" 
+                  className="h-20 w-auto object-contain mix-blend-multiply" 
+                />
+              </div>
+              <p className="font-bold border-b border-slate-700 inline-block px-4 text-slate-900">Muhammad Akmal Syarif</p>
+              <p className="text-slate-600 font-medium text-[11px] mt-0.5">Direktur</p>
+            </div>
           </div>
         </div>
       </div>

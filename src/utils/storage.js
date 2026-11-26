@@ -14,6 +14,7 @@ export const formatIDR = (value) =>
 export const formatDate = (dateString) => {
   if (!dateString) return '-';
   const d = new Date(dateString);
+  if (isNaN(d.getTime())) return dateString;
   return d.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
 };
 
@@ -28,30 +29,43 @@ export const generateNumber = (prefix) => {
 // Fungsi Terbilang Bahasa Indonesia untuk Kwitansi Resmi
 export const terbilang = (nilai) => {
   const angka = Math.abs(Math.floor(nilai || 0));
+  if (angka === 0) return 'Nol';
+
   const baca = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
-  let hasil = '';
-  if (angka < 12) {
-    hasil = ' ' + baca[angka];
-  } else if (angka < 20) {
-    hasil = terbilang(angka - 10) + ' Belas';
-  } else if (angka < 100) {
-    hasil = terbilang(Math.floor(angka / 10)) + ' Puluh' + terbilang(angka % 10);
-  } else if (angka < 200) {
-    hasil = ' Seratus' + terbilang(angka - 100);
-  } else if (angka < 1000) {
-    hasil = terbilang(Math.floor(angka / 100)) + ' Ratus' + terbilang(angka % 100);
-  } else if (angka < 2000) {
-    hasil = ' Seribu' + terbilang(angka - 1000);
-  } else if (angka < 1000000) {
-    hasil = terbilang(Math.floor(angka / 1000)) + ' Ribu' + terbilang(angka % 1000);
-  } else if (angka < 1000000000) {
-    hasil = terbilang(Math.floor(angka / 1000000)) + ' Juta' + terbilang(angka % 1000000);
-  } else if (angka < 1000000000000) {
-    hasil = terbilang(Math.floor(angka / 1000000000)) + ' Milyar' + terbilang(angka % 1000000000);
-  } else {
-    hasil = terbilang(Math.floor(angka / 1000000000000)) + ' Triliun' + terbilang(angka % 1000000000000);
-  }
-  return hasil.trim();
+
+  const convert = (n) => {
+    if (n < 12) {
+      return baca[n];
+    } else if (n < 20) {
+      return convert(n - 10) + ' Belas';
+    } else if (n < 100) {
+      const sisa = n % 10;
+      return convert(Math.floor(n / 10)) + ' Puluh' + (sisa ? ' ' + convert(sisa) : '');
+    } else if (n < 200) {
+      const sisa = n - 100;
+      return 'Seratus' + (sisa ? ' ' + convert(sisa) : '');
+    } else if (n < 1000) {
+      const sisa = n % 100;
+      return convert(Math.floor(n / 100)) + ' Ratus' + (sisa ? ' ' + convert(sisa) : '');
+    } else if (n < 2000) {
+      const sisa = n - 1000;
+      return 'Seribu' + (sisa ? ' ' + convert(sisa) : '');
+    } else if (n < 1000000) {
+      const sisa = n % 1000;
+      return convert(Math.floor(n / 1000)) + ' Ribu' + (sisa ? ' ' + convert(sisa) : '');
+    } else if (n < 1000000000) {
+      const sisa = n % 1000000;
+      return convert(Math.floor(n / 1000000)) + ' Juta' + (sisa ? ' ' + convert(sisa) : '');
+    } else if (n < 1000000000000) {
+      const sisa = n % 1000000000;
+      return convert(Math.floor(n / 1000000000)) + ' Milyar' + (sisa ? ' ' + convert(sisa) : '');
+    } else {
+      const sisa = n % 1000000000000;
+      return convert(Math.floor(n / 1000000000000)) + ' Triliun' + (sisa ? ' ' + convert(sisa) : '');
+    }
+  };
+
+  return convert(angka).trim();
 };
 
 // --- STORAGE MANAGER ---
